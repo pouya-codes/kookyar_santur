@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bazgasht_temp"
+        android:title="@string/bazgasht"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/restore"
+        android:title="@string/rahnama"
+        android:icon="@drawable/restore"
+        android:orderInCategory="200"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/save"
+        android:title="@string/setting"
+        android:orderInCategory="300"
+        android:icon="@drawable/save2"
+        app:showAsAction="always"/>
+
+
+</menu>

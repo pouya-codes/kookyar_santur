@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="${packageName}.${activityClass}" >
+
+    <Button
+        android:id="@+id/button_dastgah"
+        android:layout_width="182dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom"
+        android:text="کوک بر اساس دستگاه"
+        android:textColor="@color/white" 
+         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button_ketab"
+        android:layout_width="182dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/custom"
+        android:text="کوک بر اساس کتاب"
+        android:textColor="@color/white"
+         android:textSize="20sp"  />
+    
+</LinearLayout>

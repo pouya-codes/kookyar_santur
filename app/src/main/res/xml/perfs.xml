@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    
+     >
+
+
+<CheckBoxPreference 
+    
+    android:title="کوک خرک اول سیم های زرد"
+    android:defaultValue="false"
+    android:key="mi" 
+    android:summary="خرک اول سیم های زرد نت می کوک شود"
+    />
+
+<ListPreference
+    android:title="فرکانس نت مرجع"
+    android:defaultValue="440"
+    android:key="ref"
+    android:summary="تغییر فرکانس نت مرجع"
+    android:entries="@array/refArray"
+    android:entryValues="@array/refArray"/>
+
+<ListPreference 
+    android:title="نوع سنتور"
+    android:defaultValue="سل کوک"
+    android:key="type"
+    android:summary="تغییر نوع سنتور"
+    android:entries="@array/typeArray"
+    android:entryValues="@array/typeArray"/>
+<ListPreference 
+    android:title="حساسیت"
+    android:defaultValue="2"
+    android:key="sensitive"
+    android:summary="تغییر سطح حساسیت تیونر"
+    android:entries="@array/sensitive"
+    android:entryValues="@array/sensitivValues"
+    />
+    <ListPreference
+        android:title="تغییر کوک"
+        android:defaultValue="1"
+        android:key="changepitch"
+        android:summary="تغییر نحوه کوک شدن ساز"
+        android:entries="@array/pitchchange"
+        android:entryValues="@array/pitchValues"
+        />
+
+
+</PreferenceScreen>

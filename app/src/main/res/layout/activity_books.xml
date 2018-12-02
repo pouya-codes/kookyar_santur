@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gc.materialdesign.views.ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollViewBooks"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+     >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_dastur"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_dastor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/dasturSantur"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+                android:layout_centerVertical="true"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dastor" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/books_shive"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#D50000"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_shive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+                android:text="@string/shiveSanturNavazi"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/shive" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_dore"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF9800"
+            android:clickable="true" >
+
+            <TextView
+
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_ebtedaei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/ebtedaei"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/ebtedaei" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_meshkatian"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#212121"
+            android:clickable="true" >
+
+            <TextView
+
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/tvMeshkatian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/pesase"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/meshkatian" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_golnar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#311B92"
+            android:clickable="true" >
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_golnar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+                android:text="@string/golnar"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/golnar" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_yadegaran"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#212121"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_yadegaran_esf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/yadegaran_esf"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/yadegaran" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_yadegaran_homayun"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#212121"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_yadegaran_hom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/yadegaran_hom"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/yadegaran" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_sepideh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF9800"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_sepideh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/sepideh"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/sepideh" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_dastan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#1B5E20"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_hazarDastan_3gah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/hazarDastan_3gah"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/hazardastan" />
+        </com.gc.materialdesign.views.LayoutRipple>
+
+        <com.gc.materialdesign.views.LayoutRipple
+            android:id="@+id/book_dastan_4gah"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#1B5E20"
+            android:clickable="true" >
+
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/TextView_hazardastan_4gah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25.0dip"
+                android:layout_weight="0.72"
+
+                android:text="@string/hazarDastan_4gah"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:paddingLeft="10dp"
+
+                android:layout_width="142dp"
+                android:layout_height="197dp"
+                android:src="@drawable/hazardastan" />
+        </com.gc.materialdesign.views.LayoutRipple>
+    </LinearLayout>
+
+</com.gc.materialdesign.views.ScrollView>

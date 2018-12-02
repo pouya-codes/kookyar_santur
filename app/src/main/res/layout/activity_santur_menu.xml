@@ -1,0 +1,271 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainMenu" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tv_rastKook"
+                android:textSize="24sp"
+                android:textColor="@color/redMenu"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:text="راست کوک"
+                 />
+            <View
+
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white" />
+            <Button
+                android:id="@+id/shur_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:background="@drawable/custom"
+                android:text="@string/shur"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/shur_Tuning_payvar"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/shurPayver"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/Homayun_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/homayun"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/esfehan_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/esfehan"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/mahur_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/mahur"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+
+
+            <Button
+                android:id="@+id/segah_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/segah"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+            <Button
+                android:id="@+id/nava_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/nava"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+
+            <Button
+                android:id="@+id/chargah_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/chahargah"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_chapKook"
+                android:textSize="24sp"
+                android:textColor="@color/redMenu"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:text="چپ کوک"
+                />
+            <View
+
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white" />
+            <Button
+                android:id="@+id/shorRe_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/shorRe"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+            <Button
+                android:id="@+id/homayounChap_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/HomayunChap"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/esfehanFa_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/esfehanFa"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+            <Button
+                android:id="@+id/mahurChap_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/MahurChap"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/segahChap_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/segahChap"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/chahargahChap_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/chahargahChap"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/tv_talifiqiKook"
+                android:textSize="24sp"
+                android:textColor="@color/redMenu"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:text="تلفیقی"
+                />
+            <View
+
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/faMinor_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/faMinor"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/doMinor_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/doMinor"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/doMajor_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/doMajor"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/custom_Tuning"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom"
+                android:text="@string/custom"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

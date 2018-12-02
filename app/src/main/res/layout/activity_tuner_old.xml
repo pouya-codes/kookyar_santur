@@ -1,0 +1,243 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+
+        />
+
+    <ScrollView
+        android:id="@+id/scrollView_main"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+>
+
+        <TableLayout
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:id="@+id/tableLayout_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+            <TableRow
+                android:id="@+id/tuning"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <CheckBox
+                    android:id="@+id/checkBox_tuning"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:layout_column="0"
+                    android:layout_gravity="center_vertical"
+                    android:checked="false"
+                    android:clickable="false" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_span="3"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/tuning"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/white" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_9"
+                    android:layout_width="wrap_content"
+                    android:layout_span="1"
+                    android:enabled="false"
+                    android:text="@string/kharak_9" />
+
+                <RadioButton
+
+                    android:id="@+id/poshtRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_span="1"
+                    android:checked="false"
+                    android:paddingRight="2dp"
+                    android:text="@string/sim_poshKharak"
+                    android:textColor="#ff5dff18" />
+
+
+                <RadioButton
+                    android:id="@+id/sefidRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_span="1"
+                    android:paddingRight="2dp"
+                    android:text="@string/sim_sefid"
+                    android:textColor="#ff5dff18" />
+
+                <RadioButton
+
+                    android:id="@+id/zardRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_span="1"
+                    android:paddingRight="2dp"
+                    android:text="@string/sim_zard"
+                    android:textColor="#ff5dff18" />
+
+
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+
+
+            </TableRow>
+
+
+            <TableRow android:layout_width="fill_parent">
+
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_4"
+                    android:enabled="false"
+                    android:text="@string/kharak_4" />
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_3"
+                    android:enabled="false"
+                    android:text="@string/kharak_3"></com.gc.materialdesign.views.ButtonFlat>
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_2"
+                    android:enabled="false"
+                    android:text="@string/kharak_2"></com.gc.materialdesign.views.ButtonFlat>
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_1"
+                    android:enabled="false"
+                    android:text="@string/kharak_1"></com.gc.materialdesign.views.ButtonFlat>
+            </TableRow>
+
+            <TableRow android:layout_width="fill_parent">
+
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_8"
+                    android:enabled="false"
+                    android:text="@string/kharak_8" />
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_7"
+                    android:enabled="false"
+                    android:text="@string/kharak_7"></com.gc.materialdesign.views.ButtonFlat>
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_6"
+                    android:enabled="false"
+                    android:text="@string/kharak_6"></com.gc.materialdesign.views.ButtonFlat>
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/button_5"
+                    android:enabled="false"
+                    android:text="@string/kharak_5"></com.gc.materialdesign.views.ButtonFlat>
+            </TableRow>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/green" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/santur"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_sim"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/layout_kharakDo"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/layout_kharakla"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/layout_kharakMi"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:id="@+id/layout_kharakSi"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="120dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/layout_positon"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="120dp"
+                                        android:orientation="vertical"></LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TableRow android:layout_width="fill_parent">
+
+                <TextView
+                    android:id="@+id/pitch_label"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:gravity="center"
+                    android:padding="20px"
+                    android:text="0.0"
+                    android:textColor="@color/blue" />
+            </TableRow>
+
+            <TableRow android:layout_width="fill_parent">
+
+                <com.PouyaApp.KookYaRSantooR.PitchView2
+                    android:id="@+id/pitch_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="250dp"
+                    android:layout_span="4" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+
+</LinearLayout>

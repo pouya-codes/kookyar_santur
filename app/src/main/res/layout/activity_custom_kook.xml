@@ -1,0 +1,229 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+
+    >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="12dp"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_9"
+                android:layout_width="wrap_content"
+                android:layout_span="1"
+                android:enabled="false"
+                android:text="@string/kharak_9" />
+
+            <RadioButton
+
+                android:id="@+id/poshtRB"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_span="1"
+                android:checked="false"
+                android:paddingRight="2dp"
+                android:text="@string/sim_poshKharak"
+                android:textColor="#ff5dff18" />
+
+
+            <RadioButton
+                android:id="@+id/sefidRB"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_span="1"
+                android:paddingRight="2dp"
+                android:text="@string/sim_sefid"
+                android:textColor="#ff5dff18" />
+
+            <RadioButton
+
+                android:id="@+id/zardRB"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_span="1"
+                android:paddingRight="2dp"
+                android:text="@string/sim_zard"
+                android:textColor="#ff5dff18" />
+
+
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent">
+
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_4"
+                android:enabled="false"
+                android:text="@string/kharak_4" />
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_3"
+                android:enabled="false"
+                android:text="@string/kharak_3"></com.gc.materialdesign.views.ButtonFlat>
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_2"
+                android:enabled="false"
+                android:text="@string/kharak_2"></com.gc.materialdesign.views.ButtonFlat>
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_1"
+                android:enabled="false"
+                android:text="@string/kharak_1"></com.gc.materialdesign.views.ButtonFlat>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:paddingBottom="10dp">
+
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_8"
+                android:enabled="false"
+                android:text="@string/kharak_8" />
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_7"
+                android:enabled="false"
+                android:text="@string/kharak_7"></com.gc.materialdesign.views.ButtonFlat>
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_6"
+                android:enabled="false"
+                android:text="@string/kharak_6"></com.gc.materialdesign.views.ButtonFlat>
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/button_5"
+                android:enabled="false"
+                android:text="@string/kharak_5"></com.gc.materialdesign.views.ButtonFlat>
+        </TableRow>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/santur2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_sim"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"></LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/green" />
+
+        <TableRow>
+
+            <Spinner
+                android:id="@+id/posison_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2" />
+
+
+            <Spinner
+                android:id="@+id/note_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <RadioButton
+
+                android:id="@+id/bemol_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bemol" />
+
+            <RadioButton
+                android:id="@+id/koron_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/koron" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <RadioButton
+                android:id="@+id/bekar_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/bekar" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <RadioButton
+                android:id="@+id/diyez_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diyez" />
+
+            <RadioButton
+                android:id="@+id/sori_radioButton"
+                android:layout_height="wrap_content"
+                android:text="@string/sori" />
+        </TableRow>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/green" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/button_ok"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kook_ok" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/button_reset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reset" />
+    </TableLayout>
+
+</ScrollView>
