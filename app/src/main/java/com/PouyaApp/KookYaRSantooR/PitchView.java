@@ -41,6 +41,14 @@ public class PitchView extends SurfaceView implements Runnable {
     private float targetIntensity = 0f;
     private final float intensitySpeed = 0.1f;
     
+    // Performance optimization: Pre-allocated objects
+    private final RectF tempRectF = new RectF();
+    private final Paint segmentPaint = new Paint();
+    private final Paint warningPaint = new Paint();
+    private final int[] segmentColors = new int[20]; // Pre-calculated colors
+    private long lastAnimationUpdate = 0;
+    private float animationPhase = 0f;
+    
     private final Paint paint = new Paint();
     private final Paint backgroundPaint = new Paint();
     private final Paint needlePaint = new Paint();
@@ -124,6 +132,16 @@ public class PitchView extends SurfaceView implements Runnable {
         gaugePaint.setAntiAlias(true);
         shadowPaint.setAntiAlias(true);
         
+        // Initialize optimized paint objects
+        segmentPaint.setAntiAlias(true);
+        warningPaint.setAntiAlias(true);
+        warningPaint.setColor(Color.RED);
+        warningPaint.setTextAlign(Align.CENTER);
+        warningPaint.setFakeBoldText(true);
+        
+        // Pre-calculate segment colors for performance
+        preCalculateSegmentColors();
+        
         // Set text paint properties
         textPaint.setTextAlign(Align.CENTER);
         textPaint.setColor(Color.WHITE);
@@ -145,6 +163,38 @@ public class PitchView extends SurfaceView implements Runnable {
         shadowPaint.setColor(Color.argb(60, 0, 0, 0));
         shadowPaint.setStrokeWidth(10.0f);
         shadowPaint.setStrokeCap(Paint.Cap.ROUND);
+    }
+    
+    // Performance optimization: Pre-calculate segment colors to avoid runtime calculations
+    private void preCalculateSegmentColors() {
+        for (int i = 0; i < 20; i++) {
+            float intensity = (float) i / 20f;
+            int red, green, blue;
+            
+            if (intensity < 0.3f) {
+                // Blue to cyan (low levels)
+                red = 0;
+                green = (int) (255 * intensity / 0.3f);
+                blue = 255;
+            } else if (intensity < 0.6f) {
+                // Cyan to green (medium levels)
+                red = 0;
+                green = 255;
+                blue = (int) (255 * (0.6f - intensity) / 0.3f);
+            } else if (intensity < 0.8f) {
+                // Green to yellow (good levels)
+                red = (int) (255 * (intensity - 0.6f) / 0.2f);
+                green = 255;
+                blue = 0;
+            } else {
+                // Yellow to red (high levels)
+                red = 255;
+                green = (int) (255 * (1.0f - intensity) / 0.2f);
+                blue = 0;
+            }
+            
+            segmentColors[i] = Color.argb(200, red, green, blue);
+        }
     }
 
     public boolean getRunned() {
@@ -316,7 +366,7 @@ public class PitchView extends SurfaceView implements Runnable {
         textPaint.setTextSize(width / 20f);
         textPaint.setColor(Color.argb(120, 255, 255, 255));
         textPaint.setTextAlign(Align.CENTER);
-        canvas.drawText("در انتظار صدا...", width / 2f, height / 2f, textPaint);
+        canvas.drawText("سیم مورد نظر را انتخاب کنید", width / 2f, height / 2f, textPaint);
         
         // Draw a simple pulse animation
         float pulseRadius = (float) (width / 8f + Math.sin(System.currentTimeMillis() / 500.0) * 10);
@@ -356,76 +406,50 @@ public class PitchView extends SurfaceView implements Runnable {
         float gaugeX = (width - gaugeWidth) / 2f;
         float gaugeY = height * 0.12f;
         
-        // Draw gauge background with rounded corners
-        RectF gaugeBg = new RectF(gaugeX, gaugeY, gaugeX + gaugeWidth, gaugeY + gaugeHeight);
-        backgroundPaint.setColor(Color.argb(80, 0, 0, 0));
-        canvas.drawRoundRect(gaugeBg, 20, 20, backgroundPaint);
-        
-        // Create heatmap segments
-        int segmentCount = 20;
-        float segmentWidth = (gaugeWidth - 4) / segmentCount;
-        float currentLevel = soundIntensity * segmentCount;
-        
-        for (int i = 0; i < segmentCount; i++) {
-            float segmentX = gaugeX + 2 + (i * segmentWidth);
-            RectF segment = new RectF(segmentX, gaugeY + 2, segmentX + segmentWidth - 2, gaugeY + gaugeHeight - 2);
-            
-            // Calculate heatmap colors
-            Paint segmentPaint = new Paint();
-            segmentPaint.setAntiAlias(true);
-            
-            if (i < currentLevel) {
-                // Active segments with heatmap coloring
-                float intensity = (float) i / segmentCount;
-                int red, green, blue;
-                
-                if (intensity < 0.3f) {
-                    // Blue to cyan (low levels)
-                    red = 0;
-                    green = (int) (255 * intensity / 0.3f);
-                    blue = 255;
-                } else if (intensity < 0.6f) {
-                    // Cyan to green (medium levels)
-                    red = 0;
-                    green = 255;
-                    blue = (int) (255 * (0.6f - intensity) / 0.3f);
-                } else if (intensity < 0.8f) {
-                    // Green to yellow (good levels)
-                    red = (int) (255 * (intensity - 0.6f) / 0.2f);
-                    green = 255;
-                    blue = 0;
-                } else {
-                    // Yellow to red (high levels)
-                    red = 255;
-                    green = (int) (255 * (1.0f - intensity) / 0.2f);
-                    blue = 0;
-                }
-                
-                // Add pulsing effect for active segments
-                float pulse = (float) (0.8f + 0.2f * Math.sin(System.currentTimeMillis() / 200.0 + i * 0.3));
-                segmentPaint.setColor(Color.argb((int) (200 * pulse), red, green, blue));
-                
-                // Add glow effect for high intensity segments
-                if (i >= currentLevel - 2) {
-                    segmentPaint.setShadowLayer(8, 0, 0, Color.argb(100, red, green, blue));
-                }
-            } else {
-                // Inactive segments
-                segmentPaint.setColor(Color.argb(40, 100, 100, 100));
-            }
-            
-            canvas.drawRoundRect(segment, 6, 6, segmentPaint);
+        // Update animation phase only occasionally for performance
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastAnimationUpdate > 50) { // Update every 50ms instead of every frame
+            animationPhase = (float) Math.sin(currentTime / 300.0) * 0.2f + 0.8f;
+            lastAnimationUpdate = currentTime;
         }
         
-        // Draw peak indicators
+        // Draw gauge background with rounded corners (reuse RectF)
+        tempRectF.set(gaugeX, gaugeY, gaugeX + gaugeWidth, gaugeY + gaugeHeight);
+        backgroundPaint.setColor(Color.argb(80, 0, 0, 0));
+        canvas.drawRoundRect(tempRectF, 20, 20, backgroundPaint);
+        
+        // Create heatmap segments with optimized rendering
+        int segmentCount = 20;
+        float segmentWidth = (gaugeWidth - 4) / segmentCount;
+        int currentLevel = (int) (soundIntensity * segmentCount);
+        
+        // Draw only necessary segments to reduce draw calls
+        for (int i = 0; i <= Math.min(currentLevel, segmentCount - 1); i++) {
+            float segmentX = gaugeX + 2 + (i * segmentWidth);
+            tempRectF.set(segmentX, gaugeY + 2, segmentX + segmentWidth - 2, gaugeY + gaugeHeight - 2);
+            
+            // Use pre-calculated colors with simple pulse effect
+            int baseColor = segmentColors[i];
+            int alpha = (int) (Color.alpha(baseColor) * animationPhase);
+            segmentPaint.setColor(Color.argb(alpha, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor)));
+            
+            // Remove expensive shadow effects, use simple glow for performance
+            segmentPaint.clearShadowLayer();
+            
+            canvas.drawRoundRect(tempRectF, 6, 6, segmentPaint);
+        }
+        
+        // Draw inactive segments with single color (performance optimization)
+        segmentPaint.setColor(Color.argb(40, 100, 100, 100));
+        for (int i = Math.max(0, currentLevel + 1); i < segmentCount; i++) {
+            float segmentX = gaugeX + 2 + (i * segmentWidth);
+            tempRectF.set(segmentX, gaugeY + 2, segmentX + segmentWidth - 2, gaugeY + gaugeHeight - 2);
+            canvas.drawRoundRect(tempRectF, 6, 6, segmentPaint);
+        }
+        
+        // Draw peak indicators only when needed
         if (soundIntensity > 0.8f) {
-            // Warning indicators for high levels
-            Paint warningPaint = new Paint();
-            warningPaint.setAntiAlias(true);
-            warningPaint.setColor(Color.RED);
             warningPaint.setTextSize(width / 30f);
-            warningPaint.setTextAlign(Align.CENTER);
-            warningPaint.setFakeBoldText(true);
             canvas.drawText("⚠", gaugeX + gaugeWidth + 20, gaugeY + gaugeHeight / 2f + 5, warningPaint);
         }
         
@@ -445,12 +469,10 @@ public class PitchView extends SurfaceView implements Runnable {
         canvas.drawText("شدت صدا", width / 2f, gaugeY - 15, textPaint);
         textPaint.setFakeBoldText(false);
         
-        // Draw dynamic intensity value with animation
+        // Draw dynamic intensity value (reduced string formatting calls)
         textPaint.setTextSize(width / 35f);
-        String intensityText = String.format("%.0f%%", soundIntensity * 100);
-        float textAlpha = 150 + 105 * (float) Math.sin(System.currentTimeMillis() / 1000.0);
-        textPaint.setColor(Color.argb((int) textAlpha, 255, 255, 255));
-        canvas.drawText(intensityText, width / 2f, gaugeY + gaugeHeight + 25, textPaint);
+        textPaint.setColor(Color.argb(200, 255, 255, 255));
+        canvas.drawText(String.format("%.0f%%", soundIntensity * 100), width / 2f, gaugeY + gaugeHeight + 25, textPaint);
     }
 
     private void drawTuningArc(Canvas canvas, float centerX, float centerY, float radius) {
