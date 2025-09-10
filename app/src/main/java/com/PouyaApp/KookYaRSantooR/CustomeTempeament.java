@@ -5,11 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.core.app.NavUtils;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,39 +50,34 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
             NavUtils.navigateUpFromSameTask(this);
         }
         // TODO Auto-generated method stub
-        switch (item.getItemId()) {
-            case R.id.restore:
-                for(int i =0 ;i<sliders.length;i++) {
-                    sliders[i].setProgress(50);
-                }
-                break;
-            case R.id.bazgasht_temp:
-                onBackPressed();
-                break;
-            case R.id.save:
+        int itemId = item.getItemId();
+        if (itemId == R.id.restore) {
+            for(int i =0 ;i<sliders.length;i++) {
+                sliders[i].setProgress(50);
+            }
+        } else if (itemId == R.id.bazgasht_temp) {
+            onBackPressed();
+        } else if (itemId == R.id.save) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                    CustomeTempeament.this);
+            alertDialog.setTitle("اعمال تغییرات");
+            alertDialog
+                    .setMessage("آیا تغییرات داده شده ذخیره شود ؟");
+            alertDialog.setIcon(android.R.drawable.ic_menu_save);
+            alertDialog.setPositiveButton("بله",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            saveTempeament();
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                        CustomeTempeament.this);
-                alertDialog.setTitle("اعمال تغییرات");
-                alertDialog
-                        .setMessage("آیا تغییرات داده شده ذخیره شود ؟");
-                alertDialog.setIcon(android.R.drawable.ic_menu_save);
-                alertDialog.setPositiveButton("بله",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                saveTempeament();
+                        }
+                    });
+            alertDialog.setNegativeButton("خیر",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        });
-                alertDialog.setNegativeButton("خیر",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                alertDialog.show();
-                break;
-
+                        }
+                    });
+            alertDialog.show();
         }
         return true;
     }
@@ -101,7 +96,6 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
 
     @Override
     public void onBackPressed() {
-
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 CustomeTempeament.this);
         alertDialog.setTitle("اعمال تغییرات");
@@ -112,17 +106,16 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         saveTempeament();
-                        finish();
+                        CustomeTempeament.super.onBackPressed();
                     }
                 });
         alertDialog.setNegativeButton("خیر",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        CustomeTempeament.super.onBackPressed();
                     }
                 });
         alertDialog.show();
-
     }
 
     private void saveTempeament() {

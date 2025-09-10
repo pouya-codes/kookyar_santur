@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include
@@ -13,7 +13,7 @@
     <ScrollView
         android:id="@+id/scrollView_main"
 
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 >
 
@@ -27,12 +27,12 @@
 
             <TableRow
                 android:id="@+id/tuning"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <CheckBox
                     android:id="@+id/checkBox_tuning"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
 
@@ -43,8 +43,8 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_span="3"
                     android:paddingRight="16dp"
                     android:paddingTop="8dp"
@@ -55,10 +55,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_9"
                     android:layout_width="wrap_content"
                     android:layout_span="1"
@@ -69,7 +69,7 @@
 
                     android:id="@+id/poshtRB"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_span="1"
                     android:checked="false"
                     android:paddingRight="2dp"
@@ -80,7 +80,7 @@
                 <RadioButton
                     android:id="@+id/sefidRB"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_span="1"
                     android:paddingRight="2dp"
                     android:text="@string/sim_sefid"
@@ -90,7 +90,7 @@
 
                     android:id="@+id/zardRB"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_span="1"
                     android:paddingRight="2dp"
                     android:text="@string/sim_zard"
@@ -103,62 +103,62 @@
             <TableRow
                 android:id="@+id/tableRow1"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
+                android:layout_height="match_parent">
 
 
             </TableRow>
 
 
-            <TableRow android:layout_width="fill_parent">
+            <TableRow android:layout_width="match_parent">
 
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_4"
                     android:enabled="false"
                     android:text="@string/kharak_4" />
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_3"
                     android:enabled="false"
-                    android:text="@string/kharak_3"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_3"></com.google.android.material.button.MaterialButton>
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_2"
                     android:enabled="false"
-                    android:text="@string/kharak_2"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_2"></com.google.android.material.button.MaterialButton>
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_1"
                     android:enabled="false"
-                    android:text="@string/kharak_1"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_1"></com.google.android.material.button.MaterialButton>
             </TableRow>
 
-            <TableRow android:layout_width="fill_parent">
+            <TableRow android:layout_width="match_parent">
 
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_8"
                     android:enabled="false"
                     android:text="@string/kharak_8" />
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_7"
                     android:enabled="false"
-                    android:text="@string/kharak_7"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_7"></com.google.android.material.button.MaterialButton>
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_6"
                     android:enabled="false"
-                    android:text="@string/kharak_6"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_6"></com.google.android.material.button.MaterialButton>
 
-                <com.gc.materialdesign.views.ButtonFlat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_5"
                     android:enabled="false"
-                    android:text="@string/kharak_5"></com.gc.materialdesign.views.ButtonFlat>
+                    android:text="@string/kharak_5"></com.google.android.material.button.MaterialButton>
             </TableRow>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="70dp"
@@ -215,11 +215,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TableRow android:layout_width="fill_parent">
+            <TableRow android:layout_width="match_parent">
 
                 <TextView
                     android:id="@+id/pitch_label"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_span="4"
                     android:gravity="center"
@@ -228,11 +228,11 @@
                     android:textColor="@color/blue" />
             </TableRow>
 
-            <TableRow android:layout_width="fill_parent">
+            <TableRow android:layout_width="match_parent">
 
                 <com.PouyaApp.KookYaRSantooR.PitchView2
                     android:id="@+id/pitch_view"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_span="4" />
             </TableRow>

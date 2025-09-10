@@ -37,15 +37,13 @@ public class KookType extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         Intent activity;
-        switch (v.getId()) {
-            case id.button_dastgah:
-                activity = new Intent(KookType.this, SanturMenu.class);
-                startActivity(activity);
-                break;
-            case id.button_ketab:
-                activity = new Intent(KookType.this, Books.class);
-                startActivity(activity);
-
+        int viewId = v.getId();
+        if (viewId == id.button_dastgah) {
+            activity = new Intent(KookType.this, SanturMenu.class);
+            startActivity(activity);
+        } else if (viewId == id.button_ketab) {
+            activity = new Intent(KookType.this, Books.class);
+            startActivity(activity);
         }
     }
 

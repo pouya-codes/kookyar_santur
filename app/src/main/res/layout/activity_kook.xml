@@ -5,7 +5,7 @@
 
     <com.gc.materialdesign.views.ScrollView
         android:id="@+id/scrollView4"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadeScrollbars="true" >
 
@@ -18,14 +18,14 @@
 
             <TextView
                 android:id="@+id/kookHelp1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook0"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/kookHelp2"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook1Head"
                 android:textAppearance="?android:attr/textAppearanceLarge" >
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/kookHelp3"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.06"
                 android:text="@string/kook1"
@@ -41,112 +41,112 @@
 
             <ImageView
                 android:id="@+id/kookHelpIV1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="133dp"
                 android:src="@drawable/mezrab" />
 
             <TextView
                 android:id="@+id/kookHelp4"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook2Head"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/kookHelp5"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook2_comment" />
 
             <TextView
                 android:id="@+id/kookHelp6"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook2"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/kookHelpIV2"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/kook" />
 
             <TextView
                 android:id="@+id/kookHelp7"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3Head"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/kookHelp8"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_1"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/kookHelpIV3"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sefid"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/kookHelp9"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_2"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/kookHelpIV4"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/koo2" />
 
             <TextView
                 android:id="@+id/kookHelp10"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_3"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/imageViewIV4"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/kook_help1" />
 
             <TextView
                 android:id="@+id/kookHelp11"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_4"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
                 android:id="@+id/imageViewIV5"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/kook_help2" />
 
             <TextView
                 android:id="@+id/kookHelp12"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_6"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/kookHelp13"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_5"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <com.gc.materialdesign.views.ButtonRectangle
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:id="@+id/button_return"
                 android:text="برگشت"
                 >

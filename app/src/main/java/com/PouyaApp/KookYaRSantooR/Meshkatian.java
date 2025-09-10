@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import com.google.android.material.button.MaterialButton;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 
 public class Meshkatian extends Activity implements View.OnClickListener {
-    private Button[] buttons = new Button[20];
+    private MaterialButton[] buttons = new MaterialButton[20];
     private int[] buttonsId = {id.pieces1, id.pieces2, id.pieces3, id.pieces4, id.pieces5, id.pieces6, id.pieces7, id.pieces8, id.pieces9, id.pieces10, id.pieces11, id.pieces12, id.pieces13, id.pieces14, id.pieces15, id.pieces16, id.pieces17, id.pieces18, id.pieces19, id.pieces20};
     private int[] buttonsText = {R.string.pieces1, R.string.pieces2, R.string.pieces3, R.string.pieces4, R.string.pieces5, R.string.pieces6, R.string.pieces7, R.string.pieces8, R.string.pieces9, R.string.pieces10, R.string.pieces11, R.string.pieces12, R.string.pieces13, R.string.pieces14, R.string.pieces15, R.string.pieces16, R.string.pieces17, R.string.pieces18, R.string.pieces19, R.string.pieces20};
     public String fonts = "BZar.ttf";
@@ -32,7 +33,7 @@ public class Meshkatian extends Activity implements View.OnClickListener {
         Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
                 + "");
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = (Button) findViewById(buttonsId[i]);
+            buttons[i] = (MaterialButton) findViewById(buttonsId[i]);
             buttons[i].setText(getString(buttonsText[i]));
             buttons[i].setTypeface(face);
             buttons[i].setOnClickListener(this);
@@ -88,7 +89,7 @@ public class Meshkatian extends Activity implements View.OnClickListener {
                     84, 86, 88, 89};
         }
 
-        Button t = (Button) findViewById(i);
+        Button t = (MaterialButton) findViewById(i);
         String title = (String) t.getText();
 
         data.putString("title", title);

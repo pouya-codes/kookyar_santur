@@ -40,29 +40,25 @@ public class ContentMenu extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         Intent activity;
-        switch (v.getId()) {
-
-            case id.content1:
-                data = new Bundle();
-                data.putInt("content", 1);
-                activity = new Intent(ContentMenu.this, Content.class);
-                activity.putExtras(data);
-                startActivity(activity);
-                break;
-            case id.content2:
-                data = new Bundle();
-                data.putInt("content", 2);
-                activity = new Intent(ContentMenu.this, Content.class);
-                activity.putExtras(data);
-                startActivity(activity);
-                break;
-            case id.content3:
-                data = new Bundle();
-                data.putInt("content", 3);
-                activity = new Intent(ContentMenu.this, Content.class);
-                activity.putExtras(data);
-                startActivity(activity);
-                break;
+        int viewId = v.getId();
+        if (viewId == id.content1) {
+            data = new Bundle();
+            data.putInt("content", 1);
+            activity = new Intent(ContentMenu.this, Content.class);
+            activity.putExtras(data);
+            startActivity(activity);
+        } else if (viewId == id.content2) {
+            data = new Bundle();
+            data.putInt("content", 2);
+            activity = new Intent(ContentMenu.this, Content.class);
+            activity.putExtras(data);
+            startActivity(activity);
+        } else if (viewId == id.content3) {
+            data = new Bundle();
+            data.putInt("content", 3);
+            activity = new Intent(ContentMenu.this, Content.class);
+            activity.putExtras(data);
+            startActivity(activity);
         }
     }
 }

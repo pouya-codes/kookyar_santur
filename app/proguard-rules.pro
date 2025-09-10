@@ -15,3 +15,19 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Keep Pure Data classes
+-keep class org.puredata.android.** { *; }
+
+# Keep animation library classes
+-keep class com.daimajia.** { *; }
+
+# Keep application classes from obfuscation
+-keep class com.PouyaApp.KookYaRSantooR.** { *; }
+
+# AndroidX rules
+-keep class androidx.** { *; }
+-keep interface androidx.** { *; }
+
+# Material Components
+-keep class com.google.android.material.** { *; }

@@ -1,23 +1,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
 
     >
 
     <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="12dp"
         android:shrinkColumns="*"
         android:stretchColumns="*">
 
         <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_9"
                 android:layout_width="wrap_content"
                 android:layout_span="1"
@@ -28,7 +28,7 @@
 
                 android:id="@+id/poshtRB"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_span="1"
                 android:checked="false"
                 android:paddingRight="2dp"
@@ -39,7 +39,7 @@
             <RadioButton
                 android:id="@+id/sefidRB"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_span="1"
                 android:paddingRight="2dp"
                 android:text="@string/sim_sefid"
@@ -49,7 +49,7 @@
 
                 android:id="@+id/zardRB"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_span="1"
                 android:paddingRight="2dp"
                 android:text="@string/sim_zard"
@@ -59,54 +59,54 @@
         </TableRow>
 
 
-        <TableRow android:layout_width="fill_parent">
+        <TableRow android:layout_width="match_parent">
 
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_4"
                 android:enabled="false"
                 android:text="@string/kharak_4" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_3"
                 android:enabled="false"
-                android:text="@string/kharak_3"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_3"></com.google.android.material.button.MaterialButton>
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_2"
                 android:enabled="false"
-                android:text="@string/kharak_2"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_2"></com.google.android.material.button.MaterialButton>
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_1"
                 android:enabled="false"
-                android:text="@string/kharak_1"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_1"></com.google.android.material.button.MaterialButton>
         </TableRow>
 
         <TableRow
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:paddingBottom="10dp">
 
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_8"
                 android:enabled="false"
                 android:text="@string/kharak_8" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_7"
                 android:enabled="false"
-                android:text="@string/kharak_7"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_7"></com.google.android.material.button.MaterialButton>
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_6"
                 android:enabled="false"
-                android:text="@string/kharak_6"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_6"></com.google.android.material.button.MaterialButton>
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_5"
                 android:enabled="false"
-                android:text="@string/kharak_5"></com.gc.materialdesign.views.ButtonFlat>
+                android:text="@string/kharak_5"></com.google.android.material.button.MaterialButton>
         </TableRow>
 
         <LinearLayout
@@ -124,7 +124,7 @@
         </LinearLayout>
 
         <View
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="70dp"
@@ -136,14 +136,14 @@
 
             <Spinner
                 android:id="@+id/posison_spinner"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_span="2" />
 
 
             <Spinner
                 android:id="@+id/note_spinner"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_span="2" />
         </TableRow>
@@ -188,7 +188,7 @@
 
         <TableRow
             android:id="@+id/tableRow4"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right">
 
@@ -205,7 +205,7 @@
         </TableRow>
 
         <View
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="70dp"
@@ -215,13 +215,13 @@
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/button_ok"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/kook_ok" />
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/button_reset"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/reset" />
     </TableLayout>

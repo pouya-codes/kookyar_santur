@@ -1,5 +1,3 @@
-
-
 package com.PouyaApp.KookYaRSantooR;
 
 
@@ -186,7 +184,7 @@ public class PitchView extends SurfaceView implements Runnable {
 
     public void draw(Canvas canvas) {
 
-//        super.draw(canvas);
+        super.draw(canvas);
 //        Log.d("kookyar", "draw: " + centerPitch);
         if (centerPitch == 0) {
             paint.setColor(getContext().getResources().getColor(R.color.backgroundColor));

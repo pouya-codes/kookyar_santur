@@ -6,7 +6,7 @@
 
 
     </style>
-    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
     <item name="colorPrimary">@color/primaryColor</item>
     <item name="colorPrimaryDark">@color/primaryColorDark</item>
     <item name="colorAccent">@color/accentColor</item>
@@ -14,7 +14,7 @@
         <item name="android:popupBackground">@color/windowBackground</item>
 
     </style>
-    <style name="customeToolbar" parent="ThemeOverlay.AppCompat">
+    <style name="customeToolbar" parent="ThemeOverlay.Material3">
         <item name="android:textColorPrimary">#000</item>
         <item name="android:textColorSecondary">#000</item>
 

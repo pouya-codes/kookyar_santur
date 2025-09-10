@@ -3,9 +3,9 @@ package com.PouyaApp.KookYaRSantooR;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-//import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+//import androidx.appcompat.app.ActionBarActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -16,15 +16,15 @@ import android.widget.Spinner;
 
 import com.PouyaApp.KookYaRSantooR.R.drawable;
 import com.PouyaApp.KookYaRSantooR.R.id;
-import com.gc.materialdesign.views.Button;
+import com.google.android.material.button.MaterialButton;
 
 public class CustomKook extends AppCompatActivity implements View.OnClickListener,
         OnItemSelectedListener {
-    private Button[] buttons = new Button[9];
+    private MaterialButton[] buttons = new MaterialButton[9];
     private int[] buttonsId = {id.button_1, id.button_2, id.button_3,
             id.button_4, id.button_5, id.button_6, id.button_7, id.button_8,
             id.button_9};
-    private Button ok, reset;
+    private MaterialButton ok, reset;
     private RadioButton rd1, rd2, rd3;
     public String fonts = "BZar.ttf";
     private double note = 0;
@@ -62,16 +62,16 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
 //		Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
 //				+ "");
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = (Button) findViewById(buttonsId[i]);
+            buttons[i] = (MaterialButton) findViewById(buttonsId[i]);
             buttons[i].setOnClickListener(this);
             //		buttons[i].getTextView().setTypeface(face);
             buttons[i].setBackgroundColor(getResources().getColor(R.color.white));
         }
-        ok = (Button) findViewById(id.button_ok);
+        ok = (MaterialButton) findViewById(id.button_ok);
         ok.setOnClickListener(this);
         //	ok.getTextView().setTypeface(face);
 
-        reset = (Button) findViewById(id.button_reset);
+        reset = (MaterialButton) findViewById(id.button_reset);
         reset.setOnClickListener(this);
         //	reset.getTextView().setTypeface(face);
 
@@ -284,26 +284,19 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                 buttons[i].setEnabled(true);
                 buttons[i].setBackgroundColor(getResources().getColor(R.color.white));
             }
-            switch (v.getId()) {
-                case R.id.zardRB:
-                    position = 0;
-                    rd2.setChecked(false);
-                    rd3.setChecked(false);
-
-                    break;
-                case R.id.sefidRB:
-                    position = 1;
-                    rd1.setChecked(false);
-                    rd3.setChecked(false);
-
-                    break;
-                case R.id.poshtRB:
-                    position = 2;
-                    rd1.setChecked(false);
-                    rd2.setChecked(false);
-
-                    break;
-
+            int viewId = v.getId();
+            if (viewId == R.id.zardRB) {
+                position = 0;
+                rd2.setChecked(false);
+                rd3.setChecked(false);
+            } else if (viewId == R.id.sefidRB) {
+                position = 1;
+                rd1.setChecked(false);
+                rd3.setChecked(false);
+            } else if (viewId == R.id.poshtRB) {
+                position = 2;
+                rd1.setChecked(false);
+                rd2.setChecked(false);
             }
 
         }
@@ -325,58 +318,47 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             }
         }
 
-        switch (v.getId()) {
-            case R.id.bemol_radioButton:
-
-                note = -1;
-                sendnote();
-                // bemol.setChecked(false);
-                koron.setChecked(false);
-                bekar.setChecked(false);
-                sori.setChecked(false);
-                diyez.setChecked(false);
-                break;
-            case R.id.koron_radioButton:
-
-                note = -0.5;
-                sendnote();
-                bemol.setChecked(false);
-                // koron.setChecked(false);
-                bekar.setChecked(false);
-                sori.setChecked(false);
-                diyez.setChecked(false);
-                break;
-            case R.id.bekar_radioButton:
-
-                note = 0;
-                sendnote();
-                bemol.setChecked(false);
-                koron.setChecked(false);
-                // bekar.setChecked(false);
-                sori.setChecked(false);
-                diyez.setChecked(false);
-                break;
-            case R.id.sori_radioButton:
-
-                note = 0.5;
-                sendnote();
-                bemol.setChecked(false);
-                koron.setChecked(false);
-                bekar.setChecked(false);
-                // sori.setChecked(false);
-                diyez.setChecked(false);
-                break;
-
-            case R.id.diyez_radioButton:
-
-                note = 1;
-                sendnote();
-                bemol.setChecked(false);
-                koron.setChecked(false);
-                bekar.setChecked(false);
-                sori.setChecked(false);
-                // diyez.setChecked(false);
-                break;
+        int radioId = v.getId();
+        if (radioId == R.id.bemol_radioButton) {
+            note = -1;
+            sendnote();
+            // bemol.setChecked(false);
+            koron.setChecked(false);
+            bekar.setChecked(false);
+            sori.setChecked(false);
+            diyez.setChecked(false);
+        } else if (radioId == R.id.koron_radioButton) {
+            note = -0.5;
+            sendnote();
+            bemol.setChecked(false);
+            // koron.setChecked(false);
+            bekar.setChecked(false);
+            sori.setChecked(false);
+            diyez.setChecked(false);
+        } else if (radioId == R.id.bekar_radioButton) {
+            note = 0;
+            sendnote();
+            bemol.setChecked(false);
+            koron.setChecked(false);
+            // bekar.setChecked(false);
+            sori.setChecked(false);
+            diyez.setChecked(false);
+        } else if (radioId == R.id.sori_radioButton) {
+            note = 0.5;
+            sendnote();
+            bemol.setChecked(false);
+            koron.setChecked(false);
+            bekar.setChecked(false);
+            // sori.setChecked(false);
+            diyez.setChecked(false);
+        } else if (radioId == R.id.diyez_radioButton) {
+            note = 1;
+            sendnote();
+            bemol.setChecked(false);
+            koron.setChecked(false);
+            bekar.setChecked(false);
+            sori.setChecked(false);
+            // diyez.setChecked(false);
         }
         if (v.getId() == id.button_ok) {
             SharedPreferences prefs;

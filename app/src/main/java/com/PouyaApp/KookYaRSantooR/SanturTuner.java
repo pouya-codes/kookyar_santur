@@ -11,9 +11,9 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -34,7 +34,7 @@ import android.widget.Toast;
 import com.PouyaApp.KookYaRSantooR.R.id;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.gc.materialdesign.views.Button;
+import android.widget.Button;
 
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.service.PdService;
@@ -143,18 +143,18 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                             }
 
                             editor.commit();
-                            finish();
+                            SanturTuner.super.onBackPressed();
                         }
                     });
             alertDialog.setNegativeButton("خیر",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            SanturTuner.super.onBackPressed();
                         }
                     });
             alertDialog.show();
 
-        } else finish();
+        } else super.onBackPressed();
 
 
     }
@@ -172,25 +172,18 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        switch (item.getItemId()) {
-            case R.id.help_tuner:
-                Intent i = new Intent(SanturTuner.this, TunerHelp.class);
-                startActivity(i);
-                break;
-            case R.id.bazgasht:
-                onBackPressed();
-                break;
-            case R.id.settings_menu:
-                Intent j = new Intent(SanturTuner.this, Prefs.class);
-                startActivity(j);
-
-                break;
-            case id.change_tempe:
-                Intent k = new Intent(SanturTuner.this, CustomeTempeament.class);
-                startActivity(k);
-
-                break;
-
+        int itemId = item.getItemId();
+        if (itemId == R.id.help_tuner) {
+            Intent i = new Intent(SanturTuner.this, TunerHelp.class);
+            startActivity(i);
+        } else if (itemId == R.id.bazgasht) {
+            onBackPressed();
+        } else if (itemId == R.id.settings_menu) {
+            Intent j = new Intent(SanturTuner.this, Prefs.class);
+            startActivity(j);
+        } else if (itemId == id.change_tempe) {
+            Intent k = new Intent(SanturTuner.this, CustomeTempeament.class);
+            startActivity(k);
         }
         return true;
     }
@@ -784,10 +777,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
     private void start() {
         if (!pdService.isRunning()) {
-            Intent intent = new Intent(SanturTuner.this, SanturTuner.class);
-            pdService.startAudio(intent, R.drawable.kookyar,
-                    PersianReshape.reshape("کوک یار"),
-                    PersianReshape.reshape("بازگشت به کوک یار"));
+            // Use startAudio without notification to avoid PendingIntent issues on Android S+
+            pdService.startAudio();
         }
     }
 
@@ -853,88 +844,69 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             rd2.setChecked(false);
             rd3.setChecked(false);
             kukposition = 1;
-            switch (miditone) {
-                case 0:
-                    setKookPitch = 1;
-                    triggerNote2((float) Miditone[0]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک اول سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_1);
-                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 1:
-                    setKookPitch = 2;
-                    triggerNote2((float) Miditone[1]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک دوم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_2);
-                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 2:
-                    setKookPitch = 3;
-                    triggerNote2((float) Miditone[2]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک سوم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_3);
-                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 3:
-                    setKookPitch = 4;
-                    triggerNote2((float) Miditone[3]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک چهارم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_4);
-                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 4:
-                    setKookPitch = 5;
-                    triggerNote2((float) Miditone[4]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک پنجم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_5);
-                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 5:
-                    setKookPitch = 6;
-                    triggerNote2((float) Miditone[5]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک ششم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_6);
-                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 6:
-                    setKookPitch = 7;
-                    triggerNote2((float) Miditone[6]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هفتم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_7);
-                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 7:
-                    setKookPitch = 8;
-                    triggerNote2((float) Miditone[7]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هشتم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_8);
-                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 8:
-                    setKookPitch = 9;
-                    triggerNote2((float) Miditone[8]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک نهم سیم های زرد"));
-                    wire.setBackgroundResource(R.drawable.santur_9);
-                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
+            if (miditone == 0) {
+                setKookPitch = 1;
+                triggerNote2((float) Miditone[0]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک اول سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_1);
+                buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 1) {
+                setKookPitch = 2;
+                triggerNote2((float) Miditone[1]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک دوم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_2);
+                buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 2) {
+                setKookPitch = 3;
+                triggerNote2((float) Miditone[2]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک سوم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_3);
+                buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 3) {
+                setKookPitch = 4;
+                triggerNote2((float) Miditone[3]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک چهارم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_4);
+                buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 4) {
+                setKookPitch = 5;
+                triggerNote2((float) Miditone[4]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک پنجم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_5);
+                buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 5) {
+                setKookPitch = 6;
+                triggerNote2((float) Miditone[5]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک ششم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_6);
+                buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 6) {
+                setKookPitch = 7;
+                triggerNote2((float) Miditone[6]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هفتم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_7);
+                buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 7) {
+                setKookPitch = 8;
+                triggerNote2((float) Miditone[7]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هشتم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_8);
+                buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 8) {
+                setKookPitch = 9;
+                triggerNote2((float) Miditone[8]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک نهم سیم های زرد"));
+                wire.setBackgroundResource(R.drawable.santur_9);
+                buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
             }
         } else if (miditone <= 17 && miditone >= 9) {
             for (int i = 9; i < 18; i++) {
@@ -945,89 +917,69 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             rd2.setChecked(true);
             rd3.setChecked(false);
             kukposition = 2;
-            switch (miditone) {
-                case 9:
-                    setKookPitch = 10;
-                    triggerNote2((float) Miditone[9]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک اول سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_10);
-                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 10:
-                    setKookPitch = 11;
-                    triggerNote2((float) Miditone[10]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک دوم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_11);
-                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 11:
-                    setKookPitch = 12;
-                    triggerNote2((float) Miditone[11]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک سوم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_12);
-                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 12:
-                    setKookPitch = 13;
-                    triggerNote2((float) Miditone[12]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک چهارم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_13);
-                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 13:
-                    setKookPitch = 14;
-                    triggerNote2((float) Miditone[13]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک پنجم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_14);
-                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 14:
-                    setKookPitch = 15;
-                    triggerNote2((float) Miditone[14]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک ششم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_15);
-                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 15:
-                    setKookPitch = 16;
-                    triggerNote2((float) Miditone[15]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هفتم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_16);
-                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 16:
-                    setKookPitch = 17;
-                    triggerNote2((float) Miditone[16]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هشتم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_17);
-                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 17:
-                    setKookPitch = 18;
-                    triggerNote2((float) Miditone[17]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک نهم سیم های سفید"));
-                    wire.setBackgroundResource(R.drawable.santur_18);
-
-                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
+            if (miditone == 9) {
+                setKookPitch = 10;
+                triggerNote2((float) Miditone[9]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک اول سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_10);
+                buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 10) {
+                setKookPitch = 11;
+                triggerNote2((float) Miditone[10]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک دوم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_11);
+                buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 11) {
+                setKookPitch = 12;
+                triggerNote2((float) Miditone[11]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک سوم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_12);
+                buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 12) {
+                setKookPitch = 13;
+                triggerNote2((float) Miditone[12]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک چهارم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_13);
+                buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 13) {
+                setKookPitch = 14;
+                triggerNote2((float) Miditone[13]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک پنجم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_14);
+                buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 14) {
+                setKookPitch = 15;
+                triggerNote2((float) Miditone[14]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک ششم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_15);
+                buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 15) {
+                setKookPitch = 16;
+                triggerNote2((float) Miditone[15]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هفتم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_16);
+                buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 16) {
+                setKookPitch = 17;
+                triggerNote2((float) Miditone[16]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هشتم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_17);
+                buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 17) {
+                setKookPitch = 18;
+                triggerNote2((float) Miditone[17]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک نهم سیم های سفید"));
+                wire.setBackgroundResource(R.drawable.santur_18);
+                buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
             }
         } else {
             for (int i = 18; i < 27; i++) {
@@ -1038,89 +990,69 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             rd2.setChecked(false);
             rd3.setChecked(true);
             kukposition = 3;
-            switch (miditone) {
-                case 18:
-                    setKookPitch = 19;
-                    triggerNote2((float) Miditone[18]);
-
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک اول سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_19);
-                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 19:
-                    setKookPitch = 20;
-                    triggerNote2((float) Miditone[19]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک دوم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_20);
-                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 20:
-                    setKookPitch = 21;
-                    triggerNote2((float) Miditone[20]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک سوم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_21);
-                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 21:
-                    setKookPitch = 22;
-                    triggerNote2((float) Miditone[21]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک چهارم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_22);
-                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 22:
-                    setKookPitch = 23;
-                    triggerNote2((float) Miditone[22]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک پنجم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_23);
-                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 23:
-                    setKookPitch = 24;
-                    triggerNote2((float) Miditone[23]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک ششم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_24);
-                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 24:
-                    setKookPitch = 25;
-                    triggerNote2((float) Miditone[24]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هفتم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_25);
-                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 25:
-                    setKookPitch = 26;
-                    triggerNote2((float) Miditone[25]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک هشتم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_26);
-                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
-                case 26:
-                    setKookPitch = 27;
-                    triggerNote2((float) Miditone[26]);
-                    pitchLabel.setText(PersianReshape
-                            .reshape("خرک نهم سیم های پشت خرک"));
-                    wire.setBackgroundResource(R.drawable.santur_27);
-                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                    break;
+            if (miditone == 18) {
+                setKookPitch = 19;
+                triggerNote2((float) Miditone[18]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک اول سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_19);
+                buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 19) {
+                setKookPitch = 20;
+                triggerNote2((float) Miditone[19]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک دوم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_20);
+                buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 20) {
+                setKookPitch = 21;
+                triggerNote2((float) Miditone[20]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک سوم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_21);
+                buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 21) {
+                setKookPitch = 22;
+                triggerNote2((float) Miditone[21]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک چهارم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_22);
+                buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 22) {
+                setKookPitch = 23;
+                triggerNote2((float) Miditone[22]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک پنجم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_23);
+                buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 23) {
+                setKookPitch = 24;
+                triggerNote2((float) Miditone[23]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک ششم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_24);
+                buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 24) {
+                setKookPitch = 25;
+                triggerNote2((float) Miditone[24]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هفتم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_25);
+                buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 25) {
+                setKookPitch = 26;
+                triggerNote2((float) Miditone[25]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک هشتم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_26);
+                buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (miditone == 26) {
+                setKookPitch = 27;
+                triggerNote2((float) Miditone[26]);
+                pitchLabel.setText(PersianReshape
+                        .reshape("خرک نهم سیم های پشت خرک"));
+                wire.setBackgroundResource(R.drawable.santur_27);
+                buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
             }
         }
 
@@ -1212,90 +1144,70 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                         buttons[i].setBackgroundColor(Color.YELLOW);
                 }
 
-                switch (v.getId()) {
-                    case R.id.button_1:
-                        setKookPitch = 1;
-                        triggerNote((float) Miditone[0]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک اول سیم های زرد"));
-
-                        wire.setBackgroundResource(R.drawable.santur_1);
-
-                        buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_2:
-                        setKookPitch = 2;
-                        triggerNote((float) Miditone[1]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک دوم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_2);
-                        buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_3:
-                        setKookPitch = 3;
-                        triggerNote((float) Miditone[2]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک سوم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_3);
-                        buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_4:
-                        setKookPitch = 4;
-                        triggerNote((float) Miditone[3]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک چهارم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_4);
-                        buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_5:
-                        setKookPitch = 5;
-                        triggerNote((float) Miditone[4]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک پنجم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_5);
-                        buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_6:
-                        setKookPitch = 6;
-                        triggerNote((float) Miditone[5]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک ششم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_6);
-                        buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_7:
-                        setKookPitch = 7;
-                        triggerNote((float) Miditone[6]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هفتم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_7);
-                        buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_8:
-                        setKookPitch = 8;
-                        triggerNote((float) Miditone[7]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هشتم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_8);
-                        buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_9:
-                        setKookPitch = 9;
-                        triggerNote((float) Miditone[8]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک نهم سیم های زرد"));
-                        wire.setBackgroundResource(R.drawable.santur_9);
-                        buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
+                int viewId = v.getId();
+                if (viewId == R.id.button_1) {
+                    setKookPitch = 1;
+                    triggerNote((float) Miditone[0]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک اول سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_1);
+                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_2) {
+                    setKookPitch = 2;
+                    triggerNote((float) Miditone[1]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک دوم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_2);
+                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_3) {
+                    setKookPitch = 3;
+                    triggerNote((float) Miditone[2]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک سوم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_3);
+                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_4) {
+                    setKookPitch = 4;
+                    triggerNote((float) Miditone[3]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک چهارم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_4);
+                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_5) {
+                    setKookPitch = 5;
+                    triggerNote((float) Miditone[4]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک پنجم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_5);
+                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_6) {
+                    setKookPitch = 6;
+                    triggerNote((float) Miditone[5]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک ششم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_6);
+                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_7) {
+                    setKookPitch = 7;
+                    triggerNote((float) Miditone[6]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هفتم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_7);
+                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_8) {
+                    setKookPitch = 8;
+                    triggerNote((float) Miditone[7]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هشتم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_8);
+                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_9) {
+                    setKookPitch = 9;
+                    triggerNote((float) Miditone[8]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک نهم سیم های زرد"));
+                    wire.setBackgroundResource(R.drawable.santur_9);
+                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
                 }
             } else if (kukposition == 2) {
 
@@ -1304,89 +1216,70 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                         buttons[(i - 9)].setBackgroundColor(Color.YELLOW);
                 }
 
-                switch (v.getId()) {
-                    case R.id.button_1:
-                        setKookPitch = 10;
-                        triggerNote((float) Miditone[9]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک اول سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_10);
-                        buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_2:
-                        setKookPitch = 11;
-                        triggerNote((float) Miditone[10]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک دوم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_11);
-                        buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_3:
-                        setKookPitch = 12;
-                        triggerNote((float) Miditone[11]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک سوم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_12);
-                        buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_4:
-                        setKookPitch = 13;
-                        triggerNote((float) Miditone[12]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک چهارم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_13);
-                        buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_5:
-                        setKookPitch = 14;
-                        triggerNote((float) Miditone[13]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک پنجم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_14);
-                        buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_6:
-                        setKookPitch = 15;
-                        triggerNote((float) Miditone[14]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک ششم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_15);
-                        buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_7:
-                        setKookPitch = 16;
-                        triggerNote((float) Miditone[15]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هفتم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_16);
-                        buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_8:
-                        setKookPitch = 17;
-                        triggerNote((float) Miditone[16]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هشتم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_17);
-                        buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_9:
-                        setKookPitch = 18;
-                        triggerNote((float) Miditone[17]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک نهم سیم های سفید"));
-                        wire.setBackgroundResource(R.drawable.santur_18);
-
-                        buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
+                int viewId = v.getId();
+                if (viewId == R.id.button_1) {
+                    setKookPitch = 10;
+                    triggerNote((float) Miditone[9]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک اول سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_10);
+                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_2) {
+                    setKookPitch = 11;
+                    triggerNote((float) Miditone[10]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک دوم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_11);
+                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_3) {
+                    setKookPitch = 12;
+                    triggerNote((float) Miditone[11]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک سوم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_12);
+                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_4) {
+                    setKookPitch = 13;
+                    triggerNote((float) Miditone[12]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک چهارم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_13);
+                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_5) {
+                    setKookPitch = 14;
+                    triggerNote((float) Miditone[13]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک پنجم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_14);
+                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_6) {
+                    setKookPitch = 15;
+                    triggerNote((float) Miditone[14]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک ششم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_15);
+                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_7) {
+                    setKookPitch = 16;
+                    triggerNote((float) Miditone[15]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هفتم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_16);
+                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_8) {
+                    setKookPitch = 17;
+                    triggerNote((float) Miditone[16]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هشتم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_17);
+                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_9) {
+                    setKookPitch = 18;
+                    triggerNote((float) Miditone[17]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک نهم سیم های سفید"));
+                    wire.setBackgroundResource(R.drawable.santur_18);
+                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
                 }
             } else if (kukposition == 3) {
 
@@ -1394,89 +1287,70 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                     if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
                         buttons[(i - 18)].setBackgroundColor(Color.YELLOW);
                 }
-                switch (v.getId()) {
-                    case R.id.button_1:
-                        setKookPitch = 19;
-                        triggerNote((float) Miditone[18]);
-
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک اول سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_19);
-                        buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_2:
-                        setKookPitch = 20;
-                        triggerNote((float) Miditone[19]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک دوم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_20);
-                        buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_3:
-                        setKookPitch = 21;
-                        triggerNote((float) Miditone[20]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک سوم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_21);
-                        buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_4:
-                        setKookPitch = 22;
-                        triggerNote((float) Miditone[21]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک چهارم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_22);
-                        buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_5:
-                        setKookPitch = 23;
-                        triggerNote((float) Miditone[22]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک پنجم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_23);
-                        buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_6:
-                        setKookPitch = 24;
-                        triggerNote((float) Miditone[23]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک ششم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_24);
-                        buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_7:
-                        setKookPitch = 25;
-                        triggerNote((float) Miditone[24]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هفتم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_25);
-                        buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_8:
-                        setKookPitch = 26;
-                        triggerNote((float) Miditone[25]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک هشتم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_26);
-                        buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
-                    case R.id.button_9:
-                        setKookPitch = 27;
-                        triggerNote((float) Miditone[26]);
-                        pitchLabel.setText(PersianReshape
-                                .reshape("خرک نهم سیم های پشت خرک"));
-                        wire.setBackgroundResource(R.drawable.santur_27);
-                        buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
-
-                        break;
+                int viewId = v.getId();
+                if (viewId == R.id.button_1) {
+                    setKookPitch = 19;
+                    triggerNote((float) Miditone[18]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک اول سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_19);
+                    buttons[0].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_2) {
+                    setKookPitch = 20;
+                    triggerNote((float) Miditone[19]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک دوم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_20);
+                    buttons[1].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_3) {
+                    setKookPitch = 21;
+                    triggerNote((float) Miditone[20]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک سوم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_21);
+                    buttons[2].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_4) {
+                    setKookPitch = 22;
+                    triggerNote((float) Miditone[21]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک چهارم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_22);
+                    buttons[3].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_5) {
+                    setKookPitch = 23;
+                    triggerNote((float) Miditone[22]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک پنجم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_23);
+                    buttons[4].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_6) {
+                    setKookPitch = 24;
+                    triggerNote((float) Miditone[23]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک ششم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_24);
+                    buttons[5].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_7) {
+                    setKookPitch = 25;
+                    triggerNote((float) Miditone[24]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هفتم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_25);
+                    buttons[6].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_8) {
+                    setKookPitch = 26;
+                    triggerNote((float) Miditone[25]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک هشتم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_26);
+                    buttons[7].setBackgroundColor(getResources().getColor(R.color.blue));
+                } else if (viewId == R.id.button_9) {
+                    setKookPitch = 27;
+                    triggerNote((float) Miditone[26]);
+                    pitchLabel.setText(PersianReshape
+                            .reshape("خرک نهم سیم های پشت خرک"));
+                    wire.setBackgroundResource(R.drawable.santur_27);
+                    buttons[8].setBackgroundColor(getResources().getColor(R.color.blue));
                 }
             }
 
@@ -1492,45 +1366,37 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 pitchView.setCenterPitch(0);
                 pitchLabel.setText(PersianReshape
                         .reshape("خرک مورد نظر برای کوک شدن را انتخاب نمایید"));
-                switch (v.getId()) {
-                    case R.id.zardRB:
-                        positonShow.setBackgroundResource(R.drawable.zard);
-                        YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
-                        kukposition = 1;
-                        rd2.setChecked(false);
-                        rd3.setChecked(false);
-                        for (int i = 0; i < 9; i++) {
-                            if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
-                                buttons[i].setBackgroundColor(Color.YELLOW);
-                        }
-
-                        break;
-                    case R.id.sefidRB:
-
-                        positonShow.setBackgroundResource(R.drawable.sefidd);
-                        YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
-                        kukposition = 2;
-                        rd1.setChecked(false);
-                        rd3.setChecked(false);
-                        for (int i = 9; i < 18; i++) {
-                            if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
-                                buttons[i % 9].setBackgroundColor(Color.YELLOW);
-                        }
-
-                        break;
-                    case R.id.poshtRB:
-                        positonShow.setBackgroundResource(R.drawable.posht);
-                        YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
-                        kukposition = 3;
-                        rd1.setChecked(false);
-                        rd2.setChecked(false);
-                        for (int i = 18; i < 27; i++) {
-                            if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
-                                buttons[i % 9].setBackgroundColor(Color.YELLOW);
-                        }
-
-                        break;
-
+                int viewId = v.getId();
+                if (viewId == R.id.zardRB) {
+                    positonShow.setBackgroundResource(R.drawable.zard);
+                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    kukposition = 1;
+                    rd2.setChecked(false);
+                    rd3.setChecked(false);
+                    for (int i = 0; i < 9; i++) {
+                        if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
+                            buttons[i].setBackgroundColor(Color.YELLOW);
+                    }
+                } else if (viewId == R.id.sefidRB) {
+                    positonShow.setBackgroundResource(R.drawable.sefidd);
+                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    kukposition = 2;
+                    rd1.setChecked(false);
+                    rd3.setChecked(false);
+                    for (int i = 9; i < 18; i++) {
+                        if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
+                            buttons[i % 9].setBackgroundColor(Color.YELLOW);
+                    }
+                } else if (viewId == R.id.poshtRB) {
+                    positonShow.setBackgroundResource(R.drawable.posht);
+                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    kukposition = 3;
+                    rd1.setChecked(false);
+                    rd2.setChecked(false);
+                    for (int i = 18; i < 27; i++) {
+                        if (Miditone[i] != MiditoneOld[i] && MiditoneOld[i] != 0)
+                            buttons[i % 9].setBackgroundColor(Color.YELLOW);
+                    }
                 }
 
             } else {
@@ -1541,3 +1407,4 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
 
 }
+

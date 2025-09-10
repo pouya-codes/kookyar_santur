@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -95,7 +95,6 @@ public class DoreyeEbtedaE extends Activity implements View.OnClickListener{
 				false);
 		if(!tunerType)activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
 		else activity = new Intent(DoreyeEbtedaE.this, SanturTuner2.class);
-
 		activity.putExtras(data);
 		startActivity(activity);
 		

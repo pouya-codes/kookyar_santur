@@ -6,18 +6,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
-import com.gc.materialdesign.views.LayoutRipple;
+import android.widget.LinearLayout;
 
 public class Books extends Activity implements View.OnClickListener {
 
     public String fonts = "BNazanin.ttf";
     private TextView tvEbtedaei, tvMeshkatian, tvDastur, tvGolnar, tvShive, tvYadegaran_hom, tvYadegaran_esf, tvHazarDastan_3gah, tvHazarDastan_4gah, tvSepideh;
-    private LayoutRipple imEbtedaei, imMeshkatian, imDastur, imShive, imGolnar, imYadegaran_hom, imYadegeran_esf, imHazardastan_3gah, imHazarDastan_4gah, im_sepideh;
+    private LinearLayout imEbtedaei, imMeshkatian, imDastur, imShive, imGolnar, imYadegaran_hom, imYadegeran_esf, imHazardastan_3gah, imHazarDastan_4gah, im_sepideh;
     private Bundle data;
 
     @Override
@@ -71,25 +71,25 @@ public class Books extends Activity implements View.OnClickListener {
         tvSepideh.setTypeface(face);
         tvSepideh.setOnClickListener(this);
 
-        imDastur = (LayoutRipple) findViewById(id.book_dastur);
+        imDastur = (LinearLayout) findViewById(id.book_dastur);
         imDastur.setOnClickListener(this);
-        imShive = (LayoutRipple) findViewById(id.books_shive);
+        imShive = (LinearLayout) findViewById(id.books_shive);
         imShive.setOnClickListener(this);
-        imEbtedaei = (LayoutRipple) findViewById(id.book_dore);
+        imEbtedaei = (LinearLayout) findViewById(id.book_dore);
         imEbtedaei.setOnClickListener(this);
-        imMeshkatian = (LayoutRipple) findViewById(id.book_meshkatian);
+        imMeshkatian = (LinearLayout) findViewById(id.book_meshkatian);
         imMeshkatian.setOnClickListener(this);
-        imGolnar = (LayoutRipple) findViewById(id.book_golnar);
+        imGolnar = (LinearLayout) findViewById(id.book_golnar);
         imGolnar.setOnClickListener(this);
-        imYadegaran_hom = (LayoutRipple) findViewById(id.book_yadegaran_homayun);
+        imYadegaran_hom = (LinearLayout) findViewById(id.book_yadegaran_homayun);
         imYadegaran_hom.setOnClickListener(this);
-        imYadegeran_esf = (LayoutRipple) findViewById(id.book_yadegaran);
+        imYadegeran_esf = (LinearLayout) findViewById(id.book_yadegaran);
         imYadegeran_esf.setOnClickListener(this);
-        imHazardastan_3gah = (LayoutRipple) findViewById(id.book_dastan);
+        imHazardastan_3gah = (LinearLayout) findViewById(id.book_dastan);
         imHazardastan_3gah.setOnClickListener(this);
-        imHazarDastan_4gah = (LayoutRipple) findViewById(id.book_dastan_4gah);
+        imHazarDastan_4gah = (LinearLayout) findViewById(id.book_dastan_4gah);
         imHazarDastan_4gah.setOnClickListener(this);
-        im_sepideh = (LayoutRipple) findViewById(id.book_sepideh);
+        im_sepideh = (LinearLayout) findViewById(id.book_sepideh);
         im_sepideh.setOnClickListener(this);
 
 
@@ -99,68 +99,45 @@ public class Books extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         Intent activity;
-        switch (v.getId()) {
-
-            case id.book_dastur:
-                data = new Bundle();
-                data.putInt("book", 1);
-                luanchActivity();
-
-                break;
-
-            case id.books_shive:
-                data = new Bundle();
-                data.putInt("book", 2);
-                luanchActivity();
-                break;
-
-            case id.book_golnar:
-                data = new Bundle();
-                data.putInt("book", 3);
-                luanchActivity();
-                break;
-
-            case id.book_yadegaran:
-                data = new Bundle();
-                data.putInt("book", 4);
-                luanchActivity();
-                break;
-
-            case id.book_yadegaran_homayun:
-                data = new Bundle();
-                data.putInt("book", 5);
-                luanchActivity();
-                break;
-
-            case id.book_dastan:
-                data = new Bundle();
-                data.putInt("book", 6);
-                luanchActivity();
-                break;
-
-            case id.book_dastan_4gah:
-                data = new Bundle();
-                data.putInt("book", 7);
-                luanchActivity();
-                break;
-
-            case id.book_meshkatian:
-
-                activity = new Intent(Books.this, Meshkatian.class);
-                startActivity(activity);
-                break;
-
-            case id.book_dore:
-
-                activity = new Intent(Books.this, DoreyeEbtedaE.class);
-                startActivity(activity);
-                break;
-            case id.book_sepideh:
-                data = new Bundle();
-                data.putInt("book", 8);
-                luanchActivity() ;
-                break;
-
+        int viewId = v.getId();
+        if (viewId == id.book_dastur) {
+            data = new Bundle();
+            data.putInt("book", 1);
+            luanchActivity();
+        } else if (viewId == id.books_shive) {
+            data = new Bundle();
+            data.putInt("book", 2);
+            luanchActivity();
+        } else if (viewId == id.book_golnar) {
+            data = new Bundle();
+            data.putInt("book", 3);
+            luanchActivity();
+        } else if (viewId == id.book_yadegaran) {
+            data = new Bundle();
+            data.putInt("book", 4);
+            luanchActivity();
+        } else if (viewId == id.book_yadegaran_homayun) {
+            data = new Bundle();
+            data.putInt("book", 5);
+            luanchActivity();
+        } else if (viewId == id.book_dastan) {
+            data = new Bundle();
+            data.putInt("book", 6);
+            luanchActivity();
+        } else if (viewId == id.book_dastan_4gah) {
+            data = new Bundle();
+            data.putInt("book", 7);
+            luanchActivity();
+        } else if (viewId == id.book_meshkatian) {
+            activity = new Intent(Books.this, Meshkatian.class);
+            startActivity(activity);
+        } else if (viewId == id.book_dore) {
+            activity = new Intent(Books.this, DoreyeEbtedaE.class);
+            startActivity(activity);
+        } else if (viewId == id.book_sepideh) {
+            data = new Bundle();
+            data.putInt("book", 8);
+            luanchActivity();
         }
 
     }

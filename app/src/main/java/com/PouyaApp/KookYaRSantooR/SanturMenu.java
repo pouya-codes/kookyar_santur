@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -135,123 +135,79 @@ public class SanturMenu extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
 
-
-
-        switch (v.getId()) {
-
-            case R.id.shur_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 1);
-                launchActivity() ;
-
-
-                break;
-            }
-            case R.id.shur_Tuning_payvar: {
-                data = new Bundle();
-                data.putInt("kuk", 12);
-                launchActivity();
-                break;
-            }
-            case R.id.Homayun_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 6);
-                launchActivity();
-                break;
-            }
-
-            case R.id.esfehan_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 2);
-                launchActivity();
-                break;
-            }
-
-            case R.id.mahur_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 3);
-                launchActivity();
-                break;
-            }
-
-            case R.id.segah_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 4);
-                launchActivity();
-                break;
-            }
-            case R.id.chargah_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 5);
-                launchActivity();
-                break;
-            }
-            case R.id.shorRe_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 7);
-                launchActivity();
-                break;
-            }
-            case R.id.esfehanFa_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 8);
-                launchActivity();
-                break;
-            }
-            case R.id.faMinor_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 9);
-                launchActivity();
-                break;
-            }
-            case R.id.doMajor_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 10);
-                launchActivity();
-                break;
-            }
-            case R.id.doMinor_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 11);
-                launchActivity() ;
-                break;
-            }
-            case R.id.custom_Tuning: {
-                Intent activity;
-                activity = new Intent(SanturMenu.this, CustomKook.class);
-                startActivity(activity);
-                break;
-            }
-            case R.id.nava_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 13);
-                launchActivity() ;
-                break;
-            }
-            case R.id.homayounChap_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 14);
-                launchActivity() ;
-                break;
-            }
-            case R.id.mahurChap_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 15);
-                launchActivity() ;
-                break;
-            }
-            case R.id.segahChap_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 16);
-                launchActivity() ;
-                break;
-            }
-            case R.id.chahargahChap_Tuning: {
-                data = new Bundle();
-                data.putInt("kuk", 17);
-                launchActivity() ;
-                break;
-            }
+        int viewId = v.getId();
+        if (viewId == R.id.shur_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 1);
+            launchActivity();
+        } else if (viewId == R.id.shur_Tuning_payvar) {
+            data = new Bundle();
+            data.putInt("kuk", 12);
+            launchActivity();
+        } else if (viewId == R.id.Homayun_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 6);
+            launchActivity();
+        } else if (viewId == R.id.esfehan_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 2);
+            launchActivity();
+        } else if (viewId == R.id.mahur_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 3);
+            launchActivity();
+        } else if (viewId == R.id.segah_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 4);
+            launchActivity();
+        } else if (viewId == R.id.chargah_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 5);
+            launchActivity();
+        } else if (viewId == R.id.shorRe_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 7);
+            launchActivity();
+        } else if (viewId == R.id.esfehanFa_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 8);
+            launchActivity();
+        } else if (viewId == R.id.faMinor_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 9);
+            launchActivity();
+        } else if (viewId == R.id.doMajor_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 10);
+            launchActivity();
+        } else if (viewId == R.id.doMinor_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 11);
+            launchActivity();
+        } else if (viewId == R.id.custom_Tuning) {
+            Intent activity;
+            activity = new Intent(SanturMenu.this, CustomKook.class);
+            startActivity(activity);
+        } else if (viewId == R.id.nava_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 13);
+            launchActivity();
+        } else if (viewId == R.id.homayounChap_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 14);
+            launchActivity();
+        } else if (viewId == R.id.mahurChap_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 15);
+            launchActivity();
+        } else if (viewId == R.id.segahChap_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 16);
+            launchActivity();
+        } else if (viewId == R.id.chahargahChap_Tuning) {
+            data = new Bundle();
+            data.putInt("kuk", 17);
+            launchActivity();
         }
     }
 

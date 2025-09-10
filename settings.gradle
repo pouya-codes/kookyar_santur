@@ -1,1 +1,10 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 include ':app'
+// Removed ':PdCore' - now using Maven Central dependency
+rootProject.name = "KookYaRSantooR"
