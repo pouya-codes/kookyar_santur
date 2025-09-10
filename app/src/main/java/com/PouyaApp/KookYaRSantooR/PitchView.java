@@ -351,44 +351,106 @@ public class PitchView extends SurfaceView implements Runnable {
     }
 
     private void drawSoundIntensityGauge(Canvas canvas) {
-        float gaugeWidth = width * 0.8f;
-        float gaugeHeight = 20f;
+        float gaugeWidth = width * 0.85f;
+        float gaugeHeight = 40f;
         float gaugeX = (width - gaugeWidth) / 2f;
-        float gaugeY = height * 0.15f;
+        float gaugeY = height * 0.12f;
         
-        // Draw gauge background
+        // Draw gauge background with rounded corners
         RectF gaugeBg = new RectF(gaugeX, gaugeY, gaugeX + gaugeWidth, gaugeY + gaugeHeight);
-        backgroundPaint.setColor(Color.argb(100, 255, 255, 255));
-        canvas.drawRoundRect(gaugeBg, 10, 10, backgroundPaint);
+        backgroundPaint.setColor(Color.argb(80, 0, 0, 0));
+        canvas.drawRoundRect(gaugeBg, 20, 20, backgroundPaint);
         
-        // Draw gauge fill based on sound intensity
-        if (soundIntensity > 0) {
-            float fillWidth = gaugeWidth * soundIntensity;
-            RectF gaugeFill = new RectF(gaugeX, gaugeY, gaugeX + fillWidth, gaugeY + gaugeHeight);
+        // Create heatmap segments
+        int segmentCount = 20;
+        float segmentWidth = (gaugeWidth - 4) / segmentCount;
+        float currentLevel = soundIntensity * segmentCount;
+        
+        for (int i = 0; i < segmentCount; i++) {
+            float segmentX = gaugeX + 2 + (i * segmentWidth);
+            RectF segment = new RectF(segmentX, gaugeY + 2, segmentX + segmentWidth - 2, gaugeY + gaugeHeight - 2);
             
-            // Color based on intensity level
-            int gaugeColor;
-            if (soundIntensity < 0.3f) {
-                gaugeColor = Color.argb(200, 255, 100, 100); // Red - too quiet
-            } else if (soundIntensity < 0.7f) {
-                gaugeColor = Color.argb(200, 100, 255, 100); // Green - good level
+            // Calculate heatmap colors
+            Paint segmentPaint = new Paint();
+            segmentPaint.setAntiAlias(true);
+            
+            if (i < currentLevel) {
+                // Active segments with heatmap coloring
+                float intensity = (float) i / segmentCount;
+                int red, green, blue;
+                
+                if (intensity < 0.3f) {
+                    // Blue to cyan (low levels)
+                    red = 0;
+                    green = (int) (255 * intensity / 0.3f);
+                    blue = 255;
+                } else if (intensity < 0.6f) {
+                    // Cyan to green (medium levels)
+                    red = 0;
+                    green = 255;
+                    blue = (int) (255 * (0.6f - intensity) / 0.3f);
+                } else if (intensity < 0.8f) {
+                    // Green to yellow (good levels)
+                    red = (int) (255 * (intensity - 0.6f) / 0.2f);
+                    green = 255;
+                    blue = 0;
+                } else {
+                    // Yellow to red (high levels)
+                    red = 255;
+                    green = (int) (255 * (1.0f - intensity) / 0.2f);
+                    blue = 0;
+                }
+                
+                // Add pulsing effect for active segments
+                float pulse = (float) (0.8f + 0.2f * Math.sin(System.currentTimeMillis() / 200.0 + i * 0.3));
+                segmentPaint.setColor(Color.argb((int) (200 * pulse), red, green, blue));
+                
+                // Add glow effect for high intensity segments
+                if (i >= currentLevel - 2) {
+                    segmentPaint.setShadowLayer(8, 0, 0, Color.argb(100, red, green, blue));
+                }
             } else {
-                gaugeColor = Color.argb(200, 255, 255, 100); // Yellow - too loud
+                // Inactive segments
+                segmentPaint.setColor(Color.argb(40, 100, 100, 100));
             }
             
-            backgroundPaint.setColor(gaugeColor);
-            canvas.drawRoundRect(gaugeFill, 10, 10, backgroundPaint);
+            canvas.drawRoundRect(segment, 6, 6, segmentPaint);
         }
         
-        // Draw gauge label
-        textPaint.setTextSize(width / 35f);
+        // Draw peak indicators
+        if (soundIntensity > 0.8f) {
+            // Warning indicators for high levels
+            Paint warningPaint = new Paint();
+            warningPaint.setAntiAlias(true);
+            warningPaint.setColor(Color.RED);
+            warningPaint.setTextSize(width / 30f);
+            warningPaint.setTextAlign(Align.CENTER);
+            warningPaint.setFakeBoldText(true);
+            canvas.drawText("⚠", gaugeX + gaugeWidth + 20, gaugeY + gaugeHeight / 2f + 5, warningPaint);
+        }
+        
+        // Draw gauge labels with modern styling
+        textPaint.setTextSize(width / 32f);
+        textPaint.setColor(Color.argb(180, 255, 255, 255));
+        textPaint.setTextAlign(Align.LEFT);
+        canvas.drawText("آرام", gaugeX, gaugeY - 8, textPaint);
+        textPaint.setTextAlign(Align.RIGHT);
+        canvas.drawText("بلند", gaugeX + gaugeWidth, gaugeY - 8, textPaint);
+        
+        // Draw center title with enhanced styling
+        textPaint.setTextSize(width / 28f);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Align.CENTER);
-        canvas.drawText("شدت صدا", width / 2f, gaugeY - 10, textPaint);
+        textPaint.setFakeBoldText(true);
+        canvas.drawText("شدت صدا", width / 2f, gaugeY - 15, textPaint);
+        textPaint.setFakeBoldText(false);
         
-        // Draw intensity percentage
-        textPaint.setTextSize(width / 40f);
-        canvas.drawText(String.format("%.0f%%", soundIntensity * 100), width / 2f, gaugeY + gaugeHeight + 20, textPaint);
+        // Draw dynamic intensity value with animation
+        textPaint.setTextSize(width / 35f);
+        String intensityText = String.format("%.0f%%", soundIntensity * 100);
+        float textAlpha = 150 + 105 * (float) Math.sin(System.currentTimeMillis() / 1000.0);
+        textPaint.setColor(Color.argb((int) textAlpha, 255, 255, 255));
+        canvas.drawText(intensityText, width / 2f, gaugeY + gaugeHeight + 25, textPaint);
     }
 
     private void drawTuningArc(Canvas canvas, float centerX, float centerY, float radius) {
