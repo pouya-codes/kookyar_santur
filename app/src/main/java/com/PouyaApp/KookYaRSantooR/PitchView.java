@@ -35,11 +35,20 @@ public class PitchView extends SurfaceView implements Runnable {
     private float centerPitch = 0, currentPitch, midiRef;
     private int width, height;
     private int laFrequnes;
+    
+    // Sound intensity gauge variables
+    private float soundIntensity = 0f;
+    private float targetIntensity = 0f;
+    private final float intensitySpeed = 0.1f;
+    
     private final Paint paint = new Paint();
     private final Paint backgroundPaint = new Paint();
     private final Paint needlePaint = new Paint();
     private final Paint textPaint = new Paint();
     private final Paint arcPaint = new Paint();
+    private final Paint gaugePaint = new Paint();
+    private final Paint shadowPaint = new Paint();
+    
     Thread thread;
     SurfaceHolder surfaceHolder;
     boolean isItOK = false;
@@ -112,6 +121,8 @@ public class PitchView extends SurfaceView implements Runnable {
         needlePaint.setAntiAlias(true);
         textPaint.setAntiAlias(true);
         arcPaint.setAntiAlias(true);
+        gaugePaint.setAntiAlias(true);
+        shadowPaint.setAntiAlias(true);
         
         // Set text paint properties
         textPaint.setTextAlign(Align.CENTER);
@@ -124,6 +135,16 @@ public class PitchView extends SurfaceView implements Runnable {
         // Set arc paint properties
         arcPaint.setStyle(Paint.Style.STROKE);
         arcPaint.setStrokeWidth(6.0f);
+        
+        // Set gauge paint properties
+        gaugePaint.setStyle(Paint.Style.STROKE);
+        gaugePaint.setStrokeWidth(12.0f);
+        gaugePaint.setStrokeCap(Paint.Cap.ROUND);
+        
+        // Set shadow paint properties
+        shadowPaint.setColor(Color.argb(60, 0, 0, 0));
+        shadowPaint.setStrokeWidth(10.0f);
+        shadowPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public boolean getRunned() {
@@ -180,16 +201,20 @@ public class PitchView extends SurfaceView implements Runnable {
     }
 
     public void setCurrentPitch(float currentPitch) {
-
         if (currentPitch <= 12) {
             alphaChangeSpeedCent = -alphaChangeSpeedCentUnit;
-
         } else {
             alphaChangeSpeedCent = alphaChangeSpeedCentUnit;
         }
         this.currentPitch = currentPitch;
+        
+        // Update sound intensity based on pitch detection confidence
+        // Higher confidence (valid pitch) = higher intensity
+        targetIntensity = (currentPitch > 12) ? Math.min(1.0f, currentPitch / 100f) : 0.1f;
+    }
 
-
+    public void setSoundIntensity(float intensity) {
+        targetIntensity = Math.max(0f, Math.min(1f, intensity));
     }
 
     public void setAFrequnse(int Frequnes) {
@@ -209,79 +234,195 @@ public class PitchView extends SurfaceView implements Runnable {
         super.draw(canvas);
         
         if (centerPitch == 0) {
-            // Draw background
-            backgroundPaint.setColor(getContext().getResources().getColor(R.color.backgroundColor));
-            canvas.drawRect(0, 0, width, height, backgroundPaint);
+            // Draw elegant background even when no pitch is detected
+            drawBackground(canvas);
+            drawPlaceholderInterface(canvas);
             return;
         }
 
-        // Draw gradient background
-        LinearGradient gradient = new LinearGradient(0, 0, 0, height,
-                getContext().getResources().getColor(R.color.backgroundColor),
-                Color.argb(255, 20, 20, 30), Shader.TileMode.CLAMP);
-        backgroundPaint.setShader(gradient);
-        canvas.drawRect(0, 0, width, height, backgroundPaint);
-        backgroundPaint.setShader(null);
-
-        float halfWidth = width / 2f;
-        float centerY = height * 0.75f;
-        float radius = Math.min(width, height) * 0.3f;
-
-        // Draw frequency and type info with better styling
-        textPaint.setTextSize(width / 25f);
-        textPaint.setColor(Color.LTGRAY);
-        textPaint.setTextAlign(Align.LEFT);
-        canvas.drawText(laFrequnes + " Hz", width / 20f, height / 15f, textPaint);
-        textPaint.setTextAlign(Align.RIGHT);
-        canvas.drawText(santurType != null ? santurType : "", width - width / 20f, height / 15f, textPaint);
-
-        // Draw main tuning arc
-        RectF arcRect = new RectF(halfWidth - radius, centerY - radius, halfWidth + radius, centerY + radius);
+        // Update sound intensity with smooth animation
+        updateSoundIntensity();
         
-        // Draw background arc
-        arcPaint.setColor(Color.argb(80, 255, 255, 255));
-        canvas.drawArc(arcRect, 135, 270, false, arcPaint);
+        // Draw enhanced background
+        drawBackground(canvas);
+        
+        float halfWidth = width / 2f;
+        float centerY = height * 0.6f; // Moved up to make room for gauge
+        float radius = Math.min(width, height) * 0.25f;
 
-        // Draw tick marks for better precision
+        // Draw info header with better styling
+        drawInfoHeader(canvas);
+        
+        // Draw sound intensity gauge at the top
+        drawSoundIntensityGauge(canvas);
+
+        // Draw main tuning arc with enhanced design
+        drawTuningArc(canvas, halfWidth, centerY, radius);
+
+        // Draw precision tick marks
         drawTickMarks(canvas, halfWidth, centerY, radius);
 
-        // Calculate needle position
+        // Calculate and draw needle
         float dx = (currentPitch - centerPitch) / 2f;
         boolean inTune = (-1 < dx && dx < 1);
+        
+        // Update needle position smoothly
+        updateNeedlePosition(dx);
         
         // Draw status indicator
         drawStatusIndicator(canvas, dx, inTune);
 
-        // Smooth needle movement
-        if (dx > lastDX && (lastDX + speed) <= dx) {
-            lastDX += speed;
-            fixed = false;
-        } else if (dx < lastDX && (lastDX - speed) >= dx) {
-            lastDX -= speed;
-            fixed = false;
-        } else {
-            lastDX = dx;
-            fixed = true;
-        }
+        // Draw needle with 3D effect
+        drawEnhancedNeedle(canvas, halfWidth, centerY, radius, lastDX, inTune);
 
-        // Draw needle with improved design
-        drawNeedle(canvas, halfWidth, centerY, radius, lastDX, inTune);
+        // Draw center hub with better design
+        drawEnhancedCenterHub(canvas, halfWidth, centerY, inTune && fixed);
 
-        // Draw center hub
-        drawCenterHub(canvas, halfWidth, centerY, inTune && fixed);
-
-        // Draw note information with fade-in effect
-        drawNoteInfo(canvas, halfWidth, centerY - radius - 50);
+        // Draw note information with enhanced styling
+        drawEnhancedNoteInfo(canvas, halfWidth, centerY - radius - 40);
 
         // Draw frequency and cent information
-        drawFrequencyInfo(canvas, halfWidth, height / 6f);
+        drawFrequencyInfo(canvas, halfWidth, height * 0.85f);
+    }
+
+    private void updateSoundIntensity() {
+        if (Math.abs(soundIntensity - targetIntensity) > 0.01f) {
+            if (soundIntensity < targetIntensity) {
+                soundIntensity = Math.min(targetIntensity, soundIntensity + intensitySpeed);
+            } else {
+                soundIntensity = Math.max(targetIntensity, soundIntensity - intensitySpeed);
+            }
+        }
+    }
+
+    private void drawBackground(Canvas canvas) {
+        // Create a more sophisticated gradient background
+        LinearGradient gradient = new LinearGradient(0, 0, 0, height,
+                Color.argb(255, 25, 25, 40),
+                Color.argb(255, 15, 15, 25), Shader.TileMode.CLAMP);
+        backgroundPaint.setShader(gradient);
+        canvas.drawRect(0, 0, width, height, backgroundPaint);
+        backgroundPaint.setShader(null);
+        
+        // Add subtle texture overlay
+        Paint texturePaint = new Paint();
+        texturePaint.setColor(Color.argb(10, 255, 255, 255));
+        for (int i = 0; i < width; i += 4) {
+            canvas.drawLine(i, 0, i, height, texturePaint);
+        }
+    }
+
+    private void drawPlaceholderInterface(Canvas canvas) {
+        textPaint.setTextSize(width / 20f);
+        textPaint.setColor(Color.argb(120, 255, 255, 255));
+        textPaint.setTextAlign(Align.CENTER);
+        canvas.drawText("در انتظار صدا...", width / 2f, height / 2f, textPaint);
+        
+        // Draw a simple pulse animation
+        float pulseRadius = (float) (width / 8f + Math.sin(System.currentTimeMillis() / 500.0) * 10);
+        Paint pulsePaint = new Paint();
+        pulsePaint.setStyle(Paint.Style.STROKE);
+        pulsePaint.setStrokeWidth(2.0f);
+        pulsePaint.setColor(Color.argb(60, 100, 200, 255));
+        canvas.drawCircle(width / 2f, height / 2f, pulseRadius, pulsePaint);
+    }
+
+    private void drawInfoHeader(Canvas canvas) {
+        // Draw frequency and type info with enhanced styling
+        textPaint.setTextSize(width / 28f);
+        textPaint.setTextAlign(Align.LEFT);
+        
+        // Frequency with background
+        RectF freqBg = new RectF(10, 10, width / 3f, 50);
+        backgroundPaint.setColor(Color.argb(80, 0, 0, 0));
+        canvas.drawRoundRect(freqBg, 15, 15, backgroundPaint);
+        
+        textPaint.setColor(Color.CYAN);
+        canvas.drawText(laFrequnes + " Hz", 20, 35, textPaint);
+        
+        // Santur type with background
+        if (santurType != null && !santurType.isEmpty()) {
+            textPaint.setTextAlign(Align.RIGHT);
+            RectF typeBg = new RectF(width * 2f / 3f, 10, width - 10, 50);
+            canvas.drawRoundRect(typeBg, 15, 15, backgroundPaint);
+            textPaint.setColor(Color.YELLOW);
+            canvas.drawText(santurType, width - 20, 35, textPaint);
+        }
+    }
+
+    private void drawSoundIntensityGauge(Canvas canvas) {
+        float gaugeWidth = width * 0.8f;
+        float gaugeHeight = 20f;
+        float gaugeX = (width - gaugeWidth) / 2f;
+        float gaugeY = height * 0.15f;
+        
+        // Draw gauge background
+        RectF gaugeBg = new RectF(gaugeX, gaugeY, gaugeX + gaugeWidth, gaugeY + gaugeHeight);
+        backgroundPaint.setColor(Color.argb(100, 255, 255, 255));
+        canvas.drawRoundRect(gaugeBg, 10, 10, backgroundPaint);
+        
+        // Draw gauge fill based on sound intensity
+        if (soundIntensity > 0) {
+            float fillWidth = gaugeWidth * soundIntensity;
+            RectF gaugeFill = new RectF(gaugeX, gaugeY, gaugeX + fillWidth, gaugeY + gaugeHeight);
+            
+            // Color based on intensity level
+            int gaugeColor;
+            if (soundIntensity < 0.3f) {
+                gaugeColor = Color.argb(200, 255, 100, 100); // Red - too quiet
+            } else if (soundIntensity < 0.7f) {
+                gaugeColor = Color.argb(200, 100, 255, 100); // Green - good level
+            } else {
+                gaugeColor = Color.argb(200, 255, 255, 100); // Yellow - too loud
+            }
+            
+            backgroundPaint.setColor(gaugeColor);
+            canvas.drawRoundRect(gaugeFill, 10, 10, backgroundPaint);
+        }
+        
+        // Draw gauge label
+        textPaint.setTextSize(width / 35f);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextAlign(Align.CENTER);
+        canvas.drawText("شدت صدا", width / 2f, gaugeY - 10, textPaint);
+        
+        // Draw intensity percentage
+        textPaint.setTextSize(width / 40f);
+        canvas.drawText(String.format("%.0f%%", soundIntensity * 100), width / 2f, gaugeY + gaugeHeight + 20, textPaint);
+    }
+
+    private void drawTuningArc(Canvas canvas, float centerX, float centerY, float radius) {
+        RectF arcRect = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+        
+        // Draw shadow arc
+        shadowPaint.setStyle(Paint.Style.STROKE);
+        shadowPaint.setStrokeWidth(8.0f);
+        RectF shadowRect = new RectF(centerX - radius + 2, centerY - radius + 2, 
+                                   centerX + radius + 2, centerY + radius + 2);
+        canvas.drawArc(shadowRect, 135, 270, false, shadowPaint);
+        
+        // Draw background arc
+        arcPaint.setColor(Color.argb(60, 255, 255, 255));
+        arcPaint.setStrokeWidth(8.0f);
+        canvas.drawArc(arcRect, 135, 270, false, arcPaint);
+        
+        // Draw colored sections for tuning guidance
+        arcPaint.setStrokeWidth(6.0f);
+        
+        // Red zones (out of tune)
+        arcPaint.setColor(Color.argb(100, 255, 100, 100));
+        canvas.drawArc(arcRect, 135, 90, false, arcPaint); // Left red zone
+        canvas.drawArc(arcRect, 315, 90, false, arcPaint); // Right red zone
+        
+        // Green zone (in tune)
+        arcPaint.setColor(Color.argb(120, 100, 255, 100));
+        canvas.drawArc(arcRect, 225, 90, false, arcPaint); // Center green zone
     }
 
     private void drawTickMarks(Canvas canvas, float centerX, float centerY, float radius) {
         Paint tickPaint = new Paint();
         tickPaint.setAntiAlias(true);
-        tickPaint.setColor(Color.WHITE);
-        tickPaint.setStrokeWidth(2.0f);
+        tickPaint.setStrokeCap(Paint.Cap.ROUND);
 
         for (int i = -4; i <= 4; i++) {
             double angle = i * Math.PI / 8;
@@ -293,34 +434,69 @@ public class PitchView extends SurfaceView implements Runnable {
             float endX = centerX + (float) Math.sin(angle) * endRadius;
             float endY = centerY - (float) Math.cos(angle) * endRadius;
             
-            tickPaint.setStrokeWidth(i == 0 ? 4.0f : 2.0f);
-            tickPaint.setColor(i == 0 ? Color.GREEN : Color.WHITE);
-            canvas.drawLine(startX, startY, endX, endY, tickPaint);
-        }
-    }
-
-    private void drawStatusIndicator(Canvas canvas, float dx, boolean inTune) {
-        textPaint.setTextSize(width / 22f);
-        textPaint.setTextAlign(Align.CENTER);
-        
-        if (inTune) {
-            textPaint.setColor(Color.GREEN);
-            canvas.drawText("کوک شده", width / 2f, height * 0.9f, textPaint);
-        } else {
-            textPaint.setColor(Color.YELLOW);
-            if (dx < -1) {
-                if (currentPitch == 12) {
-                    canvas.drawText("به سیم ضربه بزنید", width / 2f, height * 0.9f, textPaint);
-                } else {
-                    canvas.drawText("سیم را سفت کنید", width / 2f, height * 0.9f, textPaint);
-                }
+            // Enhanced tick marks with different styles
+            if (i == 0) {
+                tickPaint.setStrokeWidth(6.0f);
+                tickPaint.setColor(Color.GREEN);
+                // Draw center mark with circle
+                canvas.drawLine(startX, startY, endX, endY, tickPaint);
+                tickPaint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(endX, endY, 4, tickPaint);
+                tickPaint.setStyle(Paint.Style.STROKE);
+            } else if (Math.abs(i) == 1) {
+                tickPaint.setStrokeWidth(4.0f);
+                tickPaint.setColor(Color.YELLOW);
+                canvas.drawLine(startX, startY, endX, endY, tickPaint);
             } else {
-                canvas.drawText("سیم را شل کنید", width / 2f, height * 0.9f, textPaint);
+                tickPaint.setStrokeWidth(2.0f);
+                tickPaint.setColor(Color.WHITE);
+                canvas.drawLine(startX, startY, endX, endY, tickPaint);
             }
         }
     }
 
-    private void drawNeedle(Canvas canvas, float centerX, float centerY, float radius, float dx, boolean inTune) {
+    private void updateNeedlePosition(float dx) {
+        dx = Math.max(-1, Math.min(1, dx)); // Clamp dx to [-1, 1]
+        dx = Math.round(dx * 100) / 100f;
+        lastDX = Math.round(lastDX * 100) / 100f;
+
+        if (dx > lastDX && (lastDX + speed) <= dx) {
+            lastDX += speed;
+            fixed = false;
+        } else if (dx < lastDX && (lastDX - speed) >= dx) {
+            lastDX -= speed;
+            fixed = false;
+        } else {
+            lastDX = dx;
+            fixed = true;
+        }
+    }
+
+    private void drawStatusIndicator(Canvas canvas, float dx, boolean inTune) {
+        textPaint.setTextSize(width / 24f);
+        textPaint.setTextAlign(Align.CENTER);
+        
+        // Draw status background
+        RectF statusBg = new RectF(width * 0.1f, height * 0.9f - 20, width * 0.9f, height * 0.9f + 20);
+        backgroundPaint.setColor(Color.argb(120, 0, 0, 0));
+        canvas.drawRoundRect(statusBg, 20, 20, backgroundPaint);
+        
+        if (inTune) {
+            textPaint.setColor(Color.GREEN);
+            canvas.drawText("✓ کوک شده", width / 2f, height * 0.9f + 5, textPaint);
+        } else {
+            textPaint.setColor(Color.YELLOW);
+            String message;
+            if (dx < -1) {
+                message = (currentPitch == 12) ? "⚡ به سیم ضربه بزنید" : "⬆ سیم را سفت کنید";
+            } else {
+                message = "⬇ سیم را شل کنید";
+            }
+            canvas.drawText(message, width / 2f, height * 0.9f + 5, textPaint);
+        }
+    }
+
+    private void drawEnhancedNeedle(Canvas canvas, float centerX, float centerY, float radius, float dx, boolean inTune) {
         dx = Math.max(-1, Math.min(1, dx)); // Clamp dx to [-1, 1]
         double phi = dx * Math.PI / 4;
         
@@ -329,47 +505,89 @@ public class PitchView extends SurfaceView implements Runnable {
         float needleY = centerY - (float) Math.cos(phi) * needleLength;
         
         // Draw needle shadow
-        needlePaint.setColor(Color.argb(60, 0, 0, 0));
-        canvas.drawLine(centerX + 2, centerY + 2, needleX + 2, needleY + 2, needlePaint);
+        shadowPaint.setStrokeWidth(10.0f);
+        canvas.drawLine(centerX + 3, centerY + 3, needleX + 3, needleY + 3, shadowPaint);
         
-        // Draw needle
-        needlePaint.setColor(inTune ? Color.GREEN : Color.RED);
+        // Draw needle with gradient effect
+        needlePaint.setStrokeWidth(8.0f);
+        if (inTune) {
+            needlePaint.setColor(Color.GREEN);
+        } else {
+            // Color intensity based on how far off-tune
+            float intensity = Math.abs(dx);
+            int red = (int) (255 * intensity);
+            int green = (int) (255 * (1 - intensity));
+            needlePaint.setColor(Color.rgb(red, green, 0));
+        }
         canvas.drawLine(centerX, centerY, needleX, needleY, needlePaint);
+        
+        // Draw needle tip
+        Paint tipPaint = new Paint();
+        tipPaint.setAntiAlias(true);
+        tipPaint.setStyle(Paint.Style.FILL);
+        tipPaint.setColor(needlePaint.getColor());
+        canvas.drawCircle(needleX, needleY, 6, tipPaint);
     }
 
-    private void drawCenterHub(Canvas canvas, float centerX, float centerY, boolean tuned) {
-        float hubRadius = width / 40f;
+    private void drawEnhancedCenterHub(Canvas canvas, float centerX, float centerY, boolean tuned) {
+        float hubRadius = width / 35f;
         
-        // Draw outer ring
+        // Draw hub shadow
+        shadowPaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(centerX + 2, centerY + 2, hubRadius + 2, shadowPaint);
+        
+        // Draw outer ring with gradient
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4.0f);
-        paint.setColor(Color.WHITE);
-        canvas.drawCircle(centerX, centerY, hubRadius + 4, paint);
+        paint.setStrokeWidth(6.0f);
+        paint.setColor(Color.LTGRAY);
+        canvas.drawCircle(centerX, centerY, hubRadius + 6, paint);
         
-        // Draw center circle
+        // Draw middle ring
+        paint.setStrokeWidth(3.0f);
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(centerX, centerY, hubRadius + 3, paint);
+        
+        // Draw center circle with status color
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(tuned ? Color.GREEN : Color.YELLOW);
+        if (tuned) {
+            paint.setColor(Color.GREEN);
+        } else {
+            // Pulsing yellow when not tuned
+            int alpha = (int) (128 + 127 * Math.sin(System.currentTimeMillis() / 300.0));
+            paint.setColor(Color.argb(alpha, 255, 255, 0));
+        }
         canvas.drawCircle(centerX, centerY, hubRadius, paint);
+        
+        // Draw center dot
+        paint.setColor(Color.BLACK);
+        canvas.drawCircle(centerX, centerY, hubRadius / 3f, paint);
     }
 
-    private void drawNoteInfo(Canvas canvas, float centerX, float centerY) {
+    private void drawEnhancedNoteInfo(Canvas canvas, float centerX, float centerY) {
         if (alpha + alphaChangeSpeed <= 255) {
             alpha += alphaChangeSpeed;
         } else {
             alpha = 255;
         }
         
+        // Draw note background
+        RectF noteBg = new RectF(centerX - width / 4f, centerY - 30, centerX + width / 4f, centerY + 30);
+        backgroundPaint.setColor(Color.argb(100, 0, 0, 0));
+        canvas.drawRoundRect(noteBg, 15, 15, backgroundPaint);
+        
         textPaint.setAlpha(alpha);
         textPaint.setColor(getResources().getColor(R.color.green));
         textPaint.setTextAlign(Align.CENTER);
-        textPaint.setTextSize(width / 18f);
+        textPaint.setTextSize(width / 20f);
+        textPaint.setFakeBoldText(true);
         
         String noteName = (kookType != 1) ? drawName2() : drawName();
-        canvas.drawText(noteName, centerX, centerY, textPaint);
+        canvas.drawText(noteName, centerX, centerY - 5, textPaint);
         
-        textPaint.setTextSize(width / 25f);
+        textPaint.setTextSize(width / 28f);
         textPaint.setColor(Color.CYAN);
-        canvas.drawText(String.format("%.1f Hz", midiToFer(centerPitch)), centerX, centerY + 35, textPaint);
+        textPaint.setFakeBoldText(false);
+        canvas.drawText(String.format("%.1f Hz", midiToFer(centerPitch)), centerX, centerY + 20, textPaint);
     }
 
     private void drawFrequencyInfo(Canvas canvas, float centerX, float centerY) {

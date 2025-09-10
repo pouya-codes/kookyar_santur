@@ -23,50 +23,65 @@
                 android:id="@+id/TunerButton"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
-                android:background="@drawable/b_kook_saz" />
+                android:layout_marginTop="16dp"
+                android:background="@drawable/b_kook_saz"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/metro"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/b_metro" />
+                android:background="@drawable/b_metro"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/share"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/b_share" />
-
+                android:background="@drawable/b_share"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/button_kookHelp"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/b_kuk_h" />
+                android:background="@drawable/b_kuk_h"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
-            <Button
+                        <Button
                 android:id="@+id/text"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/b_text" />
+                android:background="@drawable/b_text"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/mail"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/b_nazar" />
+                android:background="@drawable/b_nazar"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/exitButton"
                 android:layout_width="220dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/b_exit" />
+                android:layout_marginTop="24dp"
+                android:background="@drawable/b_exit"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
+
         </LinearLayout>
     </ScrollView>
 
