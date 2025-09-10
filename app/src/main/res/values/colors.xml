@@ -18,6 +18,14 @@
     <item name="brown" type="color">#2d0000</item>
     <item name="redMenu" type="color">#6e0001</item>
     <item name="gray" type="color">#808080</item>
+    
+    <!-- Modern theme additions -->
+    <item name="md_theme_primary" type="color">#1A237E</item>
+    <item name="md_theme_onPrimary" type="color">#FFFFFF</item>
+    <item name="md_theme_surface" type="color">#1E1E1E</item>
+    <item name="md_theme_onSurface" type="color">#E8E8E8</item>
+    <item name="persian_gold" type="color">#D4AF37</item>
+    <item name="persian_bronze" type="color">#CD7F32</item>
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>

@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#311B92</color>
-    <color name="primaryColorDark">#303F9F</color>
-    <color name="accentColor">#FFD600</color>
-    <color name="windowBackground">#212121</color>
+    <!-- Primary theme colors with Persian musical inspiration -->
+    <color name="primaryColor">#1A237E</color>          <!-- Deep Persian blue -->
+    <color name="primaryColorDark">#0D1642</color>       <!-- Darker blue for status bar -->
+    <color name="accentColor">#D4AF37</color>            <!-- Persian gold accent -->
+    <color name="windowBackground">#121212</color>       <!-- Dark background -->
+    
+    <!-- Secondary colors -->
+    <color name="secondaryColor">#3949AB</color>         <!-- Medium blue -->
+    <color name="secondaryColorVariant">#1E2A7A</color>  <!-- Blue variant -->
+    
+    <!-- Surface and text colors -->
+    <color name="surfaceColor">#1E1E1E</color>           <!-- Card surface -->
+    <color name="onSurface">#E8E8E8</color>              <!-- Text on surface -->
+    <color name="onPrimary">#FFFFFF</color>              <!-- Text on primary -->
+    
+    <!-- Persian musical accent colors -->
+    <color name="santurGold">#D4AF37</color>             <!-- Traditional gold -->
+    <color name="santurBronze">#CD7F32</color>           <!-- Bronze accent -->
+    <color name="tunerGreen">#4CAF50</color>             <!-- Tuner indicator -->
+    
+    <!-- Gradient colors -->
+    <color name="gradientStart">#1A237E</color>
+    <color name="gradientCenter">#3949AB</color>
+    <color name="gradientEnd">#5C6BC0</color>
+    
+    <!-- Missing colors referenced in drawables -->
+    <color name="outline">#616161</color>                <!-- Gray outline -->
+    <color name="overlay_light">#33FFFFFF</color>         <!-- Light overlay -->
+    <color name="persian_deep_blue">#0D1642</color>       <!-- Deep Persian blue -->
 
 </resources>
