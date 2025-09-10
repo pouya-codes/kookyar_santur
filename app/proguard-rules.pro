@@ -16,8 +16,16 @@
 #   public *;
 #}
 
-# Keep Pure Data classes
+# Keep Pure Data classes and core functionality
 -keep class org.puredata.android.** { *; }
+-keep class org.puredata.core.** { *; }
+
+# Keep PdListener implementations (critical for audio)
+-keep class * extends org.puredata.core.PdListener { *; }
+-keep class * extends org.puredata.core.PdListener$Adapter { *; }
+
+# Keep MIDI classes if referenced
+-dontwarn com.noisepages.nettoyeur.midi.MidiReceiver
 
 # Keep animation library classes
 -keep class com.daimajia.** { *; }
@@ -31,3 +39,19 @@
 
 # Material Components
 -keep class com.google.android.material.** { *; }
+
+# Keep native methods and JNI
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep Runnable implementations (for audio threading)
+-keep class * implements java.lang.Runnable {
+    public void run();
+}
+
+# Keep ServiceConnection implementations
+-keep class * implements android.content.ServiceConnection { *; }
+
+# Conservative optimization - disable aggressive optimization
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*

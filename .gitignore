@@ -1,6 +1,79 @@
+# Gradle files
 .gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/.idea/caches
+/.idea/modules.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/dictionaries
+/.idea/gradle.xml
+/.idea/tasks.xml
 .DS_Store
 /build
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Log Files
+*.log
+
+# Android Studio captures folder
+captures/
+
+# IntelliJ
+*.iml
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+
+# Keystore files (uncomment if you don't want to check keystore files)
+#*.jks
+#*.keystore
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+
+# Android Profiling
+*.hprof
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backup files
+*.backup
+*.bak
+*.tmp
