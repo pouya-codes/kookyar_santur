@@ -94,7 +94,7 @@ public class DoreyeEbtedaE extends Activity implements View.OnClickListener{
 		boolean tunerType  = prefs.getBoolean("tunerChange",
 				false);
 		if(!tunerType)activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
-		else activity = new Intent(DoreyeEbtedaE.this, SanturTuner2.class);
+		else activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
 		activity.putExtras(data);
 		startActivity(activity);
 		

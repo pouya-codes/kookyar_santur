@@ -370,7 +370,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             Intent activity;
             if (!tunerType) activity = new Intent(CustomKook.this, SanturTuner.class);
             else {
-                activity = new Intent(CustomKook.this, SanturTuner2.class);
+                activity = new Intent(CustomKook.this, SanturTuner.class);
             }
             activity.putExtras(data);
             startActivity(activity);

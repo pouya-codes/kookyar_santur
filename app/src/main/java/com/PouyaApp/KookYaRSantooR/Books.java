@@ -149,7 +149,7 @@ public class Books extends Activity implements View.OnClickListener {
         boolean tunerType  = prefs.getBoolean("tunerChange",
                 false);
         if(!tunerType)activity = new Intent(Books.this, SanturTuner.class);
-        else activity = new Intent(Books.this, SanturTuner2.class);
+        else activity = new Intent(Books.this, SanturTuner.class);
         activity.putExtras(data);
         startActivity(activity);
     }

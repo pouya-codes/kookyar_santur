@@ -217,7 +217,7 @@ public class SanturMenu extends Activity implements View.OnClickListener {
         Intent activity;
         if(!tunerType)activity = new Intent(SanturMenu.this, SanturTuner.class);
         else {
-            activity = new Intent(SanturMenu.this, SanturTuner2.class);
+            activity = new Intent(SanturMenu.this, SanturTuner.class);
         }
         activity.putExtras(data);
         startActivity(activity);
