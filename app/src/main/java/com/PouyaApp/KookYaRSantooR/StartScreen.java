@@ -3,10 +3,13 @@ package com.PouyaApp.KookYaRSantooR;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class StartScreen extends Activity {
 
@@ -14,6 +17,10 @@ public class StartScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+        
+        // Set version information automatically
+        setVersionInfo();
+        
         String model = Build.MODEL;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor editor = prefs.edit();
@@ -47,9 +54,55 @@ public class StartScreen extends Activity {
                 }
             }
 
-
         };
         timer.start();
+    }
+    
+    /**
+     * Automatically set version information from build.gradle
+     */
+    private void setVersionInfo() {
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            
+            // Get version name and code
+            String versionName = packageInfo.versionName;
+            long versionCode;
+            
+            // Handle different API levels for getLongVersionCode
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                versionCode = packageInfo.getLongVersionCode();
+            } else {
+                versionCode = packageInfo.versionCode;
+            }
+            
+            // Update UI elements
+            TextView versionNameTextView = findViewById(R.id.version_name);
+            TextView versionCodeTextView = findViewById(R.id.version_code);
+            
+            if (versionNameTextView != null) {
+                versionNameTextView.setText(versionName);
+            }
+            
+            if (versionCodeTextView != null) {
+                versionCodeTextView.setText(String.valueOf(versionCode));
+            }
+            
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            // Fallback to default values if unable to get version info
+            TextView versionNameTextView = findViewById(R.id.version_name);
+            TextView versionCodeTextView = findViewById(R.id.version_code);
+            
+            if (versionNameTextView != null) {
+                versionNameTextView.setText("4.0");
+            }
+            
+            if (versionCodeTextView != null) {
+                versionCodeTextView.setText("40");
+            }
+        }
     }
 
     protected void onPause() {
