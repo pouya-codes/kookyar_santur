@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.gc.materialdesign.views.ScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollViewBooks"
@@ -13,12 +13,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dastur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFF"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -31,7 +41,7 @@
                 android:layout_weight="0.72"
 
                 android:text="@string/dasturSantur"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <ImageView
@@ -42,15 +52,27 @@
                 android:layout_height="197dp"
                 android:layout_gravity="center"
                 android:src="@drawable/dastor" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/books_shive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#D50000"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -71,14 +93,22 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/shive" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FF9800"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
 
@@ -92,7 +122,7 @@
                 android:layout_weight="0.72"
 
                 android:text="@string/ebtedaei"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <ImageView
@@ -101,14 +131,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/ebtedaei" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_meshkatian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#212121"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
 
@@ -131,14 +168,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/meshkatian" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_golnar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#311B92"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <TextView
                 android:paddingRight="10dp"
                 android:layout_alignParentRight="true"
@@ -158,14 +202,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/golnar" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_yadegaran"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#212121"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -187,14 +238,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/yadegaran" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_yadegaran_homayun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#212121"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -216,14 +274,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/yadegaran" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_sepideh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FF9800"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -236,7 +301,7 @@
                 android:layout_weight="0.72"
 
                 android:text="@string/sepideh"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <ImageView
@@ -245,16 +310,23 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/sepideh" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dastan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#1B5E20"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -276,14 +348,21 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/hazardastan" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <com.gc.materialdesign.views.LayoutRipple
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dastan_4gah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#1B5E20"
-            android:clickable="true" >
+            android:clickable="true"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:paddingRight="10dp"
@@ -305,7 +384,8 @@
                 android:layout_width="142dp"
                 android:layout_height="197dp"
                 android:src="@drawable/hazardastan" />
-        </com.gc.materialdesign.views.LayoutRipple>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-</com.gc.materialdesign.views.ScrollView>
+</ScrollView>

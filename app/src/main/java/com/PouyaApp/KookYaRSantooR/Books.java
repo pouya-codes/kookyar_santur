@@ -12,12 +12,13 @@ import android.widget.TextView;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 import android.widget.LinearLayout;
+import com.google.android.material.card.MaterialCardView;
 
 public class Books extends Activity implements View.OnClickListener {
 
     public String fonts = "BNazanin.ttf";
     private TextView tvEbtedaei, tvMeshkatian, tvDastur, tvGolnar, tvShive, tvYadegaran_hom, tvYadegaran_esf, tvHazarDastan_3gah, tvHazarDastan_4gah, tvSepideh;
-    private LinearLayout imEbtedaei, imMeshkatian, imDastur, imShive, imGolnar, imYadegaran_hom, imYadegeran_esf, imHazardastan_3gah, imHazarDastan_4gah, im_sepideh;
+    private MaterialCardView imEbtedaei, imMeshkatian, imDastur, imShive, imGolnar, imYadegaran_hom, imYadegeran_esf, imHazardastan_3gah, imHazarDastan_4gah, im_sepideh;
     private Bundle data;
 
     @Override
@@ -71,25 +72,25 @@ public class Books extends Activity implements View.OnClickListener {
         tvSepideh.setTypeface(face);
         tvSepideh.setOnClickListener(this);
 
-        imDastur = (LinearLayout) findViewById(id.book_dastur);
+        imDastur = (MaterialCardView) findViewById(id.book_dastur);
         imDastur.setOnClickListener(this);
-        imShive = (LinearLayout) findViewById(id.books_shive);
+        imShive = (MaterialCardView) findViewById(id.books_shive);
         imShive.setOnClickListener(this);
-        imEbtedaei = (LinearLayout) findViewById(id.book_dore);
+        imEbtedaei = (MaterialCardView) findViewById(id.book_dore);
         imEbtedaei.setOnClickListener(this);
-        imMeshkatian = (LinearLayout) findViewById(id.book_meshkatian);
+        imMeshkatian = (MaterialCardView) findViewById(id.book_meshkatian);
         imMeshkatian.setOnClickListener(this);
-        imGolnar = (LinearLayout) findViewById(id.book_golnar);
+        imGolnar = (MaterialCardView) findViewById(id.book_golnar);
         imGolnar.setOnClickListener(this);
-        imYadegaran_hom = (LinearLayout) findViewById(id.book_yadegaran_homayun);
+        imYadegaran_hom = (MaterialCardView) findViewById(id.book_yadegaran_homayun);
         imYadegaran_hom.setOnClickListener(this);
-        imYadegeran_esf = (LinearLayout) findViewById(id.book_yadegaran);
+        imYadegeran_esf = (MaterialCardView) findViewById(id.book_yadegaran);
         imYadegeran_esf.setOnClickListener(this);
-        imHazardastan_3gah = (LinearLayout) findViewById(id.book_dastan);
+        imHazardastan_3gah = (MaterialCardView) findViewById(id.book_dastan);
         imHazardastan_3gah.setOnClickListener(this);
-        imHazarDastan_4gah = (LinearLayout) findViewById(id.book_dastan_4gah);
+        imHazarDastan_4gah = (MaterialCardView) findViewById(id.book_dastan_4gah);
         imHazarDastan_4gah.setOnClickListener(this);
-        im_sepideh = (LinearLayout) findViewById(id.book_sepideh);
+        im_sepideh = (MaterialCardView) findViewById(id.book_sepideh);
         im_sepideh.setOnClickListener(this);
 
 

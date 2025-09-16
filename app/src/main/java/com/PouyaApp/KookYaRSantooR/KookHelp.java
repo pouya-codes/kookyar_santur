@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+import com.google.android.material.button.MaterialButton;
 import com.PouyaApp.KookYaRSantooR.R;
 
 public class KookHelp extends Activity {
@@ -25,7 +26,7 @@ public class KookHelp extends Activity {
 			String str_tuner = (String) textViews[i].getText().toString();
 			textViews[i].setText(PersianReshape.reshape(str_tuner));
 		}
-        Button button = (Button) findViewById(R.id.button_return);
+        MaterialButton button = (MaterialButton) findViewById(R.id.button_return);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.gc.materialdesign.views.ScrollView
+    <ScrollView
         android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,18 +144,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_5"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-            <com.gc.materialdesign.views.ButtonRectangle
+            <com.google.android.material.button.MaterialButton
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/button_return"
-                android:text="برگشت"
-                >
-                </com.gc.materialdesign.views.ButtonRectangle>
+                android:text="برگشت" />
 
 
 
         </LinearLayout>
 
-    </com.gc.materialdesign.views.ScrollView>
+    </ScrollView>
 
 </RelativeLayout>

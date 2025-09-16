@@ -213,13 +213,13 @@
             android:layout_marginTop="10dp"
             android:background="@color/green" />
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/kook_ok" />
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_reset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
