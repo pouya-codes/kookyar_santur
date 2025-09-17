@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary theme colors with Persian musical inspiration -->
-    <color name="primaryColor">#1A237E</color>          <!-- Deep Persian blue -->
-    <color name="primaryColorDark">#0D1642</color>       <!-- Darker blue for status bar -->
+    <!-- Primary theme colors with Persian musical inspiration - Improved visibility -->
+    <color name="primaryColor">#4A5FD9</color>          <!-- Brighter Persian blue for better visibility -->
+    <color name="primaryColorDark">#2E3A99</color>       <!-- Brighter dark blue for status bar -->
     <color name="accentColor">#D4AF37</color>            <!-- Persian gold accent -->
     <color name="windowBackground">#121212</color>       <!-- Dark background -->
     
     <!-- Secondary colors -->
-    <color name="secondaryColor">#3949AB</color>         <!-- Medium blue -->
-    <color name="secondaryColorVariant">#1E2A7A</color>  <!-- Blue variant -->
+    <color name="secondaryColor">#5C7AE8</color>         <!-- Brighter medium blue -->
+    <color name="secondaryColorVariant">#3F51B5</color>  <!-- Brighter blue variant -->
     
     <!-- Surface and text colors -->
     <color name="surfaceColor">#1E1E1E</color>           <!-- Card surface -->
@@ -20,14 +20,24 @@
     <color name="santurBronze">#CD7F32</color>           <!-- Bronze accent -->
     <color name="tunerGreen">#4CAF50</color>             <!-- Tuner indicator -->
     
-    <!-- Gradient colors -->
-    <color name="gradientStart">#1A237E</color>
-    <color name="gradientCenter">#3949AB</color>
-    <color name="gradientEnd">#5C6BC0</color>
+    <!-- Gradient colors - Updated for better visibility -->
+    <color name="gradientStart">#4A5FD9</color>
+    <color name="gradientCenter">#5C7AE8</color>
+    <color name="gradientEnd">#7B8EF3</color>
     
     <!-- Missing colors referenced in drawables -->
     <color name="outline">#616161</color>                <!-- Gray outline -->
     <color name="overlay_light">#33FFFFFF</color>         <!-- Light overlay -->
-    <color name="persian_deep_blue">#0D1642</color>       <!-- Deep Persian blue -->
+    <color name="persian_deep_blue">#2E3A99</color>       <!-- Brighter deep Persian blue -->
+    
+    <!-- Radio button specific colors for better visibility -->
+    <color name="radio_text_color">#E8E8E8</color>       <!-- Light text for radio buttons -->
+    <color name="radio_checked_color">#5C7AE8</color>    <!-- Bright blue when checked -->
+    <color name="radio_unchecked_color">#808080</color>  <!-- Gray when unchecked -->
+    
+    <!-- Popup window colors for better contrast -->
+    <color name="popup_background_color">#2A2A2A</color> <!-- Dark but visible background -->
+    <color name="popup_text_color">#FFFFFF</color>       <!-- White text for popups -->
+    <color name="popup_border_color">#5C7AE8</color>     <!-- Blue border for popups -->
 
 </resources>

@@ -314,7 +314,7 @@ public class PitchView extends SurfaceView implements Runnable {
 
         // Calculate and draw needle
         float dx = (currentPitch - centerPitch) / 2f;
-        boolean inTune = (-1 < dx && dx < 1);
+        boolean inTune = (-0.1 < dx && dx < 0.1);
         
         // Update needle position smoothly
         updateNeedlePosition(dx);
