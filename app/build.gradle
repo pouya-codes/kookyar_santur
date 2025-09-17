@@ -81,4 +81,3 @@ dependencies {
     // NineOldAndroids is no longer needed as ViewPropertyAnimator is part of Android SDK since API 14
     // implementation 'com.nineoldandroids:library:2.4.0' // Removed - deprecated
 }
-
