@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="preferExternal">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    
+    <!-- Declare that the app uses microphone hardware feature -->
+    <uses-feature 
+        android:name="android.hardware.microphone" 
+        android:required="true" />
+    
+    <!-- Privacy-related permissions for newer Android versions -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    
+    <!-- Queries declaration for specific packages (Android 11+ alternative to QUERY_ALL_PACKAGES) -->
+    <queries>
+        <package android:name="com.PouyaApp.NotkadehSantour" />
+        <package android:name="com.pouyaApp.metoronome" />
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/kookyar"
+        android:label="@string/app_name"
+        android:theme="@style/Apptheme"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="false"
+        android:enableOnBackInvokedCallback="true">
+        <activity
+            android:name=".SanturTuner"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Apptheme"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.PouyaApp.KookYaRSantooR.tuning" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartScreen"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainMenu"
+            android:label="@string/app_name"
+            android:exported="false" />
+        <activity
+            android:name=".Content"
+            android:label="@string/app_name"
+            android:exported="false" />
+
+        <service android:name="org.puredata.android.service.PdService"
+            android:exported="false" />
+
+        <activity
+            android:name=".SanturMenu"
+            android:label="کوک مورد نظر را انتخاب کنید : "
+            android:exported="false" />
+        <activity
+            android:name=".Meshkatian"
+            android:label="قطعه مورد نظر را انتخاب کنید : "
+            android:exported="false" />
+        <activity
+            android:name=".DoreyeEbtedaE"
+            android:label="دستگاه مورد نظر را انتخاب کنید : "
+            android:exported="false" />
+        <activity
+            android:name=".Prefs"
+            android:label="@string/setting"
+            android:theme="@style/Apptheme"
+            android:exported="false" />
+        <activity
+            android:name=".TunerHelp"
+            android:label="@string/rahnama"
+            android:theme="@style/Apptheme"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.PouyaApp.KookYaRSantooR.SanturTuner" />
+        </activity>
+        <activity
+            android:name=".KookHelp"
+            android:label="@string/rahnamayeKookSantur"
+            android:theme="@style/Apptheme"
+            android:exported="false" />
+        <activity
+            android:name=".KookType"
+            android:label="@string/title_activity_kook_type"
+            android:theme="@android:style/Theme.Dialog"
+            android:exported="false" />
+        <activity
+            android:name=".CustomKook"
+            android:label="@string/custom"
+            android:screenOrientation="portrait"
+            android:theme="@style/Apptheme"
+            android:exported="false" />
+        <activity
+            android:name=".Books"
+            android:label="@string/title_activity_books"
+            android:exported="false" />
+        <activity
+            android:name=".ContentMenu"
+            android:label="@string/title_activity_content_menu"
+            android:exported="false" />
+        <activity
+            android:name=".TunerType"
+            android:label="@string/app_name"
+            android:exported="false"></activity>
+        <activity android:name=".CustomeTempeament"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.PouyaApp.KookYaRSantooR.SanturTuner" />
+        </activity>
+    </application>
+
+</manifest>
