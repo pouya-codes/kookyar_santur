@@ -1,5 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -94,6 +95,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
 
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
@@ -115,6 +117,12 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
                         CustomeTempeament.super.onBackPressed();
                     }
                 });
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                CustomeTempeament.super.onBackPressed();
+            }
+        });
         alertDialog.show();
     }
 

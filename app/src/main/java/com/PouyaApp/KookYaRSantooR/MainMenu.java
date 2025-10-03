@@ -25,13 +25,12 @@ public class MainMenu extends Activity implements View.OnClickListener {
     int PERMISSION_ALL = 1;
     String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE };
 
-    Button tunerB, exitB, mailB, kookB, metroB, textB, shareB;
+    Button tunerB, exitB, mailB, kookB, textB, shareB;
 
+    private boolean shouldLaunchTuner = false;
 
     Toast exitToast;
     SharedPreferences mPrefs;
-    final String welcomeScreenShownPref = "welcomeScreenShown";
-    final String welcomeScreenShownPrefV17 = "welcomeScreenShownV32";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,66 +38,7 @@ public class MainMenu extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_menu);
         setFace();
 
-
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref,
-                false);
-
-        if (!welcomeScreenShown) {
-
-            String title = getResources().getString(R.string.show);
-
-            String payamHead = getResources().getString(R.string.payamHead);
-            String payam = getResources().getString(R.string.payam);
-
-
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .setTitle(title)
-                    .setMessage(payamHead + "\n" + payam)
-                    .setPositiveButton(R.string.edame,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-
-
-            SharedPreferences.Editor editor = mPrefs.edit();
-            editor.putBoolean(welcomeScreenShownPref, true);
-            editor.commit();
-        }
-
-        Boolean welcomeScreenShownV13 = mPrefs.getBoolean(welcomeScreenShownPrefV17,
-                false);
-
-        if (!welcomeScreenShownV13) {
-
-            String title = getResources().getString(R.string.changeV14);
-
-
-            String payam = getResources().getString(R.string.changeV14Text);
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .setTitle(title)
-                    .setMessage(payam)
-                    .setPositiveButton(R.string.edame,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-
-            SharedPreferences.Editor editor = mPrefs.edit();
-            editor.putBoolean(welcomeScreenShownPrefV17, true);
-            editor.commit();
-        }
-
-
-
     }
 
     private boolean hasPermissions(String... permissions) {
@@ -130,9 +70,6 @@ public class MainMenu extends Activity implements View.OnClickListener {
         mailB = (Button) findViewById(R.id.mail);
         mailB.setOnClickListener(this);
 
-        metroB = (Button) findViewById(id.metro);
-        metroB.setOnClickListener(this);
-
         textB = (Button) findViewById(id.text);
         textB.setOnClickListener(this);
 
@@ -151,12 +88,8 @@ public class MainMenu extends Activity implements View.OnClickListener {
 
         if (viewId == R.id.TunerButton) {
             if(!hasPermissions(PERMISSIONS)){
+                shouldLaunchTuner = true;
                 ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-                if(hasPermissions(PERMISSIONS)){
-                    activity = new Intent(MainMenu.this, KookType.class);
-                    startActivity(activity);
-                }
-                else Toast.makeText(this, "کوک یار جهت کوک کردن ساز شما نیازمند دسترسی به میکروفن گوشی است", Toast.LENGTH_LONG).show();
             }
             else {
                 activity = new Intent(MainMenu.this, KookType.class);
@@ -226,40 +159,41 @@ public class MainMenu extends Activity implements View.OnClickListener {
             startActivity(emailIntent);
         } else if (viewId == R.id.exitButton) {
             backButtonHandler();
-        } else if (viewId == R.id.metro) {
-            try {
-                // Use Intent with package name instead of getLaunchIntentForPackage
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.pouyaApp.metoronome");
-                if (launchIntent != null) {
-                    startActivity(launchIntent);
-                } else {
-                    throw new ActivityNotFoundException("App not found");
-                }
-            } catch (Exception e) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                        MainMenu.this);
-                alertDialog.setTitle("متاسفانه مترونوم بر روی گوشی شما نصب نیست!");
-                alertDialog.setMessage("برای دریافت رایگان مترونوم از بازار بر روی دکمه زیر کلیک کنید");
-                alertDialog.setIcon(R.drawable.kookyar);
-                alertDialog.setNegativeButton("دریافت مترونوم",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent("android.intent.action.VIEW");
-                                intent.setData(Uri.parse("http://cafebazaar.ir/app/?id=com.pouyaApp.metoronome"));
-                                startActivity(intent);
-                            }
-                        });
-                alertDialog.setPositiveButton("انصراف",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                alertDialog.show();
-            }
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == PERMISSION_ALL) {
+            if (shouldLaunchTuner) {
+                shouldLaunchTuner = false;
+                
+                // Check if all permissions were granted
+                boolean allGranted = true;
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            allGranted = false;
+                            break;
+                        }
+                    }
+                } else {
+                    allGranted = false;
+                }
+                
+                if (allGranted) {
+                    // Permissions granted, launch the tuner
+                    Intent activity = new Intent(MainMenu.this, KookType.class);
+                    startActivity(activity);
+                } else {
+                    // Permissions denied, show message
+                    Toast.makeText(this, "کوک یار جهت کوک کردن ساز شما نیازمند دسترسی به میکروفن گوشی است", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override

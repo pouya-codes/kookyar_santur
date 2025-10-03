@@ -205,7 +205,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
         initGui();
         initSystemServices();
-        bindService(new Intent(this, PdService.class), pdConnection,
+        bindService(new Intent(this, CustomPdService.class), pdConnection,
                 BIND_AUTO_CREATE);
         for (int i = 0; i < 9; i++) {
 
@@ -1407,4 +1407,3 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
 
 }
-
