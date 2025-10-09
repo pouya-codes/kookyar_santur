@@ -21,14 +21,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook0"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/kookHelp2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook1Head"
-                android:textAppearance="?android:attr/textAppearanceLarge" >
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?android:attr/textColorPrimary" >
             </TextView>
 
             <TextView
@@ -37,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.06"
                 android:text="@string/kook1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/kookHelpIV1"
@@ -50,20 +53,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook2Head"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/kookHelp5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/kook2_comment" />
+                android:text="@string/kook2_comment"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/kookHelp6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook2"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/kookHelpIV2"
@@ -76,14 +82,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3Head"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/kookHelp8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/kookHelpIV3"
@@ -97,7 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_2"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/kookHelpIV4"
@@ -110,7 +119,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_3"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/imageViewIV4"
@@ -123,7 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_4"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <ImageView
                 android:id="@+id/imageViewIV5"
@@ -136,14 +147,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_6"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/kookHelp13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kook3_5"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
             <com.google.android.material.button.MaterialButton
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

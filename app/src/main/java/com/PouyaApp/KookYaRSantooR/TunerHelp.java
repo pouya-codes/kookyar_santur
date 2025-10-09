@@ -3,6 +3,8 @@ import com.PouyaApp.KookYaRSantooR.R;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.core.app.NavUtils;
@@ -40,6 +42,17 @@ public class TunerHelp extends AppCompatActivity {
 		help.setTypeface(face);
 		String str_tv = (String) help.getText().toString();
 		help.setText(PersianReshape.reshape(str_tv));
+		
+		// Ensure text color is visible in both light and dark modes
+		int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+		if (nightModeFlags == Configuration.UI_MODE_NIGHT_NO) {
+			// Light mode - use dark text
+			help.setTextColor(Color.parseColor("#212121"));
+		} else {
+			// Dark mode - use light text
+			help.setTextColor(Color.parseColor("#E8E8E8"));
+		}
+		
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar) ;
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
