@@ -30,7 +30,7 @@ public class PitchView extends SurfaceView implements Runnable {
     private boolean draw = false;
     private boolean runned = false;
     private boolean fixed;
-    private final float speed = 0.04f;
+    private final float speed = 0.12f;
     private float lastDX = -1;
     private float centerPitch = 0, currentPitch, midiRef;
     private int width, height;
@@ -314,7 +314,7 @@ public class PitchView extends SurfaceView implements Runnable {
 
         // Calculate and draw needle
         float dx = (currentPitch - centerPitch) / 2f;
-        boolean inTune = (-0.1 < dx && dx < 0.1);
+        boolean inTune = (-0.05 < dx && dx < 0.05);
         
         // Update needle position smoothly
         updateNeedlePosition(dx);
