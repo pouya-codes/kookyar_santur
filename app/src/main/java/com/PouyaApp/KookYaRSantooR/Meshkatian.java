@@ -1,6 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -12,7 +12,7 @@ import com.google.android.material.button.MaterialButton;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 
-public class Meshkatian extends Activity implements View.OnClickListener {
+public class Meshkatian extends AppCompatActivity implements View.OnClickListener {
     private MaterialButton[] buttons = new MaterialButton[20];
     private int[] buttonsId = {id.pieces1, id.pieces2, id.pieces3, id.pieces4, id.pieces5, id.pieces6, id.pieces7, id.pieces8, id.pieces9, id.pieces10, id.pieces11, id.pieces12, id.pieces13, id.pieces14, id.pieces15, id.pieces16, id.pieces17, id.pieces18, id.pieces19, id.pieces20};
     private int[] buttonsText = {R.string.pieces1, R.string.pieces2, R.string.pieces3, R.string.pieces4, R.string.pieces5, R.string.pieces6, R.string.pieces7, R.string.pieces8, R.string.pieces9, R.string.pieces10, R.string.pieces11, R.string.pieces12, R.string.pieces13, R.string.pieces14, R.string.pieces15, R.string.pieces16, R.string.pieces17, R.string.pieces18, R.string.pieces19, R.string.pieces20};
@@ -95,23 +95,10 @@ public class Meshkatian extends Activity implements View.OnClickListener {
         data.putString("title", title);
         data.putDoubleArray("custom", kookMiditone);
 
-        Intent activity;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean tunerType = prefs.getBoolean("tunerChange",
-                false);
-        if (!tunerType) activity = new Intent(Meshkatian.this, SanturTuner.class);
-        else activity = new Intent(Meshkatian.this, SanturTuner.class);
+        Intent activity = new Intent(Meshkatian.this, SanturTuner.class);
         activity.putExtras(data);
         startActivity(activity);
 
-
     }
-
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
-    }
-
 
 }

@@ -3,7 +3,6 @@
     android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     
@@ -14,7 +13,6 @@
     
     <!-- Privacy-related permissions for newer Android versions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     
     <!-- Queries declaration for specific packages (Android 11+ alternative to QUERY_ALL_PACKAGES) -->
     <queries>
@@ -102,7 +100,7 @@
         <activity
             android:name=".KookType"
             android:label="@string/title_activity_kook_type"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:exported="false" />
         <activity
             android:name=".CustomKook"

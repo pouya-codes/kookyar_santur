@@ -1,7 +1,7 @@
 package com.PouyaApp.KookYaRSantooR;
 
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -15,7 +15,7 @@ import com.PouyaApp.KookYaRSantooR.R;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-public class SanturMenu extends Activity implements View.OnClickListener {
+public class SanturMenu extends AppCompatActivity implements View.OnClickListener {
     private Button navaTuning, shurTuning, shurTuningPavar, esfehanTuning, mahurTuning, segahTuning, chahargahTuning, homayunTuning, shurReTuning, esfehanFaTuning,homayounChapTuning ,mahurChapTuning ,segahChapTuning,chahargahChapTuning, faMinorTuning, doMajorTuning, doMinorTuning, customTuning;
     private Bundle data;
     public String fonts = "BNazanin.ttf";
@@ -212,21 +212,9 @@ public class SanturMenu extends Activity implements View.OnClickListener {
     }
 
     private void launchActivity() {
-        tunerType  = prefs.getBoolean("tunerChange",
-                false);
-        Intent activity;
-        if(!tunerType)activity = new Intent(SanturMenu.this, SanturTuner.class);
-        else {
-            activity = new Intent(SanturMenu.this, SanturTuner.class);
-        }
+        Intent activity = new Intent(SanturMenu.this, SanturTuner.class);
         activity.putExtras(data);
         startActivity(activity);
-    }
-
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
     }
 
 

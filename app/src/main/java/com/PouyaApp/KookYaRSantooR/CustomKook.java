@@ -3,6 +3,7 @@ package com.PouyaApp.KookYaRSantooR;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 //import androidx.appcompat.app.ActionBarActivity;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,7 +66,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             buttons[i] = (MaterialButton) findViewById(buttonsId[i]);
             buttons[i].setOnClickListener(this);
             //		buttons[i].getTextView().setTypeface(face);
-            buttons[i].setBackgroundColor(getResources().getColor(R.color.white));
+            buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         }
         ok = (MaterialButton) findViewById(id.button_ok);
         ok.setOnClickListener(this);
@@ -282,7 +283,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             wire.setBackgroundResource(R.drawable.santur2);
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setEnabled(true);
-                buttons[i].setBackgroundColor(getResources().getColor(R.color.white));
+                buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
             }
             int viewId = v.getId();
             if (viewId == R.id.zardRB) {
@@ -310,10 +311,10 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                 if (v.getId() == buttonsId[i]) {
                     wireSelected = (position * 9) + i;
                     wire.setBackgroundResource(wireId[wireSelected]);
-                    buttons[i].setBackgroundColor(getResources().getColor(R.color.blue));
+                    buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
                     setSpinner(wireSelected);
                 } else {
-                    buttons[i].setBackgroundColor(getResources().getColor(R.color.white));
+                    buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
                 }
             }
         }
@@ -361,17 +362,9 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             // diyez.setChecked(false);
         }
         if (v.getId() == id.button_ok) {
-            SharedPreferences prefs;
-            prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            boolean tunerType = prefs.getBoolean("tunerChange",
-                    false);
             Bundle data = new Bundle();
             data.putDoubleArray("custom", kookMiditone);
-            Intent activity;
-            if (!tunerType) activity = new Intent(CustomKook.this, SanturTuner.class);
-            else {
-                activity = new Intent(CustomKook.this, SanturTuner.class);
-            }
+            Intent activity = new Intent(CustomKook.this, SanturTuner.class);
             activity.putExtras(data);
             startActivity(activity);
 
@@ -401,7 +394,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             editor.putFloat(j + "", (float) kookMiditone[j]);
         }
 
-        editor.commit();
+        editor.apply();
     }
 
     @Override

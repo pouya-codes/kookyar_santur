@@ -9,13 +9,15 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,15 +49,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class SanturTuner extends AppCompatActivity implements OnClickListener {
-    private boolean threadRuned = false ;
-    private boolean threadRuned2 = false ;
+    private volatile boolean threadRuned = false;
+    private volatile boolean threadRuned2 = false;
     private static final String TAG = "KookYaR";
     public static boolean mi;
     final private int highSensitive = 55;
     final private int midSensitive = 50;
     final private int lowSensitive = 45;
-    private Bundle data ;
-    Thread t;
+    private Bundle data;
+    private final Handler pitchHandler = new Handler(Looper.getMainLooper());
+    private Runnable pitchResetRunnable;
     int setKookPitch = 0;
     OnSharedPreferenceChangeListener listener;
     private Toolbar toolbar;
@@ -142,7 +145,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                                 editor.putFloat(j + "", (float) Miditone[j]);
                             }
 
-                            editor.commit();
+                            editor.apply();
                             SanturTuner.super.onBackPressed();
                         }
                     });
@@ -204,7 +207,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         prefsListnner();
 
         initGui();
-        initSystemServices();
         bindService(new Intent(this, CustomPdService.class), pdConnection,
                 BIND_AUTO_CREATE);
         for (int i = 0; i < 9; i++) {
@@ -345,6 +347,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        pitchHandler.removeCallbacksAndMessages(null);
         unbindService(pdConnection);
     }
 
@@ -685,8 +688,9 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 //                Toast.makeText(pdService, ""+pitchView.getCurrentPitch()+","+pressure+","+pitchView.getCenterPitch(), Toast.LENGTH_SHORT).show();
 
                 if (pressure >= sensitiveLevel) {
-                    if(threadRuned){
-                        threadRuned2=false;
+                    // Cancel any pending pitch reset
+                    if (pitchResetRunnable != null) {
+                        pitchHandler.removeCallbacks(pitchResetRunnable);
                     }
                     float pitch = (float) Math.round(x * 1000) / 1000;
                     pitchView.setCurrentPitch(pitch);
@@ -700,33 +704,9 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                         }
                     }
 
-                    if (t == null ||( pitchView.getCenterPitch() != 12 && !threadRuned )){
-                        t = new Thread(new Thread() {
-
-                            @Override
-                            public void run() {
-                                threadRuned=true;
-                                threadRuned2=true;
-                                try {
-                                    Log.d(TAG, "run: " +Thread.currentThread());
-                                    sleep(2500);
-                                    Log.d(TAG, "stop: " +Thread.currentThread());
-                                    if(threadRuned2) {
-                                        pitchView.setCurrentPitch(12);
-                                    }
-                                    threadRuned= false;
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-
-
-
-                            }
-                        });
-                        t.start();
-                    }
-
-
+                    // Schedule pitch reset after silence
+                    pitchResetRunnable = () -> pitchView.setCurrentPitch(12);
+                    pitchHandler.postDelayed(pitchResetRunnable, 2500);
                 }
 //                else {
 //                    if (t == null) {
@@ -788,22 +768,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 dir, true);
         File patchFile = new File(dir, "path");
         PdBase.openPatch(patchFile.getAbsolutePath());
-    }
-
-    private void initSystemServices() {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        telephonyManager.listen(new PhoneStateListener() {
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                if (pdService == null)
-                    return;
-                if (state == TelephonyManager.CALL_STATE_IDLE) {
-                    start();
-                } else {
-                    pdService.stopAudio();
-                }
-            }
-        }, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     private void triggerNote(float triggeredNote) {

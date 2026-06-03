@@ -6,7 +6,7 @@ import com.PouyaApp.KookYaRSantooR.R.id ;
 import com.PouyaApp.KookYaRSantooR.R;
 
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -15,7 +15,7 @@ import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
-public class DoreyeEbtedaE extends Activity implements View.OnClickListener{
+public class DoreyeEbtedaE extends AppCompatActivity implements View.OnClickListener{
 	private Button[] buttons = new Button[10] ;
 	private int[] buttonsId = {id.ebtedaei1 , id.ebtedaei2 , id.ebtedaei3 , id.ebtedaei4 , id.ebtedaei5 , id.ebtedaei6 , id.ebtedaei7 , id.ebtedaei8 , id.ebtedaei9 , id.ebtedaei10 }; 
 	private int[] buttonsText = {R.string.ebtedaei1 , R.string.ebtedaei2 , R.string.ebtedaei3 , R.string.ebtedaei4 , R.string.ebtedaei5 , R.string.ebtedaei6 , R.string.ebtedaei7 , R.string.ebtedaei8 , R.string.ebtedaei9 , R.string.ebtedaei10 };
@@ -89,22 +89,10 @@ public class DoreyeEbtedaE extends Activity implements View.OnClickListener{
 		data.putDoubleArray("custom", kookMiditone);
 
 
-		Intent activity;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		boolean tunerType  = prefs.getBoolean("tunerChange",
-				false);
-		if(!tunerType)activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
-		else activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
+		Intent activity = new Intent(DoreyeEbtedaE.this, SanturTuner.class);
 		activity.putExtras(data);
 		startActivity(activity);
-		
 
 	}
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		finish() ;
-	}
-	
 
 }

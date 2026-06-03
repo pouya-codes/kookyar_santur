@@ -1,11 +1,9 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import androidx.preference.PreferenceManager;
 import androidx.core.app.NavUtils;
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,7 +93,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
 
     }
 
-    @SuppressLint("MissingSuperCall")
+    @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
@@ -134,7 +132,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
             else editor.putInt(j + "Tempeament", 0 );
         }
 
-        editor.commit();
+        editor.apply();
 
     }
 

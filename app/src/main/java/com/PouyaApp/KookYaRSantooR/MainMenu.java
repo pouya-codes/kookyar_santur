@@ -2,7 +2,6 @@ package com.PouyaApp.KookYaRSantooR;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -15,17 +14,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.preference.PreferenceManager;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.PouyaApp.KookYaRSantooR.R.id;
 
-public class MainMenu extends Activity implements View.OnClickListener {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     int PERMISSION_ALL = 1;
-    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE };
+    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
 
-    Button tunerB, exitB, mailB, kookB, textB, shareB;
+    ImageButton tunerB, exitB, mailB, kookB, textB, shareB;
 
     private boolean shouldLaunchTuner = false;
 
@@ -56,26 +56,23 @@ public class MainMenu extends Activity implements View.OnClickListener {
 
     protected void setFace() {
 
-
-        tunerB = (Button) findViewById(R.id.TunerButton);
+        tunerB = (ImageButton) findViewById(R.id.TunerButton);
         tunerB.setOnClickListener(this);
 
-        exitB = (Button) findViewById(R.id.exitButton);
+        exitB = (ImageButton) findViewById(R.id.exitButton);
         exitB.setOnClickListener(this);
 
-        kookB = (Button) findViewById(R.id.button_kookHelp);
+        kookB = (ImageButton) findViewById(R.id.button_kookHelp);
         kookB.setOnClickListener(this);
 
-
-        mailB = (Button) findViewById(R.id.mail);
+        mailB = (ImageButton) findViewById(R.id.mail);
         mailB.setOnClickListener(this);
 
-        textB = (Button) findViewById(id.text);
+        textB = (ImageButton) findViewById(id.text);
         textB.setOnClickListener(this);
 
-        shareB = (Button) findViewById(id.share);
+        shareB = (ImageButton) findViewById(id.share);
         shareB.setOnClickListener(this);
-
 
     }
 
@@ -232,7 +229,7 @@ public class MainMenu extends Activity implements View.OnClickListener {
                             startActivity(intent);
                             SharedPreferences.Editor editor = mPrefs.edit();
                             editor.putBoolean("vote", true);
-                            editor.commit();
+                            editor.apply();
                         }
                     });
             alertDialog.show();

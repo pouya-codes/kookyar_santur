@@ -1,6 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 
-public class ContentMenu extends Activity implements View.OnClickListener {
+public class ContentMenu extends AppCompatActivity implements View.OnClickListener {
     private Button content1, content2, content3;
     private Bundle data;
     public String fonts = "BZar.ttf";

@@ -1,7 +1,7 @@
 package com.PouyaApp.KookYaRSantooR;
 
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -14,7 +14,7 @@ import com.PouyaApp.KookYaRSantooR.R.id;
 import android.widget.LinearLayout;
 import com.google.android.material.card.MaterialCardView;
 
-public class Books extends Activity implements View.OnClickListener {
+public class Books extends AppCompatActivity implements View.OnClickListener {
 
     public String fonts = "BNazanin.ttf";
     private TextView tvEbtedaei, tvMeshkatian, tvDastur, tvGolnar, tvShive, tvYadegaran_hom, tvYadegaran_esf, tvHazarDastan_3gah, tvHazarDastan_4gah, tvSepideh;
@@ -145,20 +145,9 @@ public class Books extends Activity implements View.OnClickListener {
 
     private void luanchActivity() {
         Intent activity;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        boolean tunerType  = prefs.getBoolean("tunerChange",
-                false);
-        if(!tunerType)activity = new Intent(Books.this, SanturTuner.class);
-        else activity = new Intent(Books.this, SanturTuner.class);
+        activity = new Intent(Books.this, SanturTuner.class);
         activity.putExtras(data);
         startActivity(activity);
-    }
-
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
     }
 
 }

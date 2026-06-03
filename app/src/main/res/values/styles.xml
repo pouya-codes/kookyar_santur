@@ -12,8 +12,19 @@
     <item name="colorAccent">@color/accentColor</item>
     <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:popupBackground">@color/windowBackground</item>
-
+        <!-- Disable button tinting so custom backgrounds show correctly -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonStyle">@style/Widget.App.Button.Legacy</item>
     </style>
+
+    <!-- Button style that preserves custom backgrounds -->
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@null</item>
+    </style>
+    <style name="Widget.App.Button.Legacy" parent="android:Widget.Button">
+        <item name="android:backgroundTint">@null</item>
+    </style>
+
     <style name="customeToolbar" parent="ThemeOverlay.Material3">
         <item name="android:textColorPrimary">#000</item>
         <item name="android:textColorSecondary">#000</item>

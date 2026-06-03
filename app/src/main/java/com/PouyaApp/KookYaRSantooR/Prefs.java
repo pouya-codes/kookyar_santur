@@ -1,26 +1,26 @@
 package com.PouyaApp.KookYaRSantooR;
-import com.PouyaApp.KookYaRSantooR.R;
 
-
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
 
-public class Prefs extends PreferenceActivity{
+public class Prefs extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.perfs);
+		if (savedInstanceState == null) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(android.R.id.content, new PrefsFragment())
+					.commit();
+		}
+	}
 
-//        getListView().setBackgroundColor(Color.GRAY);
-//
-//        getListView().setCacheColorHint(Color.YELLOW);
-
-    }
-
-	
-	
-
+	public static class PrefsFragment extends PreferenceFragmentCompat {
+		@Override
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+			setPreferencesFromResource(R.xml.perfs, rootKey);
+		}
+	}
 }

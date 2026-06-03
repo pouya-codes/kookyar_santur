@@ -5,95 +5,91 @@
     android:id="@+id/scrollViewBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-     >
+    android:background="@color/windowBackground"
+    android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dastur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFF"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#1A237E"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D4A5FD9">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_dastor"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/dasturSantur"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_dastur"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/dastor" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-                android:layout_centerVertical="true"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:layout_gravity="center"
-                android:src="@drawable/dastor" />
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/TextView_dastor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/dasturSantur"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
-
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/books_shive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#D50000"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#B71C1C"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4DD50000">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_shive"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
-                android:text="@string/shiveSanturNavazi"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:padding="12dp">
 
-            <ImageView
-                android:paddingLeft="10dp"
+                <ImageView
+                    android:id="@+id/img_shive"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/shive" />
 
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/shive" />
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/TextView_shive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/shiveSanturNavazi"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -101,36 +97,39 @@
             android:id="@+id/book_dore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF9800"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#E65100"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4DFF9800">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_ebtedaei"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/ebtedaei"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_ebtedaei"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ebtedaei" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/ebtedaei" />
+                <TextView
+                    android:id="@+id/TextView_ebtedaei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/ebtedaei"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -138,36 +137,39 @@
             android:id="@+id/book_meshkatian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#212121"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#212121"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D9E9E9E">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/tvMeshkatian"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/pesase"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_meshkatian"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/meshkatian" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/meshkatian" />
+                <TextView
+                    android:id="@+id/tvMeshkatian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/pesase"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -175,33 +177,39 @@
             android:id="@+id/book_golnar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#311B92"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#311B92"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D7C4DFF">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_golnar"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
-                android:text="@string/golnar"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:padding="12dp">
 
-            <ImageView
-                android:paddingLeft="10dp"
+                <ImageView
+                    android:id="@+id/img_golnar"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/golnar" />
 
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/golnar" />
+                <TextView
+                    android:id="@+id/TextView_golnar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/golnar"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -209,35 +217,39 @@
             android:id="@+id/book_yadegaran"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#212121"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#263238"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D607D8B">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_yadegaran_esf"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/yadegaran_esf"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_yadegaran_esf"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/yadegaran" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/yadegaran" />
+                <TextView
+                    android:id="@+id/TextView_yadegaran_esf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/yadegaran_esf"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -245,35 +257,39 @@
             android:id="@+id/book_yadegaran_homayun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#212121"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#3E2723"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D795548">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_yadegaran_hom"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/yadegaran_hom"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_yadegaran_hom"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/yadegaran" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/yadegaran" />
+                <TextView
+                    android:id="@+id/TextView_yadegaran_hom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/yadegaran_hom"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -281,73 +297,79 @@
             android:id="@+id/book_sepideh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF9800"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#E65100"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4DFF9800">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_sepideh"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/sepideh"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_sepideh"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/sepideh" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/sepideh" />
+                <TextView
+                    android:id="@+id/TextView_sepideh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/sepideh"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/book_dastan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1B5E20"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#1B5E20"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D4CAF50">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_hazarDastan_3gah"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/hazarDastan_3gah"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_hazardastan_3gah"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/hazardastan" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/hazardastan" />
+                <TextView
+                    android:id="@+id/TextView_hazarDastan_3gah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/hazarDastan_3gah"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -355,37 +377,42 @@
             android:id="@+id/book_dastan_4gah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1B5E20"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="4dp" >
+            android:focusable="true"
+            app:cardBackgroundColor="#1B5E20"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:rippleColor="#4D4CAF50">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:paddingRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/TextView_hazardastan_4gah"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25.0dip"
-                android:layout_weight="0.72"
+                android:padding="12dp">
 
-                android:text="@string/hazarDastan_4gah"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/img_hazardastan_4gah"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/hazardastan" />
 
-            <ImageView
-                android:paddingLeft="10dp"
-
-                android:layout_width="142dp"
-                android:layout_height="197dp"
-                android:src="@drawable/hazardastan" />
+                <TextView
+                    android:id="@+id/TextView_hazardastan_4gah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/hazarDastan_4gah"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
 </ScrollView>

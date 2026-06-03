@@ -1,6 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 
-public class KookType extends Activity implements View.OnClickListener {
+public class KookType extends AppCompatActivity implements View.OnClickListener {
     private Button ketab, dastgah;
     public String fonts = "BZar.ttf";
 
@@ -35,7 +35,6 @@ public class KookType extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         Intent activity;
         int viewId = v.getId();
         if (viewId == id.button_dastgah) {
@@ -46,11 +45,4 @@ public class KookType extends Activity implements View.OnClickListener {
             startActivity(activity);
         }
     }
-
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
-    }
-
 }

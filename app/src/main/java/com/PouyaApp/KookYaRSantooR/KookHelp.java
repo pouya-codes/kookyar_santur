@@ -1,6 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.google.android.material.button.MaterialButton;
 import com.PouyaApp.KookYaRSantooR.R;
 
-public class KookHelp extends Activity {
+public class KookHelp extends AppCompatActivity {
 	public String fonts = "BNazanin.ttf";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
