@@ -1,5 +1,7 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.PersianReshape;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.Configuration;
 import android.graphics.Color;
