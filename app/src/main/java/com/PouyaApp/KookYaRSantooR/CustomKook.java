@@ -2,11 +2,8 @@ package com.PouyaApp.KookYaRSantooR;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
-//import androidx.appcompat.app.ActionBarActivity;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -14,26 +11,53 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
+import androidx.preference.PreferenceManager;
 
 import com.PouyaApp.KookYaRSantooR.R.drawable;
 import com.PouyaApp.KookYaRSantooR.R.id;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomKook extends AppCompatActivity implements View.OnClickListener,
         OnItemSelectedListener {
-    private MaterialButton[] buttons = new MaterialButton[9];
-    private int[] buttonsId = {id.button_1, id.button_2, id.button_3,
+
+    private final MaterialButton[] buttons = new MaterialButton[9];
+    private final int[] buttonsId = {id.button_1, id.button_2, id.button_3,
             id.button_4, id.button_5, id.button_6, id.button_7, id.button_8,
             id.button_9};
-    private MaterialButton ok, reset;
-    private RadioButton rd1, rd2, rd3;
-    public String fonts = "BZar.ttf";
+    private MaterialButton ok;
+    private MaterialButton reset;
+    private MaterialButton saveKook;
+    private MaterialButton loadKook;
+    private MaterialButton deleteKook;
+    private RadioButton rd1;
+    private RadioButton rd2;
+    private RadioButton rd3;
     private double note = 0;
     private LinearLayout wire;
-    private Spinner noteSpineer, posisionSpinner;
-    private int position, wireSelected, positiontone, notetone;
-    private RadioButton bemol, koron, sori, diyez, bekar;
-    private int[] wireId = {drawable.santur_1, drawable.santur_2,
+    private Spinner noteSpineer;
+    private Spinner posisionSpinner;
+    private Spinner savedKookSpinner;
+    private TextInputEditText kookNameInput;
+    private int position;
+    private int wireSelected;
+    private int positiontone;
+    private int notetone;
+    private RadioButton bemol;
+    private RadioButton koron;
+    private RadioButton sori;
+    private RadioButton diyez;
+    private RadioButton bekar;
+    private final int[] wireId = {drawable.santur_1, drawable.santur_2,
             drawable.santur_3, drawable.santur_4, drawable.santur_5,
             drawable.santur_6, drawable.santur_7, drawable.santur_8,
             drawable.santur_9, drawable.santur_10, drawable.santur_11,
@@ -43,103 +67,193 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             drawable.santur_21, drawable.santur_22, drawable.santur_23,
             drawable.santur_24, drawable.santur_25, drawable.santur_26,
             drawable.santur_27};
-    double[] kookMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
+    private final double[] kookMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
             67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86, 87, 89};
-    boolean enabled = false;
-    double[] kookMiditoneRef = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
+    private final double[] kookMiditoneRef = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
             67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86, 87, 89};
+    private boolean enabled = false;
     private SharedPreferences prefs;
+    private List<SavedCustomKook.Entry> savedEntries = new ArrayList<>();
+    private ArrayAdapter<String> savedKookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_custom_kook);
+        setupToolbar();
         initGui();
+    }
 
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.custom);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void initGui() {
-        // TODO Auto-generated method stub
-//		Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
-//				+ "");
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = (MaterialButton) findViewById(buttonsId[i]);
+            buttons[i] = findViewById(buttonsId[i]);
             buttons[i].setOnClickListener(this);
-            //		buttons[i].getTextView().setTypeface(face);
-            buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            styleStringButtonDisabled(buttons[i]);
         }
-        ok = (MaterialButton) findViewById(id.button_ok);
+
+        ok = findViewById(id.button_ok);
         ok.setOnClickListener(this);
-        //	ok.getTextView().setTypeface(face);
 
-        reset = (MaterialButton) findViewById(id.button_reset);
+        reset = findViewById(id.button_reset);
         reset.setOnClickListener(this);
-        //	reset.getTextView().setTypeface(face);
 
-        rd1 = (RadioButton) findViewById(id.zardRB);
-        //	rd1.setTypeface(face);
+        saveKook = findViewById(R.id.button_save_kook);
+        saveKook.setOnClickListener(this);
+
+        loadKook = findViewById(R.id.button_load_kook);
+        loadKook.setOnClickListener(this);
+
+        deleteKook = findViewById(R.id.button_delete_kook);
+        deleteKook.setOnClickListener(this);
+
+        kookNameInput = findViewById(R.id.edit_kook_name);
+
+        rd1 = findViewById(id.zardRB);
         rd1.setOnClickListener(this);
 
-        rd2 = (RadioButton) findViewById(id.sefidRB);
-        //	rd2.setTypeface(face);
+        rd2 = findViewById(id.sefidRB);
         rd2.setOnClickListener(this);
 
-        rd3 = (RadioButton) findViewById(id.poshtRB);
-//		rd3.setTypeface(face);
+        rd3 = findViewById(id.poshtRB);
         rd3.setOnClickListener(this);
 
-        wire = (LinearLayout) findViewById(id.layout_sim);
+        wire = findViewById(id.layout_sim);
 
-        posisionSpinner = (Spinner) findViewById(R.id.posison_spinner);
-
-        ArrayAdapter<CharSequence> positionAdapter = ArrayAdapter
-                .createFromResource(this, R.array.posision_array,
-                        android.R.layout.simple_spinner_item);
-
-        positionAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        posisionSpinner = findViewById(R.id.posison_spinner);
+        ArrayAdapter<CharSequence> positionAdapter = ArrayAdapter.createFromResource(
+                this, R.array.posision_array, R.layout.spinner_item_dark);
+        positionAdapter.setDropDownViewResource(R.layout.spinner_item_dark);
         posisionSpinner.setAdapter(positionAdapter);
         posisionSpinner.setOnItemSelectedListener(this);
 
-        noteSpineer = (Spinner) findViewById(R.id.note_spinner);
-        ArrayAdapter<CharSequence> noteAdapter = ArrayAdapter
-                .createFromResource(this, R.array.note_array,
-                        android.R.layout.simple_spinner_item);
-
-        noteAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        noteSpineer = findViewById(R.id.note_spinner);
+        ArrayAdapter<CharSequence> noteAdapter = ArrayAdapter.createFromResource(
+                this, R.array.note_array, R.layout.spinner_item_dark);
+        noteAdapter.setDropDownViewResource(R.layout.spinner_item_dark);
         noteSpineer.setAdapter(noteAdapter);
         noteSpineer.setOnItemSelectedListener(this);
 
-        bemol = (RadioButton) findViewById(R.id.bemol_radioButton);
+        bemol = findViewById(R.id.bemol_radioButton);
         bemol.setOnClickListener(this);
-//		bemol.setTypeface(face);
-        // ------------------------------------------------------------------
-        koron = (RadioButton) findViewById(R.id.koron_radioButton);
+
+        koron = findViewById(R.id.koron_radioButton);
         koron.setOnClickListener(this);
-        //	koron.setTypeface(face);
-        // ------------------------------------------------------------------
-        bekar = (RadioButton) findViewById(R.id.bekar_radioButton);
+
+        bekar = findViewById(R.id.bekar_radioButton);
         bekar.setOnClickListener(this);
-        //	bekar.setTypeface(face);
-        // ------------------------------------------------------------------
-        sori = (RadioButton) findViewById(R.id.sori_radioButton);
+
+        sori = findViewById(R.id.sori_radioButton);
         sori.setOnClickListener(this);
-        //	sori.setTypeface(face);
-        // ------------------------------------------------------------------
-        diyez = (RadioButton) findViewById(R.id.diyez_radioButton);
+
+        diyez = findViewById(R.id.diyez_radioButton);
         diyez.setOnClickListener(this);
-        //	diyez.setTypeface(face);
+
+        savedKookSpinner = findViewById(R.id.saved_kook_spinner);
+        savedKookAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_dark, new ArrayList<>());
+        savedKookAdapter.setDropDownViewResource(R.layout.spinner_item_dark);
+        savedKookSpinner.setAdapter(savedKookAdapter);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        refreshSavedKookSpinner();
+    }
 
+    private void refreshSavedKookSpinner() {
+        savedEntries = SavedCustomKook.loadAll(this);
+        List<String> names = new ArrayList<>();
+        if (savedEntries.isEmpty()) {
+            names.add(getString(R.string.no_saved_kooks));
+            loadKook.setEnabled(false);
+            deleteKook.setEnabled(false);
+        } else {
+            for (SavedCustomKook.Entry entry : savedEntries) {
+                names.add(entry.name);
+            }
+            loadKook.setEnabled(true);
+            deleteKook.setEnabled(true);
+        }
+        savedKookAdapter.clear();
+        savedKookAdapter.addAll(names);
+        savedKookAdapter.notifyDataSetChanged();
+        savedKookSpinner.setSelection(0);
+    }
+
+    private void applyMiditones(double[] miditones) {
+        System.arraycopy(miditones, 0, kookMiditone, 0, kookMiditone.length);
+        enabled = false;
+        wire.setBackgroundResource(R.drawable.santur2);
+        for (MaterialButton button : buttons) {
+            button.setEnabled(false);
+            styleStringButtonDisabled(button);
+        }
+        rd1.setChecked(false);
+        rd2.setChecked(false);
+        rd3.setChecked(false);
+    }
+
+    private void saveCurrentKook() {
+        CharSequence name = kookNameInput.getText();
+        if (name == null || name.toString().trim().isEmpty()) {
+            Toast.makeText(this, R.string.kook_save_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (SavedCustomKook.save(this, name.toString().trim(), kookMiditone)) {
+            Toast.makeText(this, R.string.kook_saved, Toast.LENGTH_SHORT).show();
+            refreshSavedKookSpinner();
+        } else {
+            Toast.makeText(this, R.string.kook_save_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadSelectedKook() {
+        if (savedEntries.isEmpty()) {
+            Toast.makeText(this, R.string.select_saved_kook, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int index = savedKookSpinner.getSelectedItemPosition();
+        if (index < 0 || index >= savedEntries.size()) {
+            Toast.makeText(this, R.string.select_saved_kook, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SavedCustomKook.Entry entry = savedEntries.get(index);
+        applyMiditones(entry.miditones);
+        kookNameInput.setText(entry.name);
+        Toast.makeText(this, entry.name, Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteSelectedKook() {
+        if (savedEntries.isEmpty()) {
+            Toast.makeText(this, R.string.select_saved_kook, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int index = savedKookSpinner.getSelectedItemPosition();
+        if (index < 0 || index >= savedEntries.size()) {
+            Toast.makeText(this, R.string.select_saved_kook, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SavedCustomKook.delete(this, index);
+        refreshSavedKookSpinner();
+        Toast.makeText(this, R.string.kook_deleted, Toast.LENGTH_SHORT).show();
     }
 
     private void setSpinner(int i) {
-        // TODO Auto-generated method stub
-        int position = (int) ((kookMiditone[i] / 12) - 4);
-        posisionSpinner.setSelection(position);
+        int spinnerPosition = (int) ((kookMiditone[i] / 12) - 4);
+        posisionSpinner.setSelection(spinnerPosition);
 
         double noteName = kookMiditone[i] % 12;
 
@@ -216,13 +330,10 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             noteSpineer.setSelection(6);
             setRadio(1);
         }
-
     }
 
     private void setRadio(int i) {
-        // TODO Auto-generated method stub
         if (i == -2) {
-
             note = -1;
             sendnote();
             bemol.setChecked(true);
@@ -232,7 +343,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             diyez.setChecked(false);
         }
         if (i == -1) {
-
             note = -0.5;
             sendnote();
             bemol.setChecked(false);
@@ -242,7 +352,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             diyez.setChecked(false);
         }
         if (i == 0) {
-
             note = 0;
             sendnote();
             bemol.setChecked(false);
@@ -252,7 +361,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             diyez.setChecked(false);
         }
         if (i == 1) {
-
             note = 0.5;
             sendnote();
             bemol.setChecked(false);
@@ -261,9 +369,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             sori.setChecked(true);
             diyez.setChecked(false);
         }
-
         if (i == 2) {
-
             note = 1;
             sendnote();
             bemol.setChecked(false);
@@ -276,14 +382,12 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
-
         if (v.getId() == id.zardRB || v.getId() == id.sefidRB
                 || v.getId() == id.poshtRB) {
             wire.setBackgroundResource(R.drawable.santur2);
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setEnabled(true);
-                buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                styleStringButtonDefault(buttons[i]);
             }
             int viewId = v.getId();
             if (viewId == R.id.zardRB) {
@@ -299,8 +403,8 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                 rd1.setChecked(false);
                 rd2.setChecked(false);
             }
-
         }
+
         if (v.getId() == id.button_1 || v.getId() == id.button_2
                 || v.getId() == id.button_3 || v.getId() == id.button_4
                 || v.getId() == id.button_5 || v.getId() == id.button_6
@@ -311,10 +415,10 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                 if (v.getId() == buttonsId[i]) {
                     wireSelected = (position * 9) + i;
                     wire.setBackgroundResource(wireId[wireSelected]);
-                    buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
+                    styleStringButtonActive(buttons[i]);
                     setSpinner(wireSelected);
                 } else {
-                    buttons[i].setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                    styleStringButtonDefault(buttons[i]);
                 }
             }
         }
@@ -323,7 +427,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         if (radioId == R.id.bemol_radioButton) {
             note = -1;
             sendnote();
-            // bemol.setChecked(false);
             koron.setChecked(false);
             bekar.setChecked(false);
             sori.setChecked(false);
@@ -332,7 +435,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             note = -0.5;
             sendnote();
             bemol.setChecked(false);
-            // koron.setChecked(false);
             bekar.setChecked(false);
             sori.setChecked(false);
             diyez.setChecked(false);
@@ -341,7 +443,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             sendnote();
             bemol.setChecked(false);
             koron.setChecked(false);
-            // bekar.setChecked(false);
             sori.setChecked(false);
             diyez.setChecked(false);
         } else if (radioId == R.id.sori_radioButton) {
@@ -350,7 +451,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             bemol.setChecked(false);
             koron.setChecked(false);
             bekar.setChecked(false);
-            // sori.setChecked(false);
             diyez.setChecked(false);
         } else if (radioId == R.id.diyez_radioButton) {
             note = 1;
@@ -359,31 +459,38 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             koron.setChecked(false);
             bekar.setChecked(false);
             sori.setChecked(false);
-            // diyez.setChecked(false);
         }
+
         if (v.getId() == id.button_ok) {
             Bundle data = new Bundle();
             data.putDoubleArray("custom", kookMiditone);
+            data.putString("noteName", getString(R.string.custom));
             Intent activity = new Intent(CustomKook.this, SanturTuner.class);
             activity.putExtras(data);
             startActivity(activity);
-
         }
-        if (v.getId() == id.button_reset) {
 
+        if (v.getId() == id.button_reset) {
             kookMiditone[wireSelected] = kookMiditoneRef[wireSelected];
             setSpinner(wireSelected);
         }
 
+        if (v.getId() == R.id.button_save_kook) {
+            saveCurrentKook();
+        } else if (v.getId() == R.id.button_load_kook) {
+            loadSelectedKook();
+        } else if (v.getId() == R.id.button_delete_kook) {
+            deleteSelectedKook();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         for (int j = 0; j < kookMiditone.length; j++) {
-            kookMiditone[j] = (double) prefs.getFloat(j + "", (float) kookMiditone[j]);
+            kookMiditone[j] = prefs.getFloat(j + "", (float) kookMiditone[j]);
         }
+        refreshSavedKookSpinner();
     }
 
     @Override
@@ -393,24 +500,19 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         for (int j = 0; j < kookMiditone.length; j++) {
             editor.putFloat(j + "", (float) kookMiditone[j]);
         }
-
         editor.apply();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View arg1, int position,
                                long arg3) {
-        // TODO Auto-generated method stub
         Spinner spinner = (Spinner) parent;
-        // TODO Auto-generated method stub
         if (spinner.getId() == R.id.posison_spinner) {
             switch (position) {
-
                 case 0:
                     positiontone = 4;
                     sendnote();
                     break;
-
                 case 1:
                     positiontone = 5;
                     sendnote();
@@ -423,18 +525,17 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                     positiontone = 7;
                     sendnote();
                     break;
+                default:
+                    break;
             }
         } else if (spinner.getId() == R.id.note_spinner) {
-
             switch (position) {
-
                 case 0:
                     diyez.setEnabled(true);
                     bemol.setEnabled(false);
                     notetone = 0;
                     sendnote();
                     break;
-
                 case 1:
                     bemol.setEnabled(true);
                     diyez.setEnabled(true);
@@ -471,22 +572,39 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                     notetone = 11;
                     sendnote();
                     break;
+                default:
+                    break;
             }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-
     }
 
     private void sendnote() {
-        // TODO Auto-generated method stub
         double miditone = (positiontone * 12) + (notetone + note);
-        if (enabled)
+        if (enabled) {
             kookMiditone[wireSelected] = miditone;
-
+        }
     }
 
+    private int color(int resId) {
+        return ContextCompat.getColor(this, resId);
+    }
+
+    private void styleStringButtonDefault(MaterialButton button) {
+        button.setBackgroundTintList(ColorStateList.valueOf(color(R.color.stringDefault)));
+        button.setTextColor(color(R.color.onSurface));
+    }
+
+    private void styleStringButtonDisabled(MaterialButton button) {
+        button.setBackgroundTintList(ColorStateList.valueOf(color(R.color.stringDisabled)));
+        button.setTextColor(color(R.color.onSurfaceVariant));
+    }
+
+    private void styleStringButtonActive(MaterialButton button) {
+        button.setBackgroundTintList(ColorStateList.valueOf(color(R.color.stringActive)));
+        button.setTextColor(color(R.color.white));
+    }
 }

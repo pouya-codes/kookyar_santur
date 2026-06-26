@@ -2,21 +2,29 @@ package com.PouyaApp.KookYaRSantooR;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.PouyaApp.KookYaRSantooR.R;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.List;
+
 public class SanturMenu extends AppCompatActivity implements View.OnClickListener {
     private Button navaTuning, shurTuning, shurTuningPavar, esfehanTuning, mahurTuning, segahTuning, chahargahTuning, homayunTuning, shurReTuning, esfehanFaTuning,homayounChapTuning ,mahurChapTuning ,segahChapTuning,chahargahChapTuning, faMinorTuning, doMajorTuning, doMinorTuning, customTuning;
+    private LinearLayout savedKooksContainer;
+    private TextView savedKooksTitle;
     private Bundle data;
     public String fonts = "BNazanin.ttf";
     private SharedPreferences prefs;
@@ -28,12 +36,57 @@ public class SanturMenu extends AppCompatActivity implements View.OnClickListene
         // TODO Auto-generated method stub
 
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         setContentView(R.layout.activity_santur_menu);
         setFace();
+        refreshSavedKooks();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshSavedKooks();
+    }
 
+    private void refreshSavedKooks() {
+        if (savedKooksContainer == null) {
+            return;
+        }
+        savedKooksContainer.removeAllViews();
+        List<SavedCustomKook.Entry> entries = SavedCustomKook.loadAll(this);
+        if (entries.isEmpty()) {
+            savedKooksTitle.setVisibility(View.GONE);
+            return;
+        }
+        savedKooksTitle.setVisibility(View.VISIBLE);
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts);
+        for (SavedCustomKook.Entry entry : entries) {
+            Button button = new Button(this);
+            button.setText(entry.name);
+            button.setTypeface(face);
+            button.setTextColor(ContextCompat.getColor(this, R.color.white));
+            button.setBackgroundResource(R.drawable.custom);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    (int) (70 * getResources().getDisplayMetrics().density));
+            params.width = (int) (220 * getResources().getDisplayMetrics().density);
+            params.topMargin = (int) (15 * getResources().getDisplayMetrics().density);
+            button.setLayoutParams(params);
+            button.setTextSize(20);
+            button.setOnClickListener(v -> launchSavedKook(entry));
+            savedKooksContainer.addView(button);
+        }
+    }
+
+    private void launchSavedKook(SavedCustomKook.Entry entry) {
+        Bundle bundle = new Bundle();
+        bundle.putDoubleArray("custom", entry.miditones);
+        bundle.putString("noteName", entry.name);
+        Intent activity = new Intent(SanturMenu.this, SanturTuner.class);
+        activity.putExtras(bundle);
+        startActivity(activity);
     }
 
     private void setFace() {
@@ -129,6 +182,10 @@ public class SanturMenu extends AppCompatActivity implements View.OnClickListene
 
         TextView tv_talfiqi = (TextView) findViewById(R.id.tv_talifiqiKook) ;
         tv_talfiqi.setTypeface(face);
+
+        savedKooksContainer = findViewById(R.id.saved_kooks_container);
+        savedKooksTitle = findViewById(R.id.tv_savedKooks);
+        savedKooksTitle.setTypeface(face);
     }
 
     @Override

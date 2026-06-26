@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import androidx.core.app.NavUtils;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
@@ -86,6 +87,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_custome_tempeament);
 
         initGUI();

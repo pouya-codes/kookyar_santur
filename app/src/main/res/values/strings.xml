@@ -58,6 +58,17 @@
     <string name="doMinor">دو مینور</string>
     <string name="doMajor">دو ماژور</string>
     <string name="custom">ایجاد کوک دلخواه</string>
+    <string name="saved_kooks_title">کوک‌های ذخیره شده</string>
+    <string name="saved_kooks_menu_title">کوک‌های ذخیره شده</string>
+    <string name="saved_kook_name_hint">نام کوک</string>
+    <string name="save_kook">ذخیره کوک فعلی</string>
+    <string name="load_kook">بارگذاری</string>
+    <string name="delete_kook">حذف</string>
+    <string name="no_saved_kooks">کوک ذخیره‌شده‌ای وجود ندارد</string>
+    <string name="kook_saved">کوک ذخیره شد</string>
+    <string name="kook_save_failed">ذخیره ممکن نیست. نام را وارد کنید یا ظرفیت پر است.</string>
+    <string name="kook_deleted">کوک حذف شد</string>
+    <string name="select_saved_kook">یک کوک ذخیره‌شده را انتخاب کنید</string>
     <string name="shurPayver">شور استاد پایور</string>
     <string name="chahargahChap">چهارگاه سل</string>
     <string name="segahChap">سه گاه می کرن</string>

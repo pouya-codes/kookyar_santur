@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.WindowCompat;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     int PERMISSION_ALL = 1;
     String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
 
-    ImageButton tunerB, exitB, mailB, kookB, textB, shareB;
+    ImageButton tunerB, exitB, mailB, kookB, textB;
 
     private boolean shouldLaunchTuner = false;
 
@@ -35,6 +36,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_menu);
         setFace();
 
@@ -71,9 +73,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         textB = (ImageButton) findViewById(id.text);
         textB.setOnClickListener(this);
 
-        shareB = (ImageButton) findViewById(id.share);
-        shareB.setOnClickListener(this);
-
     }
 
     @Override
@@ -95,38 +94,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         } else if (viewId == R.id.text) {
             activity = new Intent(MainMenu.this, ContentMenu.class);
             startActivity(activity);
-        } else if (viewId == R.id.share) {
-            try {
-                // Use Intent with package name instead of getLaunchIntentForPackage
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.PouyaApp.NotkadehSantour");
-                if (launchIntent != null) {
-                    startActivity(launchIntent);
-                } else {
-                    throw new ActivityNotFoundException("App not found");
-                }
-            } catch (Exception e) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                        MainMenu.this);
-                alertDialog.setTitle("دریافت نت کده سنتور");
-                alertDialog.setMessage("برای دریافت رایگان نت کده سنتور دکمه ی زیر را لمس نمایید");
-                alertDialog.setIcon(R.drawable.kookyar);
-                alertDialog.setNegativeButton("دریافت نت کده سنتور",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent("android.intent.action.VIEW");
-                                intent.setData(Uri.parse("http://cafebazaar.ir/app/?id=com.PouyaApp.NotkadehSantour"));
-                                startActivity(intent);
-                            }
-                        });
-                alertDialog.setPositiveButton("انصراف",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                alertDialog.show();
-            }
         } else if (viewId == R.id.button_kookHelp) {
             activity = new Intent(MainMenu.this, KookHelp.class);
             startActivity(activity);

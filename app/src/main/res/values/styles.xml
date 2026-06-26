@@ -2,16 +2,15 @@
 
     <!-- Base application theme. -->
     <style name="Apptheme" parent="AppTheme.Base">
-        <!-- Customize your theme here. -->
-
-
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.App</item>
     </style>
     <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
     <item name="colorPrimary">@color/primaryColor</item>
     <item name="colorPrimaryDark">@color/primaryColorDark</item>
     <item name="colorAccent">@color/accentColor</item>
     <item name="android:windowBackground">@color/windowBackground</item>
-        <item name="android:popupBackground">@color/windowBackground</item>
+        <item name="android:popupBackground">@color/cardColor</item>
+        <item name="android:textColorPrimary">@color/onSurface</item>
         <!-- Disable button tinting so custom backgrounds show correctly -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
         <item name="buttonStyle">@style/Widget.App.Button.Legacy</item>
@@ -25,10 +24,33 @@
         <item name="android:backgroundTint">@null</item>
     </style>
 
-    <style name="customeToolbar" parent="ThemeOverlay.Material3">
-        <item name="android:textColorPrimary">#000</item>
-        <item name="android:textColorSecondary">#000</item>
+    <style name="DisableSoundEffects" parent="Apptheme">
+        <item name="android:soundEffectsEnabled">false</item>
+    </style>
 
+    <style name="customeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
 
+    <style name="ToolbarPopupTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:popupBackground">@color/cardColor</item>
+        <item name="android:textColorPrimary">@color/onSurface</item>
+        <item name="android:textColorSecondary">@color/onSurfaceVariant</item>
+        <item name="colorControlNormal">@color/onSurface</item>
+    </style>
+
+    <style name="Widget.App.StringButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/string_button_bg</item>
+        <item name="android:textColor">@color/string_button_text</item>
+        <item name="strokeColor">@color/cardStroke</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
+
+    <style name="PreferenceThemeOverlay.App" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:textColorPrimary">@color/onSurface</item>
+        <item name="android:textColorSecondary">@color/onSurfaceVariant</item>
     </style>
 </resources>

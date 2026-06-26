@@ -11,8 +11,16 @@
     <color name="secondaryColorVariant">#3F51B5</color>  <!-- Brighter blue variant -->
     
     <!-- Surface and text colors -->
-    <color name="surfaceColor">#1E1E1E</color>           <!-- Card surface -->
-    <color name="onSurface">#E8E8E8</color>              <!-- Text on surface -->
+    <color name="surfaceColor">#FF121016</color>
+    <color name="cardColor">#FF1E1C26</color>
+    <color name="cardStroke">#FF35323F</color>
+    <color name="onSurfaceVariant">#FFC7C3D2</color>
+    <color name="stringDefault">#FF3D3A4D</color>
+    <color name="stringDisabled">#FF2A2833</color>
+    <color name="stringSelected">#FFFFBB33</color>
+    <color name="stringActive">#FF4A90D9</color>
+    <color name="stringNeedsTune">#FFFFF176</color>
+    <color name="onSurface">#FFECEAF4</color>
     <color name="onPrimary">#FFFFFF</color>              <!-- Text on primary -->
     
     <!-- Persian musical accent colors -->

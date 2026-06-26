@@ -3,6 +3,7 @@ package com.PouyaApp.KookYaRSantooR;
 import com.kookyar.common.PersianReshape;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class KookType extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_kook_type);
         ketab = (Button) findViewById(id.button_ketab);
 
