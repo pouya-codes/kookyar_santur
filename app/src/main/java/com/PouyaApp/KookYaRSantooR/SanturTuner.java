@@ -60,13 +60,17 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     private volatile boolean threadRuned2 = false;
     private static final String TAG = "KookYaR";
     private static final int PERMISSION_REQUEST_RECORD_AUDIO = 1001;
+    private static final long STRING_SELECT_DEBOUNCE_MS = 80;
     public static boolean mi;
     final private int highSensitive = 55;
     final private int midSensitive = 50;
     final private int lowSensitive = 45;
     private Bundle data;
     private final Handler pitchHandler = new Handler(Looper.getMainLooper());
+    private final Handler noteHandler = new Handler(Looper.getMainLooper());
     private Runnable pitchResetRunnable;
+    private Runnable pendingTriggerRunnable;
+    private int pitchResetToken = 0;
     int setKookPitch = 0;
     OnSharedPreferenceChangeListener listener;
     private Toolbar toolbar;
@@ -444,6 +448,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         pitchHandler.removeCallbacksAndMessages(null);
+        noteHandler.removeCallbacksAndMessages(null);
+        pitchResetToken++;
         try {
             unbindService(pdConnection);
         } catch (Exception e) {
@@ -785,6 +791,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             @Override
             public void receiveFloat(String source, final float x) {
                 if (pressure >= sensitiveLevel) {
+                    pitchResetToken++;
+                    final int resetToken = pitchResetToken;
                     if (pitchResetRunnable != null) {
                         pitchHandler.removeCallbacks(pitchResetRunnable);
                     }
@@ -801,7 +809,11 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                         }
                     }
 
-                    pitchResetRunnable = () -> pitchView.setCurrentPitch(12);
+                    pitchResetRunnable = () -> {
+                        if (resetToken == pitchResetToken) {
+                            pitchView.setCurrentPitch(12);
+                        }
+                    };
                     pitchHandler.postDelayed(pitchResetRunnable, 2500);
                 }
             }
@@ -848,6 +860,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         float noteForRef = displayMidi(baseNote);
         float noteForAudio = audioMidi(baseNote);
         float realMidi = midiToRealMidi(noteForAudio);
+        pitchResetToken++;
         if (pitchResetRunnable != null) {
             pitchHandler.removeCallbacks(pitchResetRunnable);
         }
@@ -858,14 +871,26 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         pitchView.setCenterPitch(realMidi);
         pitchView.setCurrentPitch(12);
         pitchView.setMidiRef(noteForRef);
-        PdBase.sendFloat("midinote", realMidi);
-        PdBase.sendBang("trigger");
+
+        if (pendingTriggerRunnable != null) {
+            noteHandler.removeCallbacks(pendingTriggerRunnable);
+        }
+        final float midiForPd = realMidi;
+        pendingTriggerRunnable = () -> {
+            PdBase.sendFloat("midinote", midiForPd);
+            PdBase.sendBang("trigger");
+        };
+        noteHandler.postDelayed(pendingTriggerRunnable, STRING_SELECT_DEBOUNCE_MS);
     }
 
     private void triggerNote2(float baseNote) {
         float noteForRef = displayMidi(baseNote);
         float noteForAudio = audioMidi(baseNote);
         float realMidi = midiToRealMidi(noteForAudio);
+        pitchResetToken++;
+        if (pitchResetRunnable != null) {
+            pitchHandler.removeCallbacks(pitchResetRunnable);
+        }
         if (!pitchView.getRunned()) {
             pitchView.start();
         }
