@@ -2,6 +2,7 @@ package com.PouyaApp.KookYaRSantooR;
 
 import com.kookyar.common.PersianReshape;
 import com.kookyar.common.PitchView;
+import com.kookyar.common.TunerPitchCoordinator;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -16,9 +17,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -60,17 +59,12 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     private volatile boolean threadRuned2 = false;
     private static final String TAG = "KookYaR";
     private static final int PERMISSION_REQUEST_RECORD_AUDIO = 1001;
-    private static final long STRING_SELECT_DEBOUNCE_MS = 80;
     public static boolean mi;
     final private int highSensitive = 55;
     final private int midSensitive = 50;
     final private int lowSensitive = 45;
     private Bundle data;
-    private final Handler pitchHandler = new Handler(Looper.getMainLooper());
-    private final Handler noteHandler = new Handler(Looper.getMainLooper());
-    private Runnable pitchResetRunnable;
-    private Runnable pendingTriggerRunnable;
-    private int pitchResetToken = 0;
+    private final TunerPitchCoordinator pitchCoordinator = new TunerPitchCoordinator();
     int setKookPitch = 0;
     OnSharedPreferenceChangeListener listener;
     private Toolbar toolbar;
@@ -447,9 +441,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        pitchHandler.removeCallbacksAndMessages(null);
-        noteHandler.removeCallbacksAndMessages(null);
-        pitchResetToken++;
+        pitchCoordinator.destroy();
         try {
             unbindService(pdConnection);
         } catch (Exception e) {
@@ -784,37 +776,33 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         int sampleRate = AudioParameters.suggestSampleRate();
         pdService.initAudio(sampleRate, 1, 2, 20.0f);
         start();
+        pitchCoordinator.setAudioStarter(() -> {
+            if (pdService != null && !pdService.isRunning()) {
+                pdService.startAudio();
+            }
+        });
 
         dispatcher = new PdUiDispatcher();
         PdBase.setReceiver(dispatcher);
         dispatcher.addListener("pitch", new PdListener.Adapter() {
             @Override
             public void receiveFloat(String source, final float x) {
-                if (pressure >= sensitiveLevel) {
-                    pitchResetToken++;
-                    final int resetToken = pitchResetToken;
-                    if (pitchResetRunnable != null) {
-                        pitchHandler.removeCallbacks(pitchResetRunnable);
-                    }
-                    float pitch = (float) Math.round(x * 1000) / 1000;
-                    pitchView.setCurrentPitch(pitch);
-
-                    if (tuning.isChecked()) {
-                        for (int i = 0; i < Miditone.length; i++) {
-                            double target = tuningTarget((float) Miditone[i]);
-                            if (pitch >= target - 0.4 && pitch <= target + 0.4) {
-                                autoTuneString(i);
-                                break;
-                            }
-                        }
-                    }
-
-                    pitchResetRunnable = () -> {
-                        if (resetToken == pitchResetToken) {
-                            pitchView.setCurrentPitch(12);
-                        }
-                    };
-                    pitchHandler.postDelayed(pitchResetRunnable, 2500);
+                if (pressure >= sensitiveLevel && pitchView.getCenterPitch() > 0) {
+                    final float pitch = (float) Math.round(x * 1000) / 1000;
+                    pitchCoordinator.onPitchInput(
+                            () -> {
+                                pitchView.setCurrentPitch(pitch);
+                                if (tuning.isChecked()) {
+                                    for (int i = 0; i < Miditone.length; i++) {
+                                        double target = tuningTarget((float) Miditone[i]);
+                                        if (pitch >= target - 0.4 && pitch <= target + 0.4) {
+                                            autoTuneString(i);
+                                            break;
+                                        }
+                                    }
+                                }
+                            },
+                            () -> pitchView.setCurrentPitch(12));
                 }
             }
         });
@@ -860,40 +848,23 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         float noteForRef = displayMidi(baseNote);
         float noteForAudio = audioMidi(baseNote);
         float realMidi = midiToRealMidi(noteForAudio);
-        pitchResetToken++;
-        if (pitchResetRunnable != null) {
-            pitchHandler.removeCallbacks(pitchResetRunnable);
-        }
-        if (!pitchView.getRunned()) {
-            pitchView.start();
-        }
+        pitchCoordinator.invalidatePitchReset();
         pitchView.setKookPitch(setKookPitch);
         pitchView.setCenterPitch(realMidi);
         pitchView.setCurrentPitch(12);
         pitchView.setMidiRef(noteForRef);
-
-        if (pendingTriggerRunnable != null) {
-            noteHandler.removeCallbacks(pendingTriggerRunnable);
-        }
         final float midiForPd = realMidi;
-        pendingTriggerRunnable = () -> {
+        pitchCoordinator.scheduleTrigger(() -> TunerPitchCoordinator.runPdSend(() -> {
             PdBase.sendFloat("midinote", midiForPd);
             PdBase.sendBang("trigger");
-        };
-        noteHandler.postDelayed(pendingTriggerRunnable, STRING_SELECT_DEBOUNCE_MS);
+        }));
     }
 
     private void triggerNote2(float baseNote) {
         float noteForRef = displayMidi(baseNote);
         float noteForAudio = audioMidi(baseNote);
         float realMidi = midiToRealMidi(noteForAudio);
-        pitchResetToken++;
-        if (pitchResetRunnable != null) {
-            pitchHandler.removeCallbacks(pitchResetRunnable);
-        }
-        if (!pitchView.getRunned()) {
-            pitchView.start();
-        }
+        pitchCoordinator.invalidatePitchReset();
         pitchView.setKookPitch(setKookPitch);
         pitchView.setCenterPitch(realMidi);
         pitchView.setMidiRef(noteForRef);
