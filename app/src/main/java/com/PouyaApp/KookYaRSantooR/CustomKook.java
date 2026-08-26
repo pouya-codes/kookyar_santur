@@ -465,9 +465,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             Bundle data = new Bundle();
             data.putDoubleArray("custom", kookMiditone);
             data.putString("noteName", getString(R.string.custom));
-            Intent activity = new Intent(CustomKook.this, SanturTuner.class);
-            activity.putExtras(data);
-            startActivity(activity);
+            SanturTuner.openWith(this, data);
         }
 
         if (v.getId() == id.button_reset) {

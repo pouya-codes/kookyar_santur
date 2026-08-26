@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Card colours for the kook and piece pickers, drawn from the same
+         palette as the book shelf so the screens feel like one app. -->
+    <color name="pickRast">#1A237E</color>
+    <color name="pickChap">#B71C1C</color>
+    <color name="pickTalfiqi">#1B5E20</color>
+    <color name="pickCustom">#E65100</color>
+    <color name="pickSaved">#311B92</color>
+    <color name="pickPiece">#263238</color>
+    <color name="pickPieceAlt">#37474F</color>
+
+</resources>

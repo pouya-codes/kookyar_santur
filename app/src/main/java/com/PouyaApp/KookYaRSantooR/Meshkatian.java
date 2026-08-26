@@ -1,104 +1,149 @@
 package com.PouyaApp.KookYaRSantooR;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.preference.PreferenceManager;
-import android.view.View;
-import android.widget.Button;
-import com.google.android.material.button.MaterialButton;
 
-import com.PouyaApp.KookYaRSantooR.R.id;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
 
-public class Meshkatian extends AppCompatActivity implements View.OnClickListener {
-    private MaterialButton[] buttons = new MaterialButton[20];
-    private int[] buttonsId = {id.pieces1, id.pieces2, id.pieces3, id.pieces4, id.pieces5, id.pieces6, id.pieces7, id.pieces8, id.pieces9, id.pieces10, id.pieces11, id.pieces12, id.pieces13, id.pieces14, id.pieces15, id.pieces16, id.pieces17, id.pieces18, id.pieces19, id.pieces20};
-    private int[] buttonsText = {R.string.pieces1, R.string.pieces2, R.string.pieces3, R.string.pieces4, R.string.pieces5, R.string.pieces6, R.string.pieces7, R.string.pieces8, R.string.pieces9, R.string.pieces10, R.string.pieces11, R.string.pieces12, R.string.pieces13, R.string.pieces14, R.string.pieces15, R.string.pieces16, R.string.pieces17, R.string.pieces18, R.string.pieces19, R.string.pieces20};
-    public String fonts = "BZar.ttf";
+import com.kookyar.common.FeatureBar;
+import com.kookyar.common.MetronomeLauncher;
+import com.kookyar.common.RadifLauncher;
+
+/**
+ * The twenty pieces of "بیست قطعه برای سنتور".
+ *
+ * Picking a piece re-tunes the running tuner for it.
+ */
+public class Meshkatian extends AppCompatActivity {
+
+    private static final double[] SHUR_SEGAH = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
+            63.5, 65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82,
+            84, 85.5, 87, 89};
+    private static final double[] SHUR = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5,
+            65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+            87, 89};
+    private static final double[] SHUR_SOL = {48, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
+            65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+            87, 89};
+    private static final double[] SHUR_RE = {50, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
+            65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 85.5,
+            87, 89};
+    private static final double[] DELANGIZAN = {48, 53, 55, 57, 58.5, 60, 62, 63, 65,
+            63.5, 65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80.50, 82, 84, 86,
+            87, 89};
+    private static final double[] QAMANGIZ = {50, 53, 55, 57, 58.5, 60, 62, 63, 65,
+            63.5, 65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80.50, 82, 84, 86,
+            87, 89};
+    private static final double[] SARKESH = {48, 53, 55, 56.5, 58, 60, 62, 63, 65,
+            63.5, 65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+            87, 89};
+    private static final double[] HOMAYUN = {48, 53, 55, 56.5, 59, 60, 62, 63, 65,
+            64, 65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+            87, 89};
+    private static final double[] MAHUR = {48, 53, 55, 57, 58, 60, 62, 63.5, 65,
+            64, 65, 67, 69, 71, 72, 74, 76, 77, 76, 77, 79, 81, 82, 84, 86,
+            88, 89};
+    private static final double[] CHAHARGAH = {48, 53, 55, 56.5, 59, 60, 61.5, 64, 65,
+            64, 65, 67, 68.5, 71, 72, 73.5, 76, 77, 75.5, 78, 79, 80.5, 83,
+            84, 86, 88, 89};
+
+    /** One piece: its title and the tuning the santur needs for it. */
+    private static final class Piece {
+        final int titleRes;
+        final double[] tuning;
+
+        Piece(int titleRes, double[] tuning) {
+            this.titleRes = titleRes;
+            this.tuning = tuning;
+        }
+    }
+
+    private static final Piece[] PIECES = {
+            new Piece(R.string.pieces1, SHUR_SEGAH),
+            new Piece(R.string.pieces2, SHUR_SEGAH),
+            new Piece(R.string.pieces3, SHUR_SEGAH),
+            new Piece(R.string.pieces4, SHUR),
+            new Piece(R.string.pieces5, SHUR),
+            new Piece(R.string.pieces6, SHUR),
+            new Piece(R.string.pieces7, SHUR),
+            new Piece(R.string.pieces8, SHUR),
+            new Piece(R.string.pieces9, SHUR),
+            new Piece(R.string.pieces10, SHUR_SOL),
+            new Piece(R.string.pieces11, SHUR),
+            new Piece(R.string.pieces12, SHUR),
+            new Piece(R.string.pieces13, DELANGIZAN),
+            new Piece(R.string.pieces14, SHUR_RE),
+            new Piece(R.string.pieces15, QAMANGIZ),
+            new Piece(R.string.pieces16, SARKESH),
+            new Piece(R.string.pieces17, HOMAYUN),
+            new Piece(R.string.pieces18, HOMAYUN),
+            new Piece(R.string.pieces19, MAHUR),
+            new Piece(R.string.pieces20, CHAHARGAH),
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meshkatian);
-        setFace();
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+        setContentView(R.layout.activity_pick_list);
 
-    }
-
-    private void setFace() {
-        // TODO Auto-generated method stub
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
-                + "");
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = (MaterialButton) findViewById(buttonsId[i]);
-            buttons[i].setText(getString(buttonsText[i]));
-            buttons[i].setTypeface(face);
-            buttons[i].setOnClickListener(this);
+        PickList list = new PickList(this, "BZar.ttf");
+        for (int i = 0; i < PIECES.length; i++) {
+            final Piece piece = PIECES[i];
+            list.addCard(getString(piece.titleRes),
+                    i % 2 == 0 ? R.color.pickPiece : R.color.pickPieceAlt,
+                    com.kookyar.common.R.drawable.ic_kookyar_text,
+                    () -> openPiece(piece));
         }
-
+        initFeatureBar();
     }
 
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        int i = v.getId();
-        Bundle data = new Bundle();
-        double[] kookMiditone = {};
-        if (i == id.pieces1 || i == id.pieces2 || i == id.pieces3) {
-            kookMiditone = new double[]{48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
-                    63.5, 65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82,
-                    84, 85.5, 87, 89};
-        } else if (i == id.pieces4 || i == id.pieces5 || i == id.pieces6 || i == id.pieces7 || i == id.pieces8 || i == id.pieces9 || i == id.pieces11 || i == id.pieces12) {
-            kookMiditone = new double[]{48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5,
-                    65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces10) {
-            kookMiditone = new double[]{48, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
-                    65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces14) {
-            kookMiditone = new double[]{50, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
-                    65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 85.5,
-                    87, 89};
-        } else if (i == id.pieces13) { //delangizan
-            kookMiditone = new double[]{48, 53, 55, 57, 58.5, 60, 62, 63, 65, 63.5,
-                    65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80.50, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces15) {//qamangiz
-            kookMiditone = new double[]{50, 53, 55, 57, 58.5, 60, 62, 63, 65, 63.5,
-                    65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80.50, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces16) {//sarkesh
-            kookMiditone = new double[]{48, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
-                    65, 67, 69, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces17 || i == id.pieces18) {
-            kookMiditone = new double[]{48, 53, 55, 56.5, 59, 60, 62, 63, 65, 64,
-                    65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                    87, 89};
-        } else if (i == id.pieces19) {
-            kookMiditone = new double[]{48, 53, 55, 57, 58, 60, 62, 63.5, 65, 64,
-                    65, 67, 69, 71, 72, 74, 76, 77, 76, 77, 79, 81, 82, 84, 86,
-                    88, 89};
-        } else if (i == id.pieces20) {
-            kookMiditone = new double[]{48, 53, 55, 56.5, 59, 60, 61.5, 64, 65,
-                    64, 65, 67, 68.5, 71, 72, 73.5, 76, 77, 75.5, 78, 79, 80.5, 83,
-                    84, 86, 88, 89};
-        }
-
-        Button t = (MaterialButton) findViewById(i);
-        String title = (String) t.getText();
-
-        data.putString("title", title);
-        data.putDoubleArray("custom", kookMiditone);
-
-        Intent activity = new Intent(Meshkatian.this, SanturTuner.class);
-        activity.putExtras(data);
-        startActivity(activity);
-
+    private void openPiece(Piece piece) {
+        Bundle selection = new Bundle();
+        selection.putString("title", getString(piece.titleRes));
+        selection.putDoubleArray("custom", piece.tuning.clone());
+        SanturTuner.openWith(this, selection);
     }
 
+    private void initFeatureBar() {
+        FeatureBar featureBar = findViewById(R.id.feature_bar);
+        featureBar.setAccentColor(ContextCompat.getColor(this, R.color.accentColor));
+        featureBar.setInactiveColor(ContextCompat.getColor(this, R.color.onSurfaceVariant));
+        featureBar.setItems(
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_tuner),
+                        com.kookyar.common.R.drawable.ic_kookyar_tuner,
+                        () -> SanturTuner.bringToFront(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_kooks),
+                        com.kookyar.common.R.drawable.ic_kookyar_kook_list,
+                        () -> {
+                            startActivity(new Intent(this, SanturMenu.class));
+                            finish();
+                        }),
+                // Highlighted because a piece is part of the book shelf, but still
+                // tappable so the shelf itself stays reachable.
+                new FeatureBar.Item(
+                        getString(com.kookyar.common.R.string.kookyar_feature_books),
+                        com.kookyar.common.R.drawable.ic_kookyar_text,
+                        true,
+                        () -> {
+                            startActivity(new Intent(this, Books.class));
+                            finish();
+                        }),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_metronome),
+                        com.kookyar.common.R.drawable.ic_kookyar_metronome,
+                        () -> MetronomeLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_radif),
+                        com.kookyar.common.R.drawable.ic_kookyar_radif,
+                        () -> RadifLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_settings),
+                        com.kookyar.common.R.drawable.ic_kookyar_settings,
+                        () -> startActivity(new Intent(this, Prefs.class))));
+    }
 }

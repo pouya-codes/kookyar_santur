@@ -16,8 +16,8 @@ android {
         applicationId 'com.PouyaApp.KookYaRSantooR'
         minSdk 21
         targetSdk 37
-        versionName '4.1.4'
-        versionCode 51
+        versionName '4.2.0'
+        versionCode 52
 
         vectorDrawables.useSupportLibrary = true
     }

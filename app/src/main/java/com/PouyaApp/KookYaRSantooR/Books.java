@@ -2,6 +2,7 @@ package com.PouyaApp.KookYaRSantooR;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 
 import com.PouyaApp.KookYaRSantooR.R.id;
 import com.google.android.material.card.MaterialCardView;
+import com.kookyar.common.FeatureBar;
+import com.kookyar.common.MetronomeLauncher;
+import com.kookyar.common.RadifLauncher;
 
 public class Books extends AppCompatActivity {
 
@@ -46,6 +50,42 @@ public class Books extends AppCompatActivity {
         setupTunerBook(id.book_sepideh, 8);
         setupActivityBook(id.book_meshkatian, Meshkatian.class);
         setupActivityBook(id.book_dore, DoreyeEbtedaE.class);
+
+        initFeatureBar();
+    }
+
+    /** Flat switcher: the same bar as the tuner, so no screen is a dead end. */
+    private void initFeatureBar() {
+        FeatureBar featureBar = findViewById(R.id.feature_bar);
+        featureBar.setAccentColor(ContextCompat.getColor(this, R.color.accentColor));
+        featureBar.setInactiveColor(ContextCompat.getColor(this, R.color.onSurfaceVariant));
+        featureBar.setItems(
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_tuner),
+                        com.kookyar.common.R.drawable.ic_kookyar_tuner,
+                        () -> SanturTuner.bringToFront(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_kooks),
+                        com.kookyar.common.R.drawable.ic_kookyar_kook_list,
+                        () -> {
+                            startActivity(new Intent(this, SanturMenu.class));
+                            finish();
+                        }),
+                FeatureBar.Item.current(
+                        getString(com.kookyar.common.R.string.kookyar_feature_books),
+                        com.kookyar.common.R.drawable.ic_kookyar_text),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_metronome),
+                        com.kookyar.common.R.drawable.ic_kookyar_metronome,
+                        () -> MetronomeLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_radif),
+                        com.kookyar.common.R.drawable.ic_kookyar_radif,
+                        () -> RadifLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_settings),
+                        com.kookyar.common.R.drawable.ic_kookyar_settings,
+                        () -> startActivity(new Intent(this, Prefs.class))));
     }
 
     private void setTypeface(Typeface face, int textViewId) {
@@ -78,9 +118,9 @@ public class Books extends AppCompatActivity {
     }
 
     private void openTunerWithBook(int bookNumber) {
-        Intent activity = new Intent(Books.this, SanturTuner.class);
-        activity.putExtra("book", bookNumber);
-        startActivity(activity);
+        Bundle selection = new Bundle();
+        selection.putInt("book", bookNumber);
+        SanturTuner.openWith(this, selection);
     }
 
 }

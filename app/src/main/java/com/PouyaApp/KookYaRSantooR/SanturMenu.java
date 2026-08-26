@@ -1,278 +1,161 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import androidx.preference.PreferenceManager;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.PouyaApp.KookYaRSantooR.R;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.kookyar.common.FeatureBar;
+import com.kookyar.common.MetronomeLauncher;
+import com.kookyar.common.RadifLauncher;
 
 import java.util.List;
 
-public class SanturMenu extends AppCompatActivity implements View.OnClickListener {
-    private Button navaTuning, shurTuning, shurTuningPavar, esfehanTuning, mahurTuning, segahTuning, chahargahTuning, homayunTuning, shurReTuning, esfehanFaTuning,homayounChapTuning ,mahurChapTuning ,segahChapTuning,chahargahChapTuning, faMinorTuning, doMajorTuning, doMinorTuning, customTuning;
-    private LinearLayout savedKooksContainer;
-    private TextView savedKooksTitle;
-    private Bundle data;
-    public String fonts = "BNazanin.ttf";
-    private SharedPreferences prefs;
-    private boolean tunerType ;
+/**
+ * Kook picker.
+ *
+ * Picking a kook re-tunes the running tuner rather than opening a second one.
+ */
+public class SanturMenu extends AppCompatActivity {
 
+    /** One kook entry: its display name and the id the tuner expects. */
+    private static final class Kook {
+        final int titleRes;
+        final int kuk;
+
+        Kook(int titleRes, int kuk) {
+            this.titleRes = titleRes;
+            this.kuk = kuk;
+        }
+    }
+
+    private static final Kook[] RAST_KOOKS = {
+            new Kook(R.string.shur, 1),
+            new Kook(R.string.shurPayver, 12),
+            new Kook(R.string.homayun, 6),
+            new Kook(R.string.esfehan, 2),
+            new Kook(R.string.mahur, 3),
+            new Kook(R.string.segah, 4),
+            new Kook(R.string.nava, 13),
+            new Kook(R.string.chahargah, 5),
+    };
+
+    private static final Kook[] CHAP_KOOKS = {
+            new Kook(R.string.shorRe, 7),
+            new Kook(R.string.HomayunChap, 14),
+            new Kook(R.string.esfehanFa, 8),
+            new Kook(R.string.MahurChap, 15),
+            new Kook(R.string.segahChap, 16),
+            new Kook(R.string.chahargahChap, 17),
+    };
+
+    private static final Kook[] TALFIQI_KOOKS = {
+            new Kook(R.string.faMinor, 9),
+            new Kook(R.string.doMinor, 11),
+            new Kook(R.string.doMajor, 10),
+    };
+
+    private PickList list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        setContentView(R.layout.activity_santur_menu);
-        setFace();
-        refreshSavedKooks();
+        setContentView(R.layout.activity_pick_list);
+        list = new PickList(this, "BNazanin.ttf");
+        buildCards();
+        initFeatureBar();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshSavedKooks();
+        // A kook saved in the custom editor should show up without a restart.
+        buildCards();
     }
 
-    private void refreshSavedKooks() {
-        if (savedKooksContainer == null) {
-            return;
-        }
-        savedKooksContainer.removeAllViews();
-        List<SavedCustomKook.Entry> entries = SavedCustomKook.loadAll(this);
-        if (entries.isEmpty()) {
-            savedKooksTitle.setVisibility(View.GONE);
-            return;
-        }
-        savedKooksTitle.setVisibility(View.VISIBLE);
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts);
-        for (SavedCustomKook.Entry entry : entries) {
-            Button button = new Button(this);
-            button.setText(entry.name);
-            button.setTypeface(face);
-            button.setTextColor(ContextCompat.getColor(this, R.color.white));
-            button.setBackgroundResource(R.drawable.custom);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    (int) (70 * getResources().getDisplayMetrics().density));
-            params.width = (int) (220 * getResources().getDisplayMetrics().density);
-            params.topMargin = (int) (15 * getResources().getDisplayMetrics().density);
-            button.setLayoutParams(params);
-            button.setTextSize(20);
-            button.setOnClickListener(v -> launchSavedKook(entry));
-            savedKooksContainer.addView(button);
-        }
-    }
+    private void buildCards() {
+        list.clear();
 
-    private void launchSavedKook(SavedCustomKook.Entry entry) {
-        Bundle bundle = new Bundle();
-        bundle.putDoubleArray("custom", entry.miditones);
-        bundle.putString("noteName", entry.name);
-        Intent activity = new Intent(SanturMenu.this, SanturTuner.class);
-        activity.putExtras(bundle);
-        startActivity(activity);
-    }
+        list.addHeader("راست کوک");
+        addKooks(RAST_KOOKS, R.color.pickRast);
 
-    private void setFace() {
-        // TODO Auto-generated method stub
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
-                + "");
-        shurTuning = (Button) findViewById(R.id.shur_Tuning);
-        shurTuning.setOnClickListener(this);
-        shurTuning.setTypeface(face);
+        list.addHeader("چپ کوک");
+        addKooks(CHAP_KOOKS, R.color.pickChap);
 
-        shurTuningPavar = (Button) findViewById(R.id.shur_Tuning_payvar);
-        shurTuningPavar.setOnClickListener(this);
-        shurTuningPavar.setTypeface(face);
+        list.addHeader("تلفیقی");
+        addKooks(TALFIQI_KOOKS, R.color.pickTalfiqi);
 
-        esfehanTuning = (Button) findViewById(R.id.esfehan_Tuning);
-        esfehanTuning.setOnClickListener(this);
-        esfehanTuning.setTypeface(face);
+        list.addHeader("کوک دلخواه");
+        list.addCard(getString(R.string.custom), "کوک سیم‌ها را خودتان بچینید",
+                R.color.pickCustom, com.kookyar.common.R.drawable.ic_kookyar_settings,
+                () -> startActivity(new Intent(this, CustomKook.class)));
 
-        mahurTuning = (Button) findViewById(R.id.mahur_Tuning);
-        mahurTuning.setOnClickListener(this);
-        mahurTuning.setTypeface(face);
-
-
-        segahTuning = (Button) findViewById(R.id.segah_Tuning);
-        segahTuning.setOnClickListener(this);
-        segahTuning.setTypeface(face);
-
-        chahargahTuning = (Button) findViewById(R.id.chargah_Tuning);
-        chahargahTuning.setOnClickListener(this);
-        chahargahTuning.setTypeface(face);
-
-
-        homayunTuning = (Button) findViewById(R.id.Homayun_Tuning);
-        homayunTuning.setOnClickListener(this);
-        homayunTuning.setTypeface(face);
-
-
-        shurReTuning = (Button) findViewById(R.id.shorRe_Tuning);
-        shurReTuning.setOnClickListener(this);
-        shurReTuning.setTypeface(face);
-
-
-        esfehanFaTuning = (Button) findViewById(R.id.esfehanFa_Tuning);
-        esfehanFaTuning.setOnClickListener(this);
-        esfehanFaTuning.setTypeface(face);
-
-
-        faMinorTuning = (Button) findViewById(R.id.faMinor_Tuning);
-        faMinorTuning.setOnClickListener(this);
-        faMinorTuning.setTypeface(face);
-
-
-        doMajorTuning = (Button) findViewById(R.id.doMajor_Tuning);
-        doMajorTuning.setOnClickListener(this);
-        doMajorTuning.setTypeface(face);
-
-
-        doMinorTuning = (Button) findViewById(R.id.doMinor_Tuning);
-        doMinorTuning.setOnClickListener(this);
-        doMinorTuning.setTypeface(face);
-
-
-        customTuning = (Button) findViewById(R.id.custom_Tuning);
-        customTuning.setOnClickListener(this);
-        customTuning.setTypeface(face);
-
-
-        navaTuning = (Button) findViewById(R.id.nava_Tuning);
-        navaTuning.setOnClickListener(this);
-        navaTuning.setTypeface(face);
-
-        chahargahChapTuning = (Button) findViewById(R.id.chahargahChap_Tuning);
-        chahargahChapTuning.setOnClickListener(this);
-        chahargahChapTuning.setTypeface(face);
-
-        segahChapTuning = (Button) findViewById(R.id.segahChap_Tuning);
-        segahChapTuning.setOnClickListener(this);
-        segahChapTuning.setTypeface(face);
-
-        homayounChapTuning = (Button) findViewById(R.id.homayounChap_Tuning);
-        homayounChapTuning.setOnClickListener(this);
-        homayounChapTuning.setTypeface(face);
-
-        mahurChapTuning = (Button) findViewById(R.id.mahurChap_Tuning);
-        mahurChapTuning.setOnClickListener(this);
-        mahurChapTuning.setTypeface(face);
-
-        TextView tv_rastkook = (TextView) findViewById(R.id.tv_rastKook) ;
-        tv_rastkook.setTypeface(face);
-
-        TextView tv_chap = (TextView) findViewById(R.id.tv_chapKook) ;
-        tv_chap.setTypeface(face);
-
-        TextView tv_talfiqi = (TextView) findViewById(R.id.tv_talifiqiKook) ;
-        tv_talfiqi.setTypeface(face);
-
-        savedKooksContainer = findViewById(R.id.saved_kooks_container);
-        savedKooksTitle = findViewById(R.id.tv_savedKooks);
-        savedKooksTitle.setTypeface(face);
-    }
-
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-
-        int viewId = v.getId();
-        if (viewId == R.id.shur_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 1);
-            launchActivity();
-        } else if (viewId == R.id.shur_Tuning_payvar) {
-            data = new Bundle();
-            data.putInt("kuk", 12);
-            launchActivity();
-        } else if (viewId == R.id.Homayun_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 6);
-            launchActivity();
-        } else if (viewId == R.id.esfehan_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 2);
-            launchActivity();
-        } else if (viewId == R.id.mahur_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 3);
-            launchActivity();
-        } else if (viewId == R.id.segah_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 4);
-            launchActivity();
-        } else if (viewId == R.id.chargah_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 5);
-            launchActivity();
-        } else if (viewId == R.id.shorRe_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 7);
-            launchActivity();
-        } else if (viewId == R.id.esfehanFa_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 8);
-            launchActivity();
-        } else if (viewId == R.id.faMinor_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 9);
-            launchActivity();
-        } else if (viewId == R.id.doMajor_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 10);
-            launchActivity();
-        } else if (viewId == R.id.doMinor_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 11);
-            launchActivity();
-        } else if (viewId == R.id.custom_Tuning) {
-            Intent activity;
-            activity = new Intent(SanturMenu.this, CustomKook.class);
-            startActivity(activity);
-        } else if (viewId == R.id.nava_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 13);
-            launchActivity();
-        } else if (viewId == R.id.homayounChap_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 14);
-            launchActivity();
-        } else if (viewId == R.id.mahurChap_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 15);
-            launchActivity();
-        } else if (viewId == R.id.segahChap_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 16);
-            launchActivity();
-        } else if (viewId == R.id.chahargahChap_Tuning) {
-            data = new Bundle();
-            data.putInt("kuk", 17);
-            launchActivity();
+        List<SavedCustomKook.Entry> saved = SavedCustomKook.loadAll(this);
+        if (!saved.isEmpty()) {
+            list.addHeader(getString(R.string.saved_kooks_menu_title));
+            for (SavedCustomKook.Entry entry : saved) {
+                list.addCard(entry.name, R.color.pickSaved,
+                        com.kookyar.common.R.drawable.ic_kookyar_kook_list,
+                        () -> openSavedKook(entry));
+            }
         }
     }
 
-    private void launchActivity() {
-        Intent activity = new Intent(SanturMenu.this, SanturTuner.class);
-        activity.putExtras(data);
-        startActivity(activity);
+    private void addKooks(Kook[] kooks, int color) {
+        for (Kook kook : kooks) {
+            list.addCard(getString(kook.titleRes), color,
+                    com.kookyar.common.R.drawable.ic_kookyar_kook_list,
+                    () -> openKook(kook.kuk));
+        }
     }
 
+    private void openKook(int kuk) {
+        Bundle selection = new Bundle();
+        selection.putInt("kuk", kuk);
+        SanturTuner.openWith(this, selection);
+    }
 
+    private void openSavedKook(SavedCustomKook.Entry entry) {
+        Bundle selection = new Bundle();
+        selection.putDoubleArray("custom", entry.miditones);
+        selection.putString("noteName", entry.name);
+        SanturTuner.openWith(this, selection);
+    }
+
+    /** Same flat switcher as the tuner, so features stay one tap apart. */
+    private void initFeatureBar() {
+        FeatureBar featureBar = findViewById(R.id.feature_bar);
+        featureBar.setAccentColor(ContextCompat.getColor(this, R.color.accentColor));
+        featureBar.setInactiveColor(ContextCompat.getColor(this, R.color.onSurfaceVariant));
+        featureBar.setItems(
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_tuner),
+                        com.kookyar.common.R.drawable.ic_kookyar_tuner,
+                        () -> SanturTuner.bringToFront(this)),
+                FeatureBar.Item.current(
+                        getString(com.kookyar.common.R.string.kookyar_feature_kooks),
+                        com.kookyar.common.R.drawable.ic_kookyar_kook_list),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_books),
+                        com.kookyar.common.R.drawable.ic_kookyar_text,
+                        () -> {
+                            startActivity(new Intent(this, Books.class));
+                            finish();
+                        }),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_metronome),
+                        com.kookyar.common.R.drawable.ic_kookyar_metronome,
+                        () -> MetronomeLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_radif),
+                        com.kookyar.common.R.drawable.ic_kookyar_radif,
+                        () -> RadifLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_settings),
+                        com.kookyar.common.R.drawable.ic_kookyar_settings,
+                        () -> startActivity(new Intent(this, Prefs.class))));
+    }
 }

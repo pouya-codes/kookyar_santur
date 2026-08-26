@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollViewBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="@color/windowBackground"
-    android:padding="12dp">
+    android:background="@color/windowBackground">
+
+    <ScrollView
+        android:id="@+id/scrollViewBooks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -416,4 +422,12 @@
 
     </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+
+    <com.kookyar.common.FeatureBar
+        android:id="@+id/feature_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardColor" />
+
+</LinearLayout>

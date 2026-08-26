@@ -1,10 +1,14 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.FeatureBar;
+import com.kookyar.common.MetronomeLauncher;
+import com.kookyar.common.RadifLauncher;
 import com.kookyar.common.PersianReshape;
 import com.kookyar.common.PitchView;
 import com.kookyar.common.TunerPitchCoordinator;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -53,12 +57,19 @@ import org.puredata.core.utils.IoUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SanturTuner extends AppCompatActivity implements OnClickListener {
     private volatile boolean threadRuned = false;
     private volatile boolean threadRuned2 = false;
     private static final String TAG = "KookYaR";
     private static final int PERMISSION_REQUEST_RECORD_AUDIO = 1001;
+    private static final String LAST_KUK_KEY = "lastKuk";
+    /** The keys owned by the settings screen. */
+    private static final Set<String> SETTINGS_KEYS = new HashSet<>(
+            Arrays.asList("mi", "ref", "type", "sensitive", "changepitch"));
     public static boolean mi;
     final private int highSensitive = 55;
     final private int midSensitive = 50;
@@ -213,21 +224,48 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         int itemId = item.getItemId();
         if (itemId == R.id.help_tuner) {
-            Intent i = new Intent(SanturTuner.this, TunerHelp.class);
-            startActivity(i);
-        } else if (itemId == R.id.bazgasht) {
-            handleBackWithSavePrompt();
-        } else if (itemId == R.id.settings_menu) {
-            Intent j = new Intent(SanturTuner.this, Prefs.class);
-            startActivity(j);
+            startActivity(new Intent(SanturTuner.this, TunerHelp.class));
         } else if (itemId == id.change_tempe) {
-            Intent k = new Intent(SanturTuner.this, CustomeTempeament.class);
-            startActivity(k);
+            startActivity(new Intent(SanturTuner.this, CustomeTempeament.class));
+        } else if (itemId == R.id.kook_help_menu) {
+            startActivity(new Intent(SanturTuner.this, KookHelp.class));
+        } else if (itemId == R.id.content_menu) {
+            startActivity(new Intent(SanturTuner.this, ContentMenu.class));
         }
         return true;
+    }
+
+    /** Flat switcher: every feature is one tap from the tuner. */
+    private void initFeatureBar() {
+        FeatureBar featureBar = findViewById(R.id.feature_bar);
+        featureBar.setAccentColor(ContextCompat.getColor(this, R.color.accentColor));
+        featureBar.setInactiveColor(ContextCompat.getColor(this, R.color.onSurfaceVariant));
+        featureBar.setItems(
+                FeatureBar.Item.current(
+                        getString(com.kookyar.common.R.string.kookyar_feature_tuner),
+                        com.kookyar.common.R.drawable.ic_kookyar_tuner),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_kooks),
+                        com.kookyar.common.R.drawable.ic_kookyar_kook_list,
+                        () -> startActivity(new Intent(this, SanturMenu.class))),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_books),
+                        com.kookyar.common.R.drawable.ic_kookyar_text,
+                        () -> startActivity(new Intent(this, Books.class))),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_metronome),
+                        com.kookyar.common.R.drawable.ic_kookyar_metronome,
+                        () -> MetronomeLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_radif),
+                        com.kookyar.common.R.drawable.ic_kookyar_radif,
+                        () -> RadifLauncher.open(this)),
+                FeatureBar.Item.of(
+                        getString(com.kookyar.common.R.string.kookyar_feature_settings),
+                        com.kookyar.common.R.drawable.ic_kookyar_settings,
+                        () -> startActivity(new Intent(this, Prefs.class))));
     }
 
     @Override
@@ -245,11 +283,15 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         data = extras;
         kuk = data.getInt("kuk", 0);
         book = data.getInt("book", 0);
-        String title = data.getString("title");
-        if (title != null) {
-            setTitle(title.substring(3));
-        }
         Miditone = data.getDoubleArray("custom");
+        // The tuner is the launcher screen, so a direct start has no kook to
+        // load: fall back to the last one the user picked.
+        SharedPreferences startPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (kuk == 0 && book == 0 && Miditone == null) {
+            kuk = startPrefs.getInt(LAST_KUK_KEY, 1);
+        } else if (kuk > 0) {
+            startPrefs.edit().putInt(LAST_KUK_KEY, kuk).apply();
+        }
         prefsListnner();
 
         initGui();
@@ -318,6 +360,12 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         listener = new OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences prefs,
                                                   String key) {
+                // Only a change on the settings screen should retune. The tuner
+                // also writes the saved tuning, the temperament and the last
+                // kook to the same file, and those must not be picked up here.
+                if (key != null && !SETTINGS_KEYS.contains(key)) {
+                    return;
+                }
                 Boolean change = prefs.getBoolean("mi", false);
 
                 laFrequens = Integer.parseInt(prefs.getString("ref", "440"));
@@ -463,69 +511,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
         tabelLayout = (LinearLayout) findViewById(id.tableLayout_main);
         tabelLayout.setOnClickListener(this);
-        //
-        double[] shurMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5,
-                65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                87, 89};
-        double[] navaMiditone = {48, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
-                65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82, 84, 85,
-                87, 89};
-
-//         double[] shurMiditone = { 48, 52.98, 55.02, 56.52, 57.96, 60, 61.48,
-//         62.94, 65.98, 63.54,
-//         64.98, 67.02, 68.52, 69.96, 72, 74.04, 74.94, 76.98, 75.54, 76.98,
-//         79.02, 79.94, 81.96, 84, 86.04,
-//         86.94, 88.98 };
-        double[] shurMiditonePayvar = {51.80, 53.28, 55.32, 56.73, 58.28,
-                60.38, 61.86, 63.25, 65.34, 63.80, 65.28, 67.32, 68.73, 70.28,
-                72.38, 74.34, 75.25, 77.34, 75.80, 77.28, 79.32, 80.20, 82.28,
-                84.38, 86.34, 87.25, 89.34};
-        double[] esfehanMiditone = {48, 53, 55, 56.5, 59, 60, 62, 63, 65,
-                63.5, 65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 83,
-                84, 86, 87, 89};
-        double[] mahurMiditone = {48, 53, 55, 56.5, 58, 60, 62, 63, 65, 64,
-                65, 67, 69, 70, 72, 73.5, 75, 77, 76, 77, 79, 80, 82, 84, 86,
-                87, 89};
-        double[] segahMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
-                63.5, 65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82,
-                84, 85.5, 87, 89};
-        double[] chahargahMiditone = {48, 53, 55, 56.5, 59, 60, 61.5, 63.5,
-                66, 64, 65, 67, 68.5, 71, 72, 73.5, 76, 77, 76, 77, 79, 80, 83,
-                84, 85.5, 88, 89};
-
-        double[] homayunMiditone = {48, 53, 55, 56.5, 59, 60, 62, 63, 65, 64,
-                65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
-                87, 89};
-
-        double[] shourReMiditone = {50, 53, 55, 57, 58, 60, 62, 63, 65, 63.5,
-                65, 67, 69, 70, 72, 74, 75, 77, 76, 77, 79, 80, 81.5, 84, 86,
-                87, 89};
-        double[] esfehanFaMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
-                64, 65, 67, 68, 70, 72, 73, 75, 77, 76, 77, 79, 80, 82, 84, 85,
-                87, 89};
-        double[] faMinorMiditone = {48, 53, 55, 56, 58, 60, 61, 63, 65, 64,
-                65, 67, 68, 70, 72, 73, 75, 77, 76, 77, 79, 80, 82, 84, 85, 87,
-                89};
-        double[] doMajorMiditone = {48, 53, 55, 57, 59, 60, 62, 64, 65, 64,
-                65, 67, 69, 71, 72, 74, 76, 77, 76, 77, 79, 81, 83, 84, 86, 88,
-                89};
-        double[] doMinorMiditone = {48, 53, 55, 56, 58, 60, 62, 63, 65, 64,
-                65, 67, 68, 70, 72, 74, 75, 77, 76, 77, 79, 80, 82, 84, 86, 87,
-                89};
-
-        double[] segahMiKoron = {48, 53, 55, 56.5, 58, 60, 62, 63, 65,
-                63.5, 65, 67, 68.5, 70.50, 72, 74, 75, 77,
-                75.5, 77, 79, 80, 82.50, 84, 86, 87, 89};
-        double[] homayunDo = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
-                64, 65, 67, 68, 70, 72, 73.50, 75, 77,
-                76, 77, 79, 80, 82, 84, 85.50, 87, 89};
-        double[] chahargaheSol = {48, 54, 55, 56.5, 59, 60, 62, 63, 65
-                , 63.5, 66, 67, 68.5, 71, 72, 74, 75, 77,
-                75.5, 78, 79, 81, 82.5, 85, 86, 87.5, 90};
-
-        double[] MahurDo = {48, 53, 55, 57, 59, 60, 62, 63.5, 65,
-                64, 65, 67, 68.5, 70, 72, 74, 75, 77,
-                76, 77, 79, 80.50, 83, 84, 86, 87, 89};
 //		Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
 //				+ "");
 
@@ -597,10 +582,178 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         }
 
         mi = prefs.getBoolean("mi", false);
-        if (mi)
-            kharakDo.setBackgroundResource(R.drawable.mi);
-        else
-            kharakDo.setBackgroundResource(R.drawable.doo);
+        applyKookSelection();
+
+        if (prefs.getString("type", "سل کوک").compareTo("سل کوک") == 0) {
+            santurType = 0;
+            pitchView.setSetarType("سل کوک");
+        } else if (prefs.getString("type", "سل کوک").compareTo("لا کوک") == 0) {
+            santurType = 2;
+            pitchView.setSetarType("لا کوک");
+        } else if (prefs.getString("type", "سل کوک").compareTo("سی کوک") == 0) {
+            santurType = 4;
+            pitchView.setSetarType("سی کوک");
+        } else if (prefs.getString("type", "سل کوک").compareTo("دو کوک") == 0) {
+            santurType = 5;
+            pitchView.setSetarType("سی کوک");
+        } else if (prefs.getString("type", "سل کوک").compareTo("می کوک") == 0) {
+            santurType = -2;
+            pitchView.setSetarType("می کوک");
+        } else if (prefs.getString("type", "سل کوک")
+                .compareTo("فا کوک") == 0) {
+            santurType = -1;
+            pitchView.setSetarType("فا کوک");
+        }
+
+        if (prefs.getString("sensitive", "2").compareTo("3") == 0) {
+            sensitiveLevel = highSensitive;
+        } else if (prefs.getString("sensitive", "2").compareTo("1") == 0) {
+            sensitiveLevel = midSensitive;
+        } else {
+            sensitiveLevel = lowSensitive;
+        }
+
+        pitchLabel.setText(PersianReshape
+                .reshape("سیم های مورد نظر جهت کوک کردن را انتخاب کنید"));
+        if(prefs.getString("changepitch","1").compareTo("1")==0) {
+            pitchChange = 0 ;
+        }
+        else if(prefs.getString("changepitch","2").compareTo("2")==0) {
+            pitchChange =(float) -0.5 ;
+        }
+        else if(prefs.getString("changepitch","3").compareTo("3")==0) {
+            pitchChange = -1 ;
+        }
+        else if(prefs.getString("changepitch","4").compareTo("4")==0) {
+            pitchChange = -2 ;
+        }
+
+        initFeatureBar();
+    }
+
+    /**
+     * Re-tunes the running tuner for a kook, book or custom tuning.
+     *
+     * The tuner is the launcher screen and runs as a single task, so the pickers
+     * hand their choice to the instance that is already on screen instead of
+     * stacking a second tuner on top of it.
+     */
+    static void openWith(Activity source, Bundle selection) {
+        Intent intent = new Intent(source, SanturTuner.class);
+        intent.putExtras(selection);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        source.startActivity(intent);
+        source.finish();
+    }
+
+    /**
+     * Returns to the tuner and leaves its kook alone.
+     *
+     * Used by the feature bar of the picker screens, which may sit more than one
+     * level above the tuner.
+     */
+    static void bringToFront(Activity source) {
+        Intent intent = new Intent(source, SanturTuner.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        source.startActivity(intent);
+        source.finish();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        if (extras == null) {
+            return;
+        }
+        if (extras.getInt("kuk", 0) == 0 && extras.getInt("book", 0) == 0
+                && extras.getDoubleArray("custom") == null) {
+            // Plain re-entry, e.g. the feature bar or the service notification.
+            return;
+        }
+        setIntent(intent);
+        data = extras;
+        kuk = extras.getInt("kuk", 0);
+        book = extras.getInt("book", 0);
+        Miditone = extras.getDoubleArray("custom");
+
+        applyKookSelection();
+        clearStringSelection();
+        if (book > 0) {
+            prepareTunerFromBook();
+        }
+        if (kuk > 0) {
+            prefs.edit().putInt(LAST_KUK_KEY, kuk).apply();
+        }
+    }
+
+    /**
+     * Loads the tuning table for the current kuk/book into {@link #Miditone}
+     * and titles the screen after it.
+     *
+     * The bridge artwork is reset first because a previous selection may have
+     * swapped it for a variant.
+     */
+    private void applyKookSelection() {
+        kharakDo.setBackgroundResource(mi ? R.drawable.mi : R.drawable.doo);
+        kharakLa.setBackgroundResource(R.drawable.la);
+        kharakMi.setBackgroundResource(R.drawable.mii);
+        kharakSi.setBackgroundResource(R.drawable.si);
+        pitchView.setKookType(kuk == 12 ? 0 : 1);
+
+        double[] shurMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5,
+                65, 67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+                87, 89};
+        double[] navaMiditone = {48, 53, 55, 56.5, 58, 60, 62, 63, 65, 63.5,
+                65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82, 84, 85,
+                87, 89};
+        double[] shurMiditonePayvar = {51.80, 53.28, 55.32, 56.73, 58.28,
+                60.38, 61.86, 63.25, 65.34, 63.80, 65.28, 67.32, 68.73, 70.28,
+                72.38, 74.34, 75.25, 77.34, 75.80, 77.28, 79.32, 80.20, 82.28,
+                84.38, 86.34, 87.25, 89.34};
+        double[] esfehanMiditone = {48, 53, 55, 56.5, 59, 60, 62, 63, 65,
+                63.5, 65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 83,
+                84, 86, 87, 89};
+        double[] mahurMiditone = {48, 53, 55, 56.5, 58, 60, 62, 63, 65, 64,
+                65, 67, 69, 70, 72, 73.5, 75, 77, 76, 77, 79, 80, 82, 84, 86,
+                87, 89};
+        double[] segahMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
+                63.5, 65, 67, 68.5, 70, 72, 73.5, 75, 77, 75.5, 77, 79, 80, 82,
+                84, 85.5, 87, 89};
+        double[] chahargahMiditone = {48, 53, 55, 56.5, 59, 60, 61.5, 63.5,
+                66, 64, 65, 67, 68.5, 71, 72, 73.5, 76, 77, 76, 77, 79, 80, 83,
+                84, 85.5, 88, 89};
+        double[] homayunMiditone = {48, 53, 55, 56.5, 59, 60, 62, 63, 65, 64,
+                65, 67, 68.5, 71, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86,
+                87, 89};
+        double[] shourReMiditone = {50, 53, 55, 57, 58, 60, 62, 63, 65, 63.5,
+                65, 67, 69, 70, 72, 74, 75, 77, 76, 77, 79, 80, 81.5, 84, 86,
+                87, 89};
+        double[] esfehanFaMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
+                64, 65, 67, 68, 70, 72, 73, 75, 77, 76, 77, 79, 80, 82, 84, 85,
+                87, 89};
+        double[] faMinorMiditone = {48, 53, 55, 56, 58, 60, 61, 63, 65, 64,
+                65, 67, 68, 70, 72, 73, 75, 77, 76, 77, 79, 80, 82, 84, 85, 87,
+                89};
+        double[] doMajorMiditone = {48, 53, 55, 57, 59, 60, 62, 64, 65, 64,
+                65, 67, 69, 71, 72, 74, 76, 77, 76, 77, 79, 81, 83, 84, 86, 88,
+                89};
+        double[] doMinorMiditone = {48, 53, 55, 56, 58, 60, 62, 63, 65, 64,
+                65, 67, 68, 70, 72, 74, 75, 77, 76, 77, 79, 80, 82, 84, 86, 87,
+                89};
+        double[] segahMiKoron = {48, 53, 55, 56.5, 58, 60, 62, 63, 65,
+                63.5, 65, 67, 68.5, 70.50, 72, 74, 75, 77,
+                75.5, 77, 79, 80, 82.50, 84, 86, 87, 89};
+        double[] homayunDo = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65,
+                64, 65, 67, 68, 70, 72, 73.50, 75, 77,
+                76, 77, 79, 80, 82, 84, 85.50, 87, 89};
+        double[] chahargaheSol = {48, 54, 55, 56.5, 59, 60, 62, 63, 65
+                , 63.5, 66, 67, 68.5, 71, 72, 74, 75, 77,
+                75.5, 78, 79, 81, 82.5, 85, 86, 87.5, 90};
+        double[] MahurDo = {48, 53, 55, 57, 59, 60, 62, 63.5, 65,
+                64, 65, 67, 68.5, 70, 72, 74, 75, 77,
+                76, 77, 79, 80.50, 83, 84, 86, 87, 89};
+
         if (kuk == 1 || book == 1 || book == 2 || book == 3) {
             Miditone = shurMiditone;
             if (kuk == 1)
@@ -654,7 +807,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             kharakMi.setBackgroundResource(R.drawable.mii2);
             kharakSi.setBackgroundResource(R.drawable.sii);
             if (mi)
-
                 Miditone[0] = 52;
         } else if (kuk == 7) {
             setTitle(getResources().getString(R.string.shorRe));
@@ -689,8 +841,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         } else if (kuk == 12) {
             setTitle(getResources().getString(R.string.shurPayver));
             Miditone = shurMiditonePayvar;
-            pitchView.setKookType(0);
-
         } else if (kuk == 13) {
             setTitle(getResources().getString(R.string.nava));
             Miditone = navaMiditone;
@@ -718,57 +868,37 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 Miditone[0] = 51.5;
         }
 
+        String pieceTitle = data.getString("title");
+        if (pieceTitle != null) {
+            setTitle(pieceTitle.length() > 3 ? pieceTitle.substring(3) : pieceTitle);
+        }
         String noteName = data.getString("noteName");
-        if (noteName != null){
-            this.setTitle(noteName);
+        if (noteName != null) {
+            setTitle(noteName);
         }
+    }
 
-
-
-        if (prefs.getString("type", "سل کوک").compareTo("سل کوک") == 0) {
-            santurType = 0;
-            pitchView.setSetarType("سل کوک");
-        } else if (prefs.getString("type", "سل کوک").compareTo("لا کوک") == 0) {
-            santurType = 2;
-            pitchView.setSetarType("لا کوک");
-        } else if (prefs.getString("type", "سل کوک").compareTo("سی کوک") == 0) {
-            santurType = 4;
-            pitchView.setSetarType("سی کوک");
-        } else if (prefs.getString("type", "سل کوک").compareTo("دو کوک") == 0) {
-            santurType = 5;
-            pitchView.setSetarType("سی کوک");
-        } else if (prefs.getString("type", "سل کوک").compareTo("می کوک") == 0) {
-            santurType = -2;
-            pitchView.setSetarType("می کوک");
-        } else if (prefs.getString("type", "سل کوک")
-                .compareTo("فا کوک") == 0) {
-            santurType = -1;
-            pitchView.setSetarType("فا کوک");
+    /** Drops the current string pick so a new kook starts from the santur view. */
+    private void clearStringSelection() {
+        selectedStringIndex = -1;
+        lastTunedIndex = -1;
+        setKookPitch = 0;
+        kukposition = 0;
+        tuning.setChecked(false);
+        rd1.setChecked(false);
+        rd2.setChecked(false);
+        rd3.setChecked(false);
+        positonShow.setBackgroundResource(R.drawable.empty);
+        wire.setBackgroundResource(R.drawable.santur);
+        for (Button button : buttons) {
+            button.setEnabled(true);
+            styleStringButtonDefault(button);
         }
-
-        if (prefs.getString("sensitive", "2").compareTo("3") == 0) {
-            sensitiveLevel = highSensitive;
-        } else if (prefs.getString("sensitive", "2").compareTo("1") == 0) {
-            sensitiveLevel = midSensitive;
-        } else {
-            sensitiveLevel = lowSensitive;
-        }
-
+        pitchView.setKookPitch(0);
+        pitchView.setCenterPitch(0);
+        pitchView.setCurrentPitch(12);
         pitchLabel.setText(PersianReshape
-                .reshape("سیم های مورد نظر جهت کوک کردن را انتخاب کنید"));
-        if(prefs.getString("changepitch","1").compareTo("1")==0) {
-            pitchChange = 0 ;
-        }
-        else if(prefs.getString("changepitch","2").compareTo("2")==0) {
-            pitchChange =(float) -0.5 ;
-        }
-        else if(prefs.getString("changepitch","3").compareTo("3")==0) {
-            pitchChange = -1 ;
-        }
-        else if(prefs.getString("changepitch","4").compareTo("4")==0) {
-            pitchChange = -2 ;
-        }
-
+                .reshape("خرک مورد نظر برای کوک شدن را انتخاب نمایید"));
     }
 
     private void initPd() throws IOException {
