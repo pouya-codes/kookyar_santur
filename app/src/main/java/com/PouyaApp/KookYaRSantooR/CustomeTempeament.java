@@ -181,7 +181,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
                     checkboxs[i].setChecked(false);
                 }
                 else checkboxs[i].setChecked(true);
-                texts[i].setText(PersianReshape.reshape(progress-50+"") + " سنت");
+                texts[i].setText(PersianReshape.forDisplay(this, progress-50+"") + " سنت");
                 tempeament[i]=progress-50 ;
 
             }

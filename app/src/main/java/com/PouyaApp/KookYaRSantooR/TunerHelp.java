@@ -43,7 +43,7 @@ public class TunerHelp extends AppCompatActivity {
 		TextView help = (TextView) findViewById(R.id.tunerHelp) ;
 		help.setTypeface(face);
 		String str_tv = (String) help.getText().toString();
-		help.setText(PersianReshape.reshape(str_tv));
+		help.setText(PersianReshape.forDisplay(this, str_tv));
 		
 		// Ensure text color is visible in both light and dark modes
 		int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

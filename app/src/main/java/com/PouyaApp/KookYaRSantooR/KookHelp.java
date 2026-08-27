@@ -40,7 +40,7 @@ public class KookHelp extends AppCompatActivity {
 			textViews[i].setTypeface(face);
 			textViews[i].setTextColor(textColor);
 			String str_tuner = (String) textViews[i].getText().toString();
-			textViews[i].setText(PersianReshape.reshape(str_tuner));
+			textViews[i].setText(PersianReshape.forDisplay(this, str_tuner));
 		}
         MaterialButton button = (MaterialButton) findViewById(R.id.button_return);
 

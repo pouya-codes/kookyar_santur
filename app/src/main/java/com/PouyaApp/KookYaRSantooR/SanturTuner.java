@@ -559,17 +559,17 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         rd1 = (RadioButton) findViewById(R.id.zardRB);
 
         String str_rb1 = (String) rd1.getText().toString();
-        rd1.setText(PersianReshape.reshape(str_rb1));
+        rd1.setText(PersianReshape.forDisplay(this, str_rb1));
         rd1.setOnClickListener(this);
         rd2 = (RadioButton) findViewById(R.id.sefidRB);
 
         String str_rb2 = (String) rd2.getText().toString();
-        rd2.setText(PersianReshape.reshape(str_rb2));
+        rd2.setText(PersianReshape.forDisplay(this, str_rb2));
         rd2.setOnClickListener(this);
         rd3 = (RadioButton) findViewById(R.id.poshtRB);
 
         String str_rb3 = (String) rd3.getText().toString();
-        rd3.setText(PersianReshape.reshape(str_rb3));
+        rd3.setText(PersianReshape.forDisplay(this, str_rb3));
         rd3.setOnClickListener(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -1063,7 +1063,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
         setKookPitch = index + 1;
         triggerNote((float) Miditone[index]);
-        pitchLabel.setText(PersianReshape.reshape(labelForString(index)));
+        pitchLabel.setText(PersianReshape.forDisplay(this, labelForString(index)));
         wire.setBackgroundResource(STRING_DRAWABLES[index]);
         styleStringButtonActive(buttons[buttonIndex]);
         YoYo.with(Techniques.Landing).duration(700).playOn(wire);
@@ -1087,7 +1087,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
         setKookPitch = index + 1;
         triggerNote2((float) Miditone[index]);
-        pitchLabel.setText(PersianReshape.reshape(labelForString(index)));
+        pitchLabel.setText(PersianReshape.forDisplay(this, labelForString(index)));
         wire.setBackgroundResource(STRING_DRAWABLES[index]);
         styleStringButtonActive(buttons[buttonIndex]);
     }
