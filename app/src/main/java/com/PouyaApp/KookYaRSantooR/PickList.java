@@ -1,5 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.KookyarFonts;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ final class PickList {
         this.activity = activity;
         this.container = activity.findViewById(R.id.pick_container);
         this.inflater = LayoutInflater.from(activity);
-        this.face = Typeface.createFromAsset(activity.getAssets(), "font/" + fontAsset);
+        this.face = KookyarFonts.get(activity, fontAsset);
     }
 
     void clear() {

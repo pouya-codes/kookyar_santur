@@ -62,18 +62,18 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
         } else if (itemId == R.id.save) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                     CustomeTempeament.this);
-            alertDialog.setTitle("اعمال تغییرات");
+            alertDialog.setTitle(com.kookyar.common.R.string.kookyar_save_changes_title);
             alertDialog
-                    .setMessage("آیا تغییرات داده شده ذخیره شود ؟");
+                    .setMessage(com.kookyar.common.R.string.kookyar_save_changes_message);
             alertDialog.setIcon(android.R.drawable.ic_menu_save);
-            alertDialog.setPositiveButton("بله",
+            alertDialog.setPositiveButton(com.kookyar.common.R.string.kookyar_yes,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             saveTempeament();
 
                         }
                     });
-            alertDialog.setNegativeButton("خیر",
+            alertDialog.setNegativeButton(com.kookyar.common.R.string.kookyar_no,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -102,18 +102,18 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
     public void onBackPressed() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 CustomeTempeament.this);
-        alertDialog.setTitle("اعمال تغییرات");
+        alertDialog.setTitle(com.kookyar.common.R.string.kookyar_save_changes_title);
         alertDialog
-                .setMessage("آیا تغییرات داده شده ذخیره شود ؟");
+                .setMessage(com.kookyar.common.R.string.kookyar_save_changes_message);
         alertDialog.setIcon(android.R.drawable.ic_menu_save);
-        alertDialog.setPositiveButton("بله",
+        alertDialog.setPositiveButton(com.kookyar.common.R.string.kookyar_yes,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         saveTempeament();
                         CustomeTempeament.super.onBackPressed();
                     }
                 });
-        alertDialog.setNegativeButton("خیر",
+        alertDialog.setNegativeButton(com.kookyar.common.R.string.kookyar_no,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         CustomeTempeament.super.onBackPressed();
@@ -144,7 +144,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this) ;
         for (int j = 0; j < sliders.length; j++) {
             tempeament[j] = sharedPreferences.getInt(j+"Tempeament", 0) ;
-            texts[j].setText(tempeament[j] + " سنت");
+            texts[j].setText(getString(com.kookyar.common.R.string.kookyar_cents_format, PersianReshape.forDisplay(this, tempeament[j] + "")));
             sliders[j].setProgress(tempeament[j]+50);
             if( tempeament[j]!=0 ) checkboxs[j].setEnabled(true);
         }
@@ -181,7 +181,7 @@ public class CustomeTempeament extends AppCompatActivity implements SeekBar.OnSe
                     checkboxs[i].setChecked(false);
                 }
                 else checkboxs[i].setChecked(true);
-                texts[i].setText(PersianReshape.forDisplay(this, progress-50+"") + " سنت");
+                texts[i].setText(getString(com.kookyar.common.R.string.kookyar_cents_format, PersianReshape.forDisplay(CustomeTempeament.this, progress-50+"")));
                 tempeament[i]=progress-50 ;
 
             }

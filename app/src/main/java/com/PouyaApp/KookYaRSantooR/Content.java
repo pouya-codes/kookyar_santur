@@ -1,5 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.KookyarFonts;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -43,8 +44,7 @@ public class Content extends AppCompatActivity {
         if (content == 3)
             help.setText(getText(R.string.text3));
 
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
-                + "");
+        Typeface face = KookyarFonts.get(this, fonts);
 
         // help.setText(Html.fromHtml(getString(R.string.text1)));
         help.setTypeface(face);

@@ -1,5 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.KookyarFonts;
 import com.kookyar.common.PersianReshape;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +21,7 @@ public class KookHelp extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_kook);
-		Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts
-				+ "");
+		Typeface face = KookyarFonts.get(this, fonts);
 		
 		TextView[] textViews = {(TextView) findViewById(R.id.kookHelp1) ,(TextView) findViewById(R.id.kookHelp2) ,(TextView) findViewById(R.id.kookHelp3) ,(TextView) findViewById(R.id.kookHelp4) ,(TextView) findViewById(R.id.kookHelp5) ,(TextView) findViewById(R.id.kookHelp6) ,(TextView) findViewById(R.id.kookHelp7) ,(TextView) findViewById(R.id.kookHelp8) ,(TextView) findViewById(R.id.kookHelp9) ,(TextView) findViewById(R.id.kookHelp10) ,(TextView) findViewById(R.id.kookHelp11) ,(TextView) findViewById(R.id.kookHelp12) ,(TextView) findViewById(R.id.kookHelp13) } ;
 

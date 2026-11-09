@@ -79,17 +79,17 @@ public class SanturMenu extends AppCompatActivity {
     private void buildCards() {
         list.clear();
 
-        list.addHeader("راست کوک");
+        list.addHeader(getString(R.string.header_rast));
         addKooks(RAST_KOOKS, R.color.pickRast);
 
-        list.addHeader("چپ کوک");
+        list.addHeader(getString(R.string.header_chap));
         addKooks(CHAP_KOOKS, R.color.pickChap);
 
-        list.addHeader("تلفیقی");
+        list.addHeader(getString(R.string.header_talfiqi));
         addKooks(TALFIQI_KOOKS, R.color.pickTalfiqi);
 
-        list.addHeader("کوک دلخواه");
-        list.addCard(getString(R.string.custom), "کوک سیم‌ها را خودتان بچینید",
+        list.addHeader(getString(R.string.header_custom));
+        list.addCard(getString(R.string.custom), getString(R.string.custom_kook_hint),
                 R.color.pickCustom, com.kookyar.common.R.drawable.ic_kookyar_settings,
                 () -> startActivity(new Intent(this, CustomKook.class)));
 

@@ -3,44 +3,46 @@
     
      >
 
+    <com.kookyar.common.LanguagePreference android:key="kookyar_language" />
+
 
 <CheckBoxPreference 
     
-    android:title="کوک خرک اول سیم های زرد"
+    android:title="@string/pref_mi_title"
     android:defaultValue="false"
     android:key="mi" 
-    android:summary="خرک اول سیم های زرد نت می کوک شود"
+    android:summary="@string/pref_mi_summary"
     />
 
 <ListPreference
-    android:title="فرکانس نت مرجع"
+    android:title="@string/kookyar_pref_reference_title"
     android:defaultValue="440"
     android:key="ref"
-    android:summary="تغییر فرکانس نت مرجع"
+    android:summary="@string/kookyar_pref_reference_summary"
     android:entries="@array/refArray"
     android:entryValues="@array/refArray"/>
 
 <ListPreference 
-    android:title="نوع سنتور"
+    android:title="@string/pref_type_title"
     android:defaultValue="سل کوک"
     android:key="type"
-    android:summary="تغییر نوع سنتور"
-    android:entries="@array/typeArray"
-    android:entryValues="@array/typeArray"/>
+    android:summary="@string/pref_type_summary"
+    android:entries="@array/typeEntries"
+    android:entryValues="@array/typeValues"/>
 <ListPreference 
-    android:title="حساسیت"
+    android:title="@string/kookyar_pref_sensitivity_title"
     android:defaultValue="2"
     android:key="sensitive"
-    android:summary="تغییر سطح حساسیت تیونر"
+    android:summary="@string/kookyar_pref_sensitivity_summary"
     android:entries="@array/sensitive"
     android:entryValues="@array/sensitivValues"
     />
     <ListPreference
-        android:title="تغییر کوک"
+        android:title="@string/pref_changepitch_title"
         android:defaultValue="1"
         android:key="changepitch"
-        android:summary="تغییر نحوه کوک شدن ساز"
-        android:entries="@array/pitchchange"
+        android:summary="@string/pref_changepitch_summary"
+        android:entries="@array/pitchchangeEntries"
         android:entryValues="@array/pitchValues"
         />
 

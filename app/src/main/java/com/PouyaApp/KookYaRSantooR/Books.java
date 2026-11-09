@@ -1,5 +1,6 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.KookyarFonts;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -27,7 +28,7 @@ public class Books extends AppCompatActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_books);
 
-        Typeface face = Typeface.createFromAsset(getAssets(), "font/" + fonts);
+        Typeface face = KookyarFonts.get(this, fonts);
 
         setTypeface(face, id.TextView_dastor);
         setTypeface(face, id.TextView_shive);

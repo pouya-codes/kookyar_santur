@@ -1,5 +1,7 @@
 package com.PouyaApp.KookYaRSantooR;
 
+import com.kookyar.common.EdgeToEdge;
+import com.kookyar.common.Anim;
 import com.kookyar.common.FeatureBar;
 import com.kookyar.common.MetronomeLauncher;
 import com.kookyar.common.RadifLauncher;
@@ -44,8 +46,6 @@ import android.widget.Toast;
 
 
 import com.PouyaApp.KookYaRSantooR.R.id;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import android.widget.Button;
 
 import org.puredata.android.io.AudioParameters;
@@ -121,9 +121,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             R.drawable.santur_25, R.drawable.santur_26, R.drawable.santur_27
     };
 
-    private static final String[] STRING_ORDINALS = {
-            "اول", "دوم", "سوم", "چهارم", "پنجم", "ششم", "هفتم", "هشتم", "نهم"
-    };
 
     private final ServiceConnection pdConnection = new ServiceConnection() {
         @Override
@@ -137,7 +134,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 Toast errorToast = Toast
                         .makeText(
                                 getApplicationContext(),
-                                "اشکال در برقراری ارتباط با رابط ورودی/خروجی.لطفا برنامه هایی که از  واسط میکروفن یا بلندگو استفاده می کنند را ببندید و مجددا وارد شوید. ",
+                                getString(com.kookyar.common.R.string.kookyar_audio_error),
                                 Toast.LENGTH_LONG);
                 errorToast.show();
                 Log.e(TAG, e.toString());
@@ -177,11 +174,10 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         }
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SanturTuner.this);
-        alertDialog.setTitle("ذخیره کوک انتخاب شده به عنوان کوک فعلی سنتور");
-        alertDialog.setMessage(
-                "با انتخاب کوک انتخاب شده به عنوان کوک فعلی سنتور، در صورتی که کوک دیگری را انتخاب نمایید، سیم هایی که نیازمند تغییر کوک می باشند به رنگ زرد نمایش داده می شوند");
+        alertDialog.setTitle(R.string.save_as_current_title);
+        alertDialog.setMessage(R.string.save_as_current_message);
         alertDialog.setIcon(android.R.drawable.ic_menu_save);
-        alertDialog.setPositiveButton("بله", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(com.kookyar.common.R.string.kookyar_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences.Editor editor = prefs.edit();
                 for (int j = 0; j < Miditone.length; j++) {
@@ -191,7 +187,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 finishTuner();
             }
         });
-        alertDialog.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(com.kookyar.common.R.string.kookyar_no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 finishTuner();
             }
@@ -273,6 +269,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_tuner);
+		EdgeToEdge.apply(this, findViewById(R.id.tuner_root), findViewById(R.id.app_bar), findViewById(R.id.feature_bar));
         registerBackPressedHandler();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -316,7 +313,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initAudio();
             } else {
-                Toast.makeText(this, "دسترسی به میکروفون برای کار کردن کوک یار ضروری است", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, com.kookyar.common.R.string.kookyar_mic_required, Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -486,6 +483,24 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
     }
 
+
+    /** Stop the microphone and audio thread while the screen is not visible. */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (pdService != null && !pdService.isRunning()) {
+            pdService.startAudio();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pdService != null && pdService.isRunning()) {
+            pdService.stopAudio();
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -536,9 +551,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                     positonShow.setBackgroundResource(R.drawable.empty);
                     Toast.makeText(
                             getApplicationContext(),
-                            "توجه : در صورتی که اولین بار از سنتور را در دستگاه "
-                                    + getTitle()
-                                    + " کوک می کنید، بهتر است سیم ها را به صورت دستی انتخاب کنید",
+                            getString(R.string.auto_detect_first_time, getTitle()),
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -613,8 +626,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             sensitiveLevel = lowSensitive;
         }
 
-        pitchLabel.setText(PersianReshape
-                .reshape("سیم های مورد نظر جهت کوک کردن را انتخاب کنید"));
+        pitchLabel.setText(getString(R.string.pick_strings_to_tune));
         if(prefs.getString("changepitch","1").compareTo("1")==0) {
             pitchChange = 0 ;
         }
@@ -759,25 +771,25 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (kuk == 1)
                 setTitle(getResources().getString(R.string.shur));
             if (book == 1)
-                setTitle("کتاب دستور سنتور");
+                setTitle(R.string.book_title_dastur);
             if (book == 2)
-                setTitle("کتاب شیوه سنتور نوازی");
+                setTitle(R.string.book_title_shive);
             if (book == 3)
-                setTitle("کتاب گلنار");
+                setTitle(R.string.book_title_golnar);
             if (mi || book == 1)
                 Miditone[0] = 51.5;
         } else if (kuk == 2 || book == 4) {
             if (kuk == 2)
                 setTitle(getResources().getString(R.string.esfehan));
             if (book == 4)
-                setTitle("کتاب یادگاران(اصفهان)");
+                setTitle(R.string.book_title_yadegaran_esf);
             Miditone = esfehanMiditone;
             if (mi)
                 Miditone[0] = 51.5;
         } else if (kuk == 3 || book == 8) {
             if (kuk == 3)
                 setTitle(getResources().getString(R.string.mahur));
-            if (book == 8) setTitle("کتاب سپیده");
+            if (book == 8) setTitle(R.string.book_title_sepideh);
             Miditone = mahurMiditone;
             kharakLa.setBackgroundResource(R.drawable.la2);
             if (mi)
@@ -786,7 +798,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (kuk == 4)
                 setTitle(getResources().getString(R.string.segah));
             if (book == 6)
-                setTitle("کتاب هزاردستان(سه گاه)");
+                setTitle(R.string.book_title_hazardastan_segah);
             Miditone = segahMiditone;
             if (mi)
                 Miditone[0] = 51.5;
@@ -794,7 +806,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (kuk == 5)
                 setTitle(getResources().getString(R.string.chahargah));
             if (book == 7)
-                setTitle("کتاب هزاردستان(چهارگاه)");
+                setTitle(R.string.book_title_hazardastan_chahargah);
             Miditone = chahargahMiditone;
             if (mi)
                 Miditone[0] = 51.5;
@@ -802,7 +814,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (kuk == 6)
                 setTitle(getResources().getString(R.string.homayun));
             if (book == 5)
-                setTitle("کتاب یادگاران(همایون)");
+                setTitle(R.string.book_title_yadegaran_hom);
             Miditone = homayunMiditone;
             kharakMi.setBackgroundResource(R.drawable.mii2);
             kharakSi.setBackgroundResource(R.drawable.sii);
@@ -897,8 +909,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         pitchView.setKookPitch(0);
         pitchView.setCenterPitch(0);
         pitchView.setCurrentPitch(12);
-        pitchLabel.setText(PersianReshape
-                .reshape("خرک مورد نظر برای کوک شدن را انتخاب نمایید"));
+        pitchLabel.setText(getString(R.string.pick_bridge_to_tune));
     }
 
     private void initPd() throws IOException {
@@ -1001,15 +1012,16 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     }
 
     private String labelForString(int index) {
-        String row;
+        int row;
         if (index < 9) {
-            row = "سیم های زرد";
+            row = R.string.row_yellow;
         } else if (index < 18) {
-            row = "سیم های سفید";
+            row = R.string.row_white;
         } else {
-            row = "سیم های پشت خرک";
+            row = R.string.row_back;
         }
-        return "خرک " + STRING_ORDINALS[index % 9] + " " + row;
+        String ordinal = getResources().getStringArray(R.array.bridge_ordinals)[index % 9];
+        return getString(R.string.bridge_label_format, ordinal, getString(row));
     }
 
     private void markNeedsTuneForRow(int row) {
@@ -1066,7 +1078,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         pitchLabel.setText(PersianReshape.forDisplay(this, labelForString(index)));
         wire.setBackgroundResource(STRING_DRAWABLES[index]);
         styleStringButtonActive(buttons[buttonIndex]);
-        YoYo.with(Techniques.Landing).duration(700).playOn(wire);
+        Anim.landing(wire);
     }
 
     private void autoTuneString(int index) {
@@ -1124,8 +1136,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 styleStringButtonDefault(buttons[i]);
             }
             pitchView.setCenterPitch(0);
-            pitchLabel.setText(PersianReshape
-                    .reshape("خرک مورد نظر برای کوک شدن را انتخاب نمایید"));
+            pitchLabel.setText(getString(R.string.pick_bridge_to_tune));
         }
     }
 
@@ -1136,22 +1147,22 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
 
         if (id.tuning != v.getId() && kukposition == 0 && v.getId() != id.zardRB && v.getId() != id.sefidRB && v.getId() != id.poshtRB) {
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.zardRB));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.sefidRB));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.poshtRB));
-            YoYo.with(Techniques.RubberBand).duration(700).playOn(findViewById(id.pitch_label));
+            Anim.pulse(findViewById(id.zardRB));
+            Anim.pulse(findViewById(id.sefidRB));
+            Anim.pulse(findViewById(id.poshtRB));
+            Anim.rubberBand(findViewById(id.pitch_label));
         }
         if (v.getId() == id.tableLayout_main && kukposition != 0 && pitchView.getCenterPitch() == 0) {
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_1));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_2));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_3));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_4));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_5));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_6));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_7));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_8));
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(id.button_9));
-            YoYo.with(Techniques.RubberBand).duration(700).playOn(findViewById(id.pitch_label));
+            Anim.pulse(findViewById(id.button_1));
+            Anim.pulse(findViewById(id.button_2));
+            Anim.pulse(findViewById(id.button_3));
+            Anim.pulse(findViewById(id.button_4));
+            Anim.pulse(findViewById(id.button_5));
+            Anim.pulse(findViewById(id.button_6));
+            Anim.pulse(findViewById(id.button_7));
+            Anim.pulse(findViewById(id.button_8));
+            Anim.pulse(findViewById(id.button_9));
+            Anim.rubberBand(findViewById(id.pitch_label));
         }
 
         if (id.tuning == v.getId()) {
@@ -1161,9 +1172,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 positonShow.setBackgroundResource(R.drawable.empty);
                 Toast.makeText(
                         getApplicationContext(),
-                        "توجه : در صورتی که اولین بار از سنتور را در دستگاه "
-                                + getTitle()
-                                + " کوک می کنید، بهتر است سیم ها را به صورت دستی انتخاب کنید",
+                        getString(R.string.auto_detect_first_time, getTitle()),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -1187,12 +1196,11 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
                 }
                 pitchView.setCenterPitch(0);
-                pitchLabel.setText(PersianReshape
-                        .reshape("خرک مورد نظر برای کوک شدن را انتخاب نمایید"));
+                pitchLabel.setText(getString(R.string.pick_bridge_to_tune));
                 int viewId = v.getId();
                 if (viewId == R.id.zardRB) {
                     positonShow.setBackgroundResource(R.drawable.zard);
-                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    Anim.landing(findViewById(id.layout_positon));
                     kukposition = 1;
                     rd2.setChecked(false);
                     rd3.setChecked(false);
@@ -1202,7 +1210,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                     }
                 } else if (viewId == R.id.sefidRB) {
                     positonShow.setBackgroundResource(R.drawable.sefidd);
-                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    Anim.landing(findViewById(id.layout_positon));
                     kukposition = 2;
                     rd1.setChecked(false);
                     rd3.setChecked(false);
@@ -1212,7 +1220,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                     }
                 } else if (viewId == R.id.poshtRB) {
                     positonShow.setBackgroundResource(R.drawable.posht);
-                    YoYo.with(Techniques.Landing).duration(700).playOn(findViewById(id.layout_positon));
+                    Anim.landing(findViewById(id.layout_positon));
                     kukposition = 3;
                     rd1.setChecked(false);
                     rd2.setChecked(false);

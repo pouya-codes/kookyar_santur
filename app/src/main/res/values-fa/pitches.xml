@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pitch1">تغییر صدای نت دو</string>
+    <string name="pitch2">تغییر صدای نت دو سری</string>
+    <string name="pitch3">تغییر صدای نت ر بمل</string>
+    <string name="pitch4">تغییر صدای نت ر کرن</string>
+    <string name="pitch5">تغییر صدای نت ر</string>
+    <string name="pitch6">تغییر صدای نت ر سری</string>
+    <string name="pitch7">تغییر صدای نت می بمل</string>
+    <string name="pitch8">تغییر صدای نت می کرن</string>
+    <string name="pitch9">تغییر صدای نت می</string>
+    <string name="pitch10">تغییر صدای نت می سری</string>
+    <string name="pitch11">تغییر صدای نت فا</string>
+    <string name="pitch12">تغییر صدای نت فا سری</string>
+    <string name="pitch13">تغییر صدای نت سل بمل</string>
+    <string name="pitch14">تغییر صدای نت سل کرن</string>
+    <string name="pitch15">تغییر صدای نت سل</string>
+    <string name="pitch16">تغییر صدای نت سل سری</string>
+    <string name="pitch17">تغییر صدای نت لا بمل</string>
+    <string name="pitch18">تغییر صدای نت لا کرن</string>
+    <string name="pitch19">تغییر صدای نت لا</string>
+    <string name="pitch20">تغییر صدای نت لا سری</string>
+    <string name="pitch21">تغییر صدای نت سی بمل</string>
+    <string name="pitch22">تغییر صدای نت سی کرن</string>
+    <string name="pitch23">تغییر صدای نت سی</string>
+    <string name="pitch24">تغییر صدای نت سی سری</string>
+
+
+</resources>

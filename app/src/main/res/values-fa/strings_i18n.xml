@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <string name="pref_mi_title">کوک خرک اول سیم های زرد</string>
+    <string name="pref_mi_summary">خرک اول سیم های زرد نت می کوک شود</string>
+    <string name="pref_type_title">نوع سنتور</string>
+    <string name="pref_type_summary">تغییر نوع سنتور</string>
+    <string name="pref_changepitch_title">تغییر کوک</string>
+    <string name="pref_changepitch_summary">تغییر نحوه کوک شدن ساز</string>
+    <string-array name="typeEntries">
+        <item>سل کوک</item>
+        <item>لا کوک</item>
+        <item>سی کوک</item>
+        <item>دو کوک</item>
+        <item>می کوک</item>
+        <item>فا کوک</item>
+    </string-array>
+
+    <!-- Screen titles -->
+    <string name="title_pick_kook">کوک مورد نظر را انتخاب کنید</string>
+    <string name="title_pick_piece">قطعه مورد نظر را انتخاب کنید</string>
+    <string name="title_pick_dastgah">دستگاه مورد نظر را انتخاب کنید</string>
+
+    <!-- Tuning picker -->
+    <string name="header_rast">راست کوک</string>
+    <string name="header_chap">چپ کوک</string>
+    <string name="header_talfiqi">تلفیقی</string>
+    <string name="header_custom">کوک دلخواه</string>
+    <string name="custom_kook_hint">کوک سیم‌ها را خودتان بچینید</string>
+
+    <!-- Tuner -->
+    <string name="save_as_current_title">ذخیره کوک انتخاب شده به عنوان کوک فعلی سنتور</string>
+    <string name="save_as_current_message">با انتخاب کوک انتخاب شده به عنوان کوک فعلی سنتور، در صورتی که کوک دیگری را انتخاب نمایید، سیم هایی که نیازمند تغییر کوک می باشند به رنگ زرد نمایش داده می شوند</string>
+    <string name="auto_detect_first_time">توجه: در صورتی که اولین بار سنتور را در دستگاه %1$s کوک می کنید، بهتر است سیم ها را به صورت دستی انتخاب کنید</string>
+    <string name="pick_strings_to_tune">سیم های مورد نظر جهت کوک کردن را انتخاب کنید</string>
+    <string name="pick_bridge_to_tune">خرک مورد نظر برای کوک شدن را انتخاب نمایید</string>
+    <string name="row_yellow">سیم های زرد</string>
+    <string name="row_white">سیم های سفید</string>
+    <string name="row_back">سیم های پشت خرک</string>
+    <string name="bridge_label_format">خرک %1$s %2$s</string>
+    <string-array name="bridge_ordinals">
+        <item>اول</item>
+        <item>دوم</item>
+        <item>سوم</item>
+        <item>چهارم</item>
+        <item>پنجم</item>
+        <item>ششم</item>
+        <item>هفتم</item>
+        <item>هشتم</item>
+        <item>نهم</item>
+    </string-array>
+
+    <!-- Book titles shown on the tuner -->
+    <string name="book_title_dastur">کتاب دستور سنتور</string>
+    <string name="book_title_shive">کتاب شیوه سنتور نوازی</string>
+    <string name="book_title_golnar">کتاب گلنار</string>
+    <string name="book_title_yadegaran_esf">کتاب یادگاران(اصفهان)</string>
+    <string name="book_title_sepideh">کتاب سپیده</string>
+    <string name="book_title_hazardastan_segah">کتاب هزاردستان(سه گاه)</string>
+    <string name="book_title_hazardastan_chahargah">کتاب هزاردستان(چهارگاه)</string>
+    <string name="book_title_yadegaran_hom">کتاب یادگاران(همایون)</string>
+
+    <!-- Transpose options -->
+    <string-array name="pitchchangeEntries">
+        <item>ساز سر جای خود کوک شود</item>
+        <item>ساز ربع پرده پایین تر کوک شود</item>
+        <item>ساز نیم پرده پایین تر کوک شود</item>
+        <item>ساز یک پرده پایین تر کوک شود</item>
+    </string-array>
+</resources>

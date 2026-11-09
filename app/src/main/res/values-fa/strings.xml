@@ -252,24 +252,10 @@
         <item>449</item>
         <item>450</item>
     </string-array>
-    <string-array name="typeArray">
-        <item>سل کوک</item>
-        <item>لا کوک</item>
-        <item>سی کوک</item>
-        <item>دو کوک</item>
-        <item>می کوک</item>
-        <item>فا کوک</item>
-    </string-array>
     <string-array name="sensitive">
         <item>کم(مناسب محل های شلوغ)</item>
         <item>متوسط(مناسب محل های نسبتا آرام)</item>
         <item>زیاد(مناسب محل های آرام)</item>
-    </string-array>
-    <string-array name="pitchchange">
-        <item>ساز سر جای خود کوک شود</item>
-        <item>ساز ربع پرده پایین تر کوک شود</item>
-        <item>ساز نیم پرده پایین تر کوک شود</item>
-        <item>ساز یک پرده پایین تر کوک شود</item>
     </string-array>
     <string-array name="pitchValues">
         <item>1</item>

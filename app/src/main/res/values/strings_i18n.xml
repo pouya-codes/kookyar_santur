@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <string name="pref_mi_title">Tune the first yellow-string bridge to E</string>
+    <string name="pref_mi_summary">The first bridge of the yellow strings is tuned to Mi (E)</string>
+    <string name="pref_type_title">Santur type</string>
+    <string name="pref_type_summary">Lowest note of your santur</string>
+    <string name="pref_changepitch_title">Transpose</string>
+    <string name="pref_changepitch_summary">Tune the whole instrument at concert pitch or lower</string>
+    <string-array name="typeEntries">
+        <item>G santur (Sol)</item>
+        <item>A santur (La)</item>
+        <item>B santur (Si)</item>
+        <item>C santur (Do)</item>
+        <item>E santur (Mi)</item>
+        <item>F santur (Fa)</item>
+    </string-array>
+    <!-- Stored values; kept in Persian so existing settings keep working. -->
+    <string-array name="typeValues" translatable="false">
+        <item>سل کوک</item>
+        <item>لا کوک</item>
+        <item>سی کوک</item>
+        <item>دو کوک</item>
+        <item>می کوک</item>
+        <item>فا کوک</item>
+    </string-array>
+
+    <!-- Screen titles -->
+    <string name="title_pick_kook">Choose a tuning</string>
+    <string name="title_pick_piece">Choose a piece</string>
+    <string name="title_pick_dastgah">Choose a dastgah</string>
+
+    <!-- Tuning picker -->
+    <string name="header_rast">Rast kook</string>
+    <string name="header_chap">Chap kook</string>
+    <string name="header_talfiqi">Combined tunings</string>
+    <string name="header_custom">Custom tuning</string>
+    <string name="custom_kook_hint">Arrange the string tuning yourself</string>
+
+    <!-- Tuner -->
+    <string name="save_as_current_title">Save as the santur\'s current tuning</string>
+    <string name="save_as_current_message">When this tuning is saved as your santur\'s current tuning, picking another tuning later highlights in yellow the strings that need retuning.</string>
+    <string name="auto_detect_first_time">Tip: if this is the first time you tune your santur in %1$s, it is better to pick the strings by hand.</string>
+    <string name="pick_strings_to_tune">Select the strings you want to tune</string>
+    <string name="pick_bridge_to_tune">Select the bridge you want to tune</string>
+    <string name="row_yellow">yellow strings</string>
+    <string name="row_white">white strings</string>
+    <string name="row_back">strings behind the bridge</string>
+    <string name="bridge_label_format">Bridge %1$s, %2$s</string>
+    <string-array name="bridge_ordinals">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <!-- Book titles shown on the tuner -->
+    <string name="book_title_dastur">Dastur-e Santur book</string>
+    <string name="book_title_shive">Shive-ye Santur Navazi book</string>
+    <string name="book_title_golnar">Golnar book</string>
+    <string name="book_title_yadegaran_esf">Yadegaran book (Isfahan)</string>
+    <string name="book_title_sepideh">Sepideh book</string>
+    <string name="book_title_hazardastan_segah">Hezar Dastan book (Segah)</string>
+    <string name="book_title_hazardastan_chahargah">Hezar Dastan book (Chahargah)</string>
+    <string name="book_title_yadegaran_hom">Yadegaran book (Homayun)</string>
+
+    <!-- Transpose options -->
+    <string-array name="pitchchangeEntries">
+        <item>Tune at concert pitch</item>
+        <item>Tune a quarter-tone lower</item>
+        <item>Tune a semitone lower</item>
+        <item>Tune a whole tone lower</item>
+    </string-array>
+</resources>
