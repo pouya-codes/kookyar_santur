@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layoutDirection="rtl"
+    android:layoutDirection="locale"
     android:background="@color/surfaceColor">
 
     <include layout="@layout/app_bar" />
@@ -248,57 +248,30 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.kookyar.common.InstrumentView
+                android:id="@+id/layout_sim"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/santur"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/layout_sim"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/layout_kharakDo"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/layout_kharakla"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/layout_kharakMi"
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:id="@+id/layout_kharakSi"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="100dp"
-                                    android:orientation="vertical">
-
-                                    <LinearLayout
-                                        android:id="@+id/layout_positon"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="100dp"
-                                        android:orientation="vertical" />
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                app:instrument="santur" />
 
             <TextView
+                android:id="@+id/bridge_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:lineSpacingMultiplier="1.15"
+                android:textColor="@color/accentColor"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+<TextView
                 android:id="@+id/pitch_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

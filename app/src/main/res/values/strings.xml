@@ -1,35 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="dasturSantur">Santur Method
-Author: Faramarz Payvar
-Dastgah: Shur</string>
-    <string name="shiveSanturNavazi">Santur Performance
-Author: Peshang Kamkar
-Dastgah: Shur</string>
-    <string name="ebtedaei">Beginner Santur Course
-Author: Faramarz Payvar
-Various dastgahs</string>
-    <string name="pesase">Twenty Pieces for Santur
-Author: Parviz Meshkatian
-Various dastgahs</string>
-    <string name="golnar">Golnar
-Author: Peshang Kamkar
-Dastgah: Shur</string>
-    <string name="yadegaran_esf">Yadegaran (Esfahan)
-Author: Peshang Kamkar
-Dastgah: Esfahan</string>
-    <string name="yadegaran_hom">Yadegaran (Homayun)
-Author: Peshang Kamkar
-Dastgah: Homayun</string>
-    <string name="hazarDastan_3gah">Hazar Dastan (Segah)
-Author: Peshang Kamkar
-Dastgah: Segah</string>
-    <string name="hazarDastan_4gah">Hazar Dastan (Chahargah)
-Author: Peshang Kamkar
-Dastgah: Chahargah</string>
-    <string name="sepideh">Sepideh
-Author: Peshang Kamkar
-Dastgah: Mahur</string>
+    <string name="dasturSantur">Santur Method\nAuthor: Faramarz Payvar\nDastgah: Shur</string>
+    <string name="shiveSanturNavazi">Santur Performance\nAuthor: Peshang Kamkar\nDastgah: Shur</string>
+    <string name="ebtedaei">Beginner Santur Course\nAuthor: Faramarz Payvar\nVarious dastgahs</string>
+    <string name="pesase">Twenty Pieces for Santur\nAuthor: Parviz Meshkatian\nVarious dastgahs</string>
+    <string name="golnar">Golnar\nAuthor: Peshang Kamkar\nDastgah: Shur</string>
+    <string name="yadegaran_esf">Yadegaran (Esfahan)\nAuthor: Peshang Kamkar\nDastgah: Esfahan</string>
+    <string name="yadegaran_hom">Yadegaran (Homayun)\nAuthor: Peshang Kamkar\nDastgah: Homayun</string>
+    <string name="hazarDastan_3gah">Hazar Dastan (Segah)\nAuthor: Peshang Kamkar\nDastgah: Segah</string>
+    <string name="hazarDastan_4gah">Hazar Dastan (Chahargah)\nAuthor: Peshang Kamkar\nDastgah: Chahargah</string>
+    <string name="sepideh">Sepideh\nAuthor: Peshang Kamkar\nDastgah: Mahur</string>
     <string name="rahnama">Help</string>
     <string name="app_name">KookYar Santur</string>
     <string name="kharak_1">Bridge 1</string>

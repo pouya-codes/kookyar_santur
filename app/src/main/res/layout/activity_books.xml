@@ -48,9 +48,11 @@
 
                 <TextView
                     android:id="@+id/TextView_dastor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_dastur"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/dasturSantur"
@@ -88,9 +90,11 @@
 
                 <TextView
                     android:id="@+id/TextView_shive"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_shive"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/shiveSanturNavazi"
@@ -128,9 +132,11 @@
 
                 <TextView
                     android:id="@+id/TextView_ebtedaei"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_ebtedaei"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/ebtedaei"
@@ -168,9 +174,11 @@
 
                 <TextView
                     android:id="@+id/tvMeshkatian"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_meshkatian"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/pesase"
@@ -208,9 +216,11 @@
 
                 <TextView
                     android:id="@+id/TextView_golnar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_golnar"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/golnar"
@@ -248,9 +258,11 @@
 
                 <TextView
                     android:id="@+id/TextView_yadegaran_esf"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_yadegaran_esf"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/yadegaran_esf"
@@ -288,9 +300,11 @@
 
                 <TextView
                     android:id="@+id/TextView_yadegaran_hom"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_yadegaran_hom"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/yadegaran_hom"
@@ -328,9 +342,11 @@
 
                 <TextView
                     android:id="@+id/TextView_sepideh"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_sepideh"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/sepideh"
@@ -368,9 +384,11 @@
 
                 <TextView
                     android:id="@+id/TextView_hazarDastan_3gah"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_hazardastan_3gah"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/hazarDastan_3gah"
@@ -408,9 +426,11 @@
 
                 <TextView
                     android:id="@+id/TextView_hazardastan_4gah"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/img_hazardastan_4gah"
+                    android:layout_marginStart="16dp"
+                    android:textAlignment="viewStart"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:text="@string/hazarDastan_4gah"

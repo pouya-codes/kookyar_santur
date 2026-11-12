@@ -76,4 +76,19 @@
         <item>Tune a semitone lower</item>
         <item>Tune a whole tone lower</item>
     </string-array>
+
+    <!-- Bridges the tuning moves out of line -->
+    <string name="bridge_move_right">right</string>
+    <string name="bridge_move_left">left</string>
+    <string name="bridge_move_half">slightly (half a step)</string>
+    <string name="bridge_move_one">one step</string>
+    <string name="bridge_move_more">more than one step</string>
+    <string name="bridge_move_white">Move white bridge %1$s %4$s to the %5$s: the white string is %2$s but behind the bridge it is %3$s. Tap for how.</string>
+    <string name="bridge_move_yellow">Yellow bridge %1$s is tuned to %2$s: move it %3$s units to the %4$s of the line (it stands in line when tuned to Mi). Tap for how.</string>
+    <string name="bridge_move_item_white">white %1$s to the %2$s</string>
+    <string name="bridge_move_item_yellow">yellow %1$s to the %2$s</string>
+    <string name="bridge_move_separator">,\u0020</string>
+    <string name="bridge_move_summary">This tuning moves these bridges: %1$s. Tap for how.</string>
+    <string name="bridge_guide_title">Moving a bridge</string>
+    <string name="bridge_guide_body">A white string and its part behind the bridge are one octave apart while the bridge stands in line with the others. When the tuning asks for two different notes (for example La koron on the white string and La bemol behind the bridge in Shur), the bridge has to be moved.\n\n1. Look at the picture: the ring shows where the bridge stands in line and the arrow shows which way to move it.\n\n2. Lift the strings a little above the bridge with your left hand and slide the bridge with your right, so it does not scratch the soundboard. You can also nudge it with very light taps, for example with the handle of the tuning key.\n\n3. Move it only a little at a time. Moving the bridge to the right raises the white string and lowers the part behind the bridge; moving it to the left does the opposite.\n\n4. Keep the strings seated in the middle of the bridge.\n\n5. Yellow bridge 1 stands in line with the other yellow bridges when its string is tuned to Mi. Tuned to Do it sits about 3 units further to the right.\n\n6. Tune the white string, then check the part behind the bridge with the tuner. If it is too high, move the bridge a little further to the right; if it is too low, move it back to the left. Repeat until both sides show the right note.</string>
 </resources>

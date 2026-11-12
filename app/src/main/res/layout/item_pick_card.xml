@@ -30,13 +30,13 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Absolute gravity: for Persian text a relative "end" would resolve
-                 against the paragraph direction and land on the left. -->
+            <!-- viewStart follows the view's layout direction (right in Persian,
+                 left in English), not the direction of the text itself. -->
             <TextView
                 android:id="@+id/pick_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:textAlignment="viewStart"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:gravity="right"
+                android:textAlignment="viewStart"
                 android:textColor="#CCFFFFFF"
                 android:textSize="14sp"
                 android:visibility="gone" />

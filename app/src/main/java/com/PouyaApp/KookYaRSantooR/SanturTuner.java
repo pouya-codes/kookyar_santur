@@ -7,6 +7,8 @@ import com.kookyar.common.MetronomeLauncher;
 import com.kookyar.common.RadifLauncher;
 import com.kookyar.common.PersianReshape;
 import com.kookyar.common.PitchView;
+import com.kookyar.common.InstrumentView;
+import com.kookyar.common.NoteNames;
 import com.kookyar.common.TunerPitchCoordinator;
 
 import android.Manifest;
@@ -82,12 +84,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     private PdUiDispatcher dispatcher;
     private PdService pdService = null;
     private CheckBox tuning;
-    private LinearLayout wire;
-    private LinearLayout kharakDo;
-    private LinearLayout kharakMi;
-    private LinearLayout kharakLa;
-    private LinearLayout kharakSi;
-    private LinearLayout positonShow;
+    private InstrumentView wire;
+    private TextView bridgeHint;
     private LinearLayout tabelLayout;
     private Button[] buttons = new Button[9];
     private int[] buttonsId = {id.button_1, id.button_2, id.button_3,
@@ -109,17 +107,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
     private int selectedStringIndex = -1;
     private int lastTunedIndex = -1;
 
-    private static final int[] STRING_DRAWABLES = {
-            R.drawable.santur_1, R.drawable.santur_2, R.drawable.santur_3,
-            R.drawable.santur_4, R.drawable.santur_5, R.drawable.santur_6,
-            R.drawable.santur_7, R.drawable.santur_8, R.drawable.santur_9,
-            R.drawable.santur_10, R.drawable.santur_11, R.drawable.santur_12,
-            R.drawable.santur_13, R.drawable.santur_14, R.drawable.santur_15,
-            R.drawable.santur_16, R.drawable.santur_17, R.drawable.santur_18,
-            R.drawable.santur_19, R.drawable.santur_20, R.drawable.santur_21,
-            R.drawable.santur_22, R.drawable.santur_23, R.drawable.santur_24,
-            R.drawable.santur_25, R.drawable.santur_26, R.drawable.santur_27
-    };
 
 
     private final ServiceConnection pdConnection = new ServiceConnection() {
@@ -327,7 +314,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         rd1.setChecked(true);
         rd2.setChecked(false);
         rd3.setChecked(false);
-        positonShow.setBackgroundResource(R.drawable.zard);
+        wire.setHighlightGroup(InstrumentView.SANTUR_YELLOW);
         kukposition = 1;
 
         for (int i = 0; i < buttons.length; i++) {
@@ -370,31 +357,30 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
                 if (prefs.getString("type", "سل کوک").compareTo("سل کوک") == 0) {
                     santurType = 0;
-                    pitchView.setSetarType("سل کوک");
+                    pitchView.setSetarType(santurTypeLabel("سل کوک"));
                 } else if (prefs.getString("type", "سل کوک")
                         .compareTo("لا کوک") == 0) {
                     santurType = 2;
-                    pitchView.setSetarType("لا کوک");
+                    pitchView.setSetarType(santurTypeLabel("لا کوک"));
                 } else if (prefs.getString("type", "سل کوک")
                         .compareTo("سی کوک") == 0) {
                     santurType = 4;
-                    pitchView.setSetarType("سی کوک");
+                    pitchView.setSetarType(santurTypeLabel("سی کوک"));
                 } else if (prefs.getString("type", "سل کوک")
                         .compareTo("دو کوک") == 0) {
                     santurType = 5;
-                    pitchView.setSetarType("سی کوک");
+                    pitchView.setSetarType(santurTypeLabel("دو کوک"));
                 } else if (prefs.getString("type", "سل کوک")
                         .compareTo("می کوک") == 0) {
                     santurType = -2;
-                    pitchView.setSetarType("می کوک");
+                    pitchView.setSetarType(santurTypeLabel("می کوک"));
                 } else if (prefs.getString("type", "سل کوک")
                         .compareTo("فا کوک") == 0) {
                     santurType = -1;
-                    pitchView.setSetarType("فا کوک");
+                    pitchView.setSetarType(santurTypeLabel("فا کوک"));
                 }
 
                 if (change) {
-                    kharakDo.setBackgroundResource(R.drawable.mi);
                     if (kuk == 1) {
 
                         Miditone[0] = 51.5;
@@ -442,11 +428,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                         Miditone[0] = 51.5;
                     }
                 } else {
-                    if (mi) {
-
-                        kharakDo.setBackgroundResource(R.drawable.doo);
-
-                    }
                     if (kuk == 7)
                         Miditone[0] = 50;
                     else {
@@ -455,6 +436,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                     }
 
                 }
+                wire.setStringNotes(Miditone);
+                updateBridgeHint();
 
                 if (prefs.getString("sensitive", "2").compareTo("3") == 0) {
                     sensitiveLevel = highSensitive;
@@ -530,15 +513,10 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 //				+ "");
 
         // ivSantur = (ImageView) findViewById(R.id.imageView1);
-        wire = (LinearLayout) findViewById(id.layout_sim);
-        kharakDo = (LinearLayout) findViewById(id.layout_kharakDo);
-        kharakLa = (LinearLayout) findViewById(id.layout_kharakla);
-        kharakMi = (LinearLayout) findViewById(id.layout_kharakMi);
-        kharakSi = (LinearLayout) findViewById(id.layout_kharakSi);
-        positonShow = (LinearLayout) findViewById(id.layout_positon);
-        kharakLa.setBackgroundResource(R.drawable.la);
-        kharakMi.setBackgroundResource(R.drawable.mii);
-        kharakSi.setBackgroundResource(R.drawable.si);
+        wire = findViewById(id.layout_sim);
+        wire.setOnStringSelectedListener(this::selectFromPicture);
+        bridgeHint = findViewById(id.bridge_hint);
+        bridgeHint.setOnClickListener(v -> showBridgeGuide());
         tuning = (CheckBox) findViewById(id.checkBox_tuning);
 
 
@@ -548,7 +526,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             public void onClick(View v) {
                 lastTunedIndex = -1;
                 if (tuning.isChecked()) {
-                    positonShow.setBackgroundResource(R.drawable.empty);
+                    wire.setHighlightGroup(-1);
                     Toast.makeText(
                             getApplicationContext(),
                             getString(R.string.auto_detect_first_time, getTitle()),
@@ -599,23 +577,23 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
         if (prefs.getString("type", "سل کوک").compareTo("سل کوک") == 0) {
             santurType = 0;
-            pitchView.setSetarType("سل کوک");
+            pitchView.setSetarType(santurTypeLabel("سل کوک"));
         } else if (prefs.getString("type", "سل کوک").compareTo("لا کوک") == 0) {
             santurType = 2;
-            pitchView.setSetarType("لا کوک");
+            pitchView.setSetarType(santurTypeLabel("لا کوک"));
         } else if (prefs.getString("type", "سل کوک").compareTo("سی کوک") == 0) {
             santurType = 4;
-            pitchView.setSetarType("سی کوک");
+            pitchView.setSetarType(santurTypeLabel("سی کوک"));
         } else if (prefs.getString("type", "سل کوک").compareTo("دو کوک") == 0) {
             santurType = 5;
-            pitchView.setSetarType("سی کوک");
+            pitchView.setSetarType(santurTypeLabel("دو کوک"));
         } else if (prefs.getString("type", "سل کوک").compareTo("می کوک") == 0) {
             santurType = -2;
-            pitchView.setSetarType("می کوک");
+            pitchView.setSetarType(santurTypeLabel("می کوک"));
         } else if (prefs.getString("type", "سل کوک")
                 .compareTo("فا کوک") == 0) {
             santurType = -1;
-            pitchView.setSetarType("فا کوک");
+            pitchView.setSetarType(santurTypeLabel("فا کوک"));
         }
 
         if (prefs.getString("sensitive", "2").compareTo("3") == 0) {
@@ -707,10 +685,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
      * swapped it for a variant.
      */
     private void applyKookSelection() {
-        kharakDo.setBackgroundResource(mi ? R.drawable.mi : R.drawable.doo);
-        kharakLa.setBackgroundResource(R.drawable.la);
-        kharakMi.setBackgroundResource(R.drawable.mii);
-        kharakSi.setBackgroundResource(R.drawable.si);
         pitchView.setKookType(kuk == 12 ? 0 : 1);
 
         double[] shurMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5,
@@ -791,7 +765,6 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 setTitle(getResources().getString(R.string.mahur));
             if (book == 8) setTitle(R.string.book_title_sepideh);
             Miditone = mahurMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la2);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 4 || book == 6) {
@@ -816,38 +789,31 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             if (book == 5)
                 setTitle(R.string.book_title_yadegaran_hom);
             Miditone = homayunMiditone;
-            kharakMi.setBackgroundResource(R.drawable.mii2);
-            kharakSi.setBackgroundResource(R.drawable.sii);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 7) {
             setTitle(getResources().getString(R.string.shorRe));
             Miditone = shourReMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la2);
             if (mi)
                 Miditone[0] = 51.5;
         } else if (kuk == 8) {
             setTitle(getResources().getString(R.string.esfehanFa));
             Miditone = esfehanFaMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la1);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 9) {
             setTitle(getResources().getString(R.string.faMinor));
             Miditone = faMinorMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la1);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 10) {
             setTitle(getResources().getString(R.string.doMajor));
             Miditone = doMajorMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la1);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 11) {
             setTitle(getResources().getString(R.string.doMinor));
             Miditone = doMinorMiditone;
-            kharakLa.setBackgroundResource(R.drawable.la1);
             if (mi)
                 Miditone[0] = 52;
         } else if (kuk == 12) {
@@ -888,6 +854,95 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         if (noteName != null) {
             setTitle(noteName);
         }
+        wire.setStringNotes(Miditone);
+        updateBridgeHint();
+    }
+
+    /**
+     * Shows which bridges this tuning moves out of line. With a string picked
+     * it explains that string's bridge; with none it lists every moved bridge.
+     * Tapping the hint opens the how-to.
+     */
+    private void updateBridgeHint() {
+        if (bridgeHint == null) {
+            return;
+        }
+        int picked = wire.getSelectedString();
+        String text = picked >= 0 ? bridgeMoveText(picked) : movedBridgesSummary();
+        if (text == null) {
+            bridgeHint.setVisibility(View.GONE);
+        } else {
+            bridgeHint.setText(text);
+            bridgeHint.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private String bridgeDirection(float shift) {
+        return getString(shift > 0 ? R.string.bridge_move_right : R.string.bridge_move_left);
+    }
+
+    /** Why and how far the bridge of this string moves, or null when it stays in line. */
+    private String bridgeMoveText(int index) {
+        float shift = InstrumentView.santurBridgeShift(Miditone, index);
+        if (shift == 0f) {
+            return null;
+        }
+        int bridge = index % 9;
+        String ordinal = getResources().getStringArray(R.array.bridge_ordinals)[bridge];
+        if (index < 9) {
+            java.text.NumberFormat units = java.text.NumberFormat.getInstance(
+                    getResources().getConfiguration().getLocales().get(0));
+            units.setMaximumFractionDigits(1);
+            return getString(R.string.bridge_move_yellow, ordinal,
+                    NoteNames.note(this, (float) Miditone[bridge]), units.format(shift),
+                    bridgeDirection(shift));
+        }
+        float size = Math.abs(shift);
+        String amount = getString(size <= 0.75f ? R.string.bridge_move_half
+                : size <= 1.25f ? R.string.bridge_move_one : R.string.bridge_move_more);
+        return getString(R.string.bridge_move_white, ordinal,
+                NoteNames.note(this, (float) Miditone[9 + bridge]),
+                NoteNames.note(this, (float) Miditone[18 + bridge]),
+                amount, bridgeDirection(shift));
+    }
+
+    /** Every bridge this tuning moves, or null when all stay in line. */
+    private String movedBridgesSummary() {
+        if (Miditone == null) {
+            return null;
+        }
+        String[] ordinals = getResources().getStringArray(R.array.bridge_ordinals);
+        StringBuilder items = new StringBuilder();
+        for (int index = 0; index < 18; index++) {
+            float shift = InstrumentView.santurBridgeShift(Miditone, index);
+            if (shift == 0f) {
+                continue;
+            }
+            if (items.length() > 0) {
+                items.append(getString(R.string.bridge_move_separator));
+            }
+            items.append(getString(index < 9 ? R.string.bridge_move_item_yellow : R.string.bridge_move_item_white,
+                    ordinals[index % 9], bridgeDirection(shift)));
+        }
+        return items.length() == 0 ? null : getString(R.string.bridge_move_summary, items.toString());
+    }
+
+    private void showBridgeGuide() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.bridge_guide_title)
+                .setMessage(R.string.bridge_guide_body)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    /** A tap on the drawn santur: choose that row of bridges, then the bridge. */
+    private void selectFromPicture(int index) {
+        int group = index / 9;
+        RadioButton radio = group == 0 ? rd1 : group == 1 ? rd2 : rd3;
+        if (kukposition != group + 1) {
+            radio.performClick();
+        }
+        selectString(index);
     }
 
     /** Drops the current string pick so a new kook starts from the santur view. */
@@ -900,8 +955,9 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         rd1.setChecked(false);
         rd2.setChecked(false);
         rd3.setChecked(false);
-        positonShow.setBackgroundResource(R.drawable.empty);
-        wire.setBackgroundResource(R.drawable.santur);
+        wire.setHighlightGroup(-1);
+        wire.setSelectedString(-1);
+        updateBridgeHint();
         for (Button button : buttons) {
             button.setEnabled(true);
             styleStringButtonDefault(button);
@@ -1040,11 +1096,11 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         rd2.setChecked(row == 1);
         rd3.setChecked(row == 2);
         if (row == 0) {
-            positonShow.setBackgroundResource(R.drawable.zard);
+            wire.setHighlightGroup(InstrumentView.SANTUR_YELLOW);
         } else if (row == 1) {
-            positonShow.setBackgroundResource(R.drawable.sefidd);
+            wire.setHighlightGroup(InstrumentView.SANTUR_WHITE);
         } else {
-            positonShow.setBackgroundResource(R.drawable.posht);
+            wire.setHighlightGroup(InstrumentView.SANTUR_BEHIND);
         }
     }
 
@@ -1076,7 +1132,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         setKookPitch = index + 1;
         triggerNote((float) Miditone[index]);
         pitchLabel.setText(PersianReshape.forDisplay(this, labelForString(index)));
-        wire.setBackgroundResource(STRING_DRAWABLES[index]);
+        wire.setSelectedString(index);
+        updateBridgeHint();
         styleStringButtonActive(buttons[buttonIndex]);
         Anim.landing(wire);
     }
@@ -1100,7 +1157,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         setKookPitch = index + 1;
         triggerNote2((float) Miditone[index]);
         pitchLabel.setText(PersianReshape.forDisplay(this, labelForString(index)));
-        wire.setBackgroundResource(STRING_DRAWABLES[index]);
+        wire.setSelectedString(index);
+        updateBridgeHint();
         styleStringButtonActive(buttons[buttonIndex]);
     }
 
@@ -1130,7 +1188,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             tempeament[j] = prefs.getInt(j + "Tempeament", 0);
         }
         if (kukposition == 0) {
-            wire.setBackgroundResource(R.drawable.santur);
+            wire.setSelectedString(-1);
+            updateBridgeHint();
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setEnabled(true);
                 styleStringButtonDefault(buttons[i]);
@@ -1169,7 +1228,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
             tuning.setChecked(!tuning.isChecked());
             lastTunedIndex = -1;
             if (tuning.isChecked()) {
-                positonShow.setBackgroundResource(R.drawable.empty);
+                wire.setHighlightGroup(-1);
                 Toast.makeText(
                         getApplicationContext(),
                         getString(R.string.auto_detect_first_time, getTitle()),
@@ -1189,7 +1248,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
 
                 selectedStringIndex = -1;
                 lastTunedIndex = -1;
-                wire.setBackgroundResource(R.drawable.santur);
+                wire.setSelectedString(-1);
+                updateBridgeHint();
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
                     styleStringButtonDefault(buttons[i]);
@@ -1199,8 +1259,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 pitchLabel.setText(getString(R.string.pick_bridge_to_tune));
                 int viewId = v.getId();
                 if (viewId == R.id.zardRB) {
-                    positonShow.setBackgroundResource(R.drawable.zard);
-                    Anim.landing(findViewById(id.layout_positon));
+                    wire.setHighlightGroup(InstrumentView.SANTUR_YELLOW);
+                    Anim.landing(wire);
                     kukposition = 1;
                     rd2.setChecked(false);
                     rd3.setChecked(false);
@@ -1209,8 +1269,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                             styleStringButtonNeedsTune(buttons[i]);
                     }
                 } else if (viewId == R.id.sefidRB) {
-                    positonShow.setBackgroundResource(R.drawable.sefidd);
-                    Anim.landing(findViewById(id.layout_positon));
+                    wire.setHighlightGroup(InstrumentView.SANTUR_WHITE);
+                    Anim.landing(wire);
                     kukposition = 2;
                     rd1.setChecked(false);
                     rd3.setChecked(false);
@@ -1219,8 +1279,8 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                             styleStringButtonNeedsTune(buttons[i % 9]);
                     }
                 } else if (viewId == R.id.poshtRB) {
-                    positonShow.setBackgroundResource(R.drawable.posht);
-                    Anim.landing(findViewById(id.layout_positon));
+                    wire.setHighlightGroup(InstrumentView.SANTUR_BEHIND);
+                    Anim.landing(wire);
                     kukposition = 3;
                     rd1.setChecked(false);
                     rd2.setChecked(false);
@@ -1231,7 +1291,7 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
                 }
 
             } else {
-                positonShow.setBackgroundResource(R.drawable.empty);
+                wire.setHighlightGroup(-1);
             }
         }
     }
@@ -1260,5 +1320,15 @@ public class SanturTuner extends AppCompatActivity implements OnClickListener {
         button.setTextColor(color(R.color.white));
     }
 
-
+    /** Localised name of a santur type; the preference stores the Persian key. */
+    private String santurTypeLabel(String key) {
+        String[] values = getResources().getStringArray(R.array.typeValues);
+        String[] entries = getResources().getStringArray(R.array.typeEntries);
+        for (int i = 0; i < values.length && i < entries.length; i++) {
+            if (values[i].equals(key)) {
+                return entries[i];
+            }
+        }
+        return key;
+    }
 }

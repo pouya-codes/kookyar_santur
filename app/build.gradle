@@ -2,35 +2,17 @@ plugins {
     id 'com.android.application'
 }
 
-def keystorePropertiesFile = rootProject.file("../keystore.properties")
-def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     namespace 'com.PouyaApp.KookYaRSantooR'
     compileSdk 37
 
     defaultConfig {
-        applicationId 'com.TuningApps.SanturTuner'
         minSdk 28
         targetSdk 37
-        versionName '4.3.0'
-        versionCode 53
+        versionName '4.4.0'
+        versionCode 54
 
         vectorDrawables.useSupportLibrary = true
-    }
-
-    signingConfigs {
-        release {
-            if (keystorePropertiesFile.exists()) {
-                storeFile file("${rootProject.projectDir.parent}/${keystoreProperties['storeFile']}")
-                storePassword keystoreProperties['storePassword']
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-            }
-        }
     }
 
     compileOptions {
@@ -59,12 +41,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (keystorePropertiesFile.exists()) {
-                signingConfig signingConfigs.release
-            }
         }
     }
 }
+
+// Store flavors: bazaar (PouyaApps key) and play (TuningApps key). Shared with every KookYar app.
+ext.kookyarStoreIds = [bazaar: 'com.PouyaApp.KookYaRSantooR', play: 'com.TuningApps.SanturTuner']
+apply from: "${rootProject.projectDir}/../kookyar_common/kookyar-store-flavors.gradle"
 
 dependencies {
     implementation 'com.kookyar:kookyar-common'
@@ -75,7 +58,6 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.9.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.google.android.material:material:1.14.0'
-
 
     // libpd 1.4.3 snapshot (2026-10-26), vendored so the build is reproducible: its native
     // libraries are 16 KB page-aligned, which Google Play requires for targetSdk 35+.

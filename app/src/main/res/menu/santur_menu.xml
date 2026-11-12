@@ -7,12 +7,14 @@
         android:id="@+id/change_tempe"
         android:title="@string/tempeament_title"
         android:icon="@drawable/temp"
+        app:iconTint="@color/kookyar_on_surface"
         android:orderInCategory="100"
         app:showAsAction="always"/>
     <item
         android:id="@+id/help_tuner"
         android:title="@string/rahnama"
         android:icon="@drawable/ic_help"
+        app:iconTint="@color/kookyar_on_surface"
         android:orderInCategory="200"
         app:showAsAction="ifRoom"/>
     <item

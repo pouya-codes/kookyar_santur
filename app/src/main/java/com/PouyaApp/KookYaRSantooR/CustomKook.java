@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import com.kookyar.common.InstrumentView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
     private RadioButton rd2;
     private RadioButton rd3;
     private double note = 0;
-    private LinearLayout wire;
+    private InstrumentView wire;
     private Spinner noteSpineer;
     private Spinner posisionSpinner;
     private Spinner savedKookSpinner;
@@ -57,16 +58,6 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
     private RadioButton sori;
     private RadioButton diyez;
     private RadioButton bekar;
-    private final int[] wireId = {drawable.santur_1, drawable.santur_2,
-            drawable.santur_3, drawable.santur_4, drawable.santur_5,
-            drawable.santur_6, drawable.santur_7, drawable.santur_8,
-            drawable.santur_9, drawable.santur_10, drawable.santur_11,
-            drawable.santur_12, drawable.santur_13, drawable.santur_14,
-            drawable.santur_15, drawable.santur_16, drawable.santur_17,
-            drawable.santur_18, drawable.santur_19, drawable.santur_20,
-            drawable.santur_21, drawable.santur_22, drawable.santur_23,
-            drawable.santur_24, drawable.santur_25, drawable.santur_26,
-            drawable.santur_27};
     private final double[] kookMiditone = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
             67, 68.5, 70, 72, 74, 75, 77, 75.5, 77, 79, 80, 82, 84, 86, 87, 89};
     private final double[] kookMiditoneRef = {48, 53, 55, 56.5, 58, 60, 61.5, 63, 65, 63.5, 65,
@@ -134,6 +125,8 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         rd3.setOnClickListener(this);
 
         wire = findViewById(id.layout_sim);
+        wire.setOnStringSelectedListener(this::selectFromPicture);
+        wire.setStringNotes(kookMiditone);
 
         posisionSpinner = findViewById(R.id.posison_spinner);
         ArrayAdapter<CharSequence> positionAdapter = ArrayAdapter.createFromResource(
@@ -196,7 +189,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
     private void applyMiditones(double[] miditones) {
         System.arraycopy(miditones, 0, kookMiditone, 0, kookMiditone.length);
         enabled = false;
-        wire.setBackgroundResource(R.drawable.santur2);
+        wire.setSelectedString(-1);
         for (MaterialButton button : buttons) {
             button.setEnabled(false);
             styleStringButtonDisabled(button);
@@ -204,6 +197,8 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         rd1.setChecked(false);
         rd2.setChecked(false);
         rd3.setChecked(false);
+        wire.setHighlightGroup(-1);
+        wire.setStringNotes(kookMiditone);
     }
 
     private void saveCurrentKook() {
@@ -384,7 +379,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         if (v.getId() == id.zardRB || v.getId() == id.sefidRB
                 || v.getId() == id.poshtRB) {
-            wire.setBackgroundResource(R.drawable.santur2);
+            wire.setSelectedString(-1);
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setEnabled(true);
                 styleStringButtonDefault(buttons[i]);
@@ -403,6 +398,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
                 rd1.setChecked(false);
                 rd2.setChecked(false);
             }
+            wire.setHighlightGroup(position);
         }
 
         if (v.getId() == id.button_1 || v.getId() == id.button_2
@@ -414,7 +410,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
             for (int i = 0; i < buttonsId.length; i++) {
                 if (v.getId() == buttonsId[i]) {
                     wireSelected = (position * 9) + i;
-                    wire.setBackgroundResource(wireId[wireSelected]);
+                    wire.setSelectedString(wireSelected);
                     styleStringButtonActive(buttons[i]);
                     setSpinner(wireSelected);
                 } else {
@@ -470,6 +466,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
 
         if (v.getId() == id.button_reset) {
             kookMiditone[wireSelected] = kookMiditoneRef[wireSelected];
+            wire.setStringNotes(kookMiditone);
             setSpinner(wireSelected);
         }
 
@@ -488,6 +485,7 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         for (int j = 0; j < kookMiditone.length; j++) {
             kookMiditone[j] = prefs.getFloat(j + "", (float) kookMiditone[j]);
         }
+        wire.setStringNotes(kookMiditone);
         refreshSavedKookSpinner();
     }
 
@@ -584,11 +582,22 @@ public class CustomKook extends AppCompatActivity implements View.OnClickListene
         double miditone = (positiontone * 12) + (notetone + note);
         if (enabled) {
             kookMiditone[wireSelected] = miditone;
+            wire.setStringNotes(kookMiditone);
         }
     }
 
     private int color(int resId) {
         return ContextCompat.getColor(this, resId);
+    }
+
+    /** A tap on the drawn santur: choose that row of bridges, then the bridge. */
+    private void selectFromPicture(int index) {
+        int group = index / 9;
+        RadioButton radio = group == 0 ? rd1 : group == 1 ? rd2 : rd3;
+        if (!radio.isChecked()) {
+            radio.performClick();
+        }
+        buttons[index % 9].performClick();
     }
 
     private void styleStringButtonDefault(MaterialButton button) {

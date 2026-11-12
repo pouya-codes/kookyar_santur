@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layoutDirection="rtl"
+    android:layoutDirection="locale"
     android:fitsSystemWindows="true"
     android:background="@color/surfaceColor">
 
@@ -291,22 +291,14 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.kookyar.common.InstrumentView
+                android:id="@+id/layout_sim"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/santur"
-                android:gravity="center"
-                android:orientation="vertical">
+                app:instrument="santur" />
 
-                <LinearLayout
-                    android:id="@+id/layout_sim"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="vertical" />
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
